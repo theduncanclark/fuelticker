@@ -1,0 +1,107 @@
+@font-face {
+  font-family: 'Egyptian';
+  src: url('fonts/GdnEgyDE2Lig.eot'); /* IE9 Compat Modes */
+  src: url('fonts/GdnEgyDE2Lig.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('fonts/GdnEgyDE2Lig.woff') format('woff'), /* Modern Browsers */
+       url('fonts/GdnEgyDE2Lig.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('fonts/GdnEgyDE2Lig.svg#29074f4a4cfa8d29a41e850988f0772c') format('svg'); /* Legacy iOS */
+
+  font-style:   normal;
+  font-weight:  200;
+}
+
+@font-face {
+  font-family: 'Egyptian';
+  src: url('fonts/GdnTexEgyOneTE31Reg.eot'); /* IE9 Compat Modes */
+  src: url('fonts/GdnTexEgyOneTE31Reg.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('fonts/GdnTexEgyOneTE31Reg.woff') format('woff'), /* Modern Browsers */
+       url('fonts/GdnTexEgyOneTE31Reg.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('fonts/GdnTexEgyOneTE31Reg.svg#8a5c181327edc8adbea67eae28cf8e77') format('svg'); /* Legacy iOS */
+
+  font-style:   normal;
+  font-weight:  normal;
+}
+
+@font-face {
+  font-family: 'Egyptian-Bold';
+  src: url('fonts/GdnTexEgyOneTE61Bol.eot'); /* IE9 Compat Modes */
+  src: url('fonts/GdnTexEgyOneTE61Bol.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('fonts/GdnTexEgyOneTE61Bol.woff') format('woff'), /* Modern Browsers */
+       url('fonts/GdnTexEgyOneTE61Bol.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('fonts/GdnTexEgyOneTE61Bol.svg#40ffedbf9988b13ce6b5877aa2acdbf4') format('svg'); /* Legacy iOS */
+
+  font-style:   normal;
+  font-weight:  bold;
+}
+
+@font-face {
+  font-family: 'Egyptian-Hairline';
+  src: url('fonts/GdnEgyDE0Hai.eot'); /* IE9 Compat Modes */
+  src: url('fonts/GdnEgyDE0Hai.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('fonts/GdnEgyDE0Hai.woff') format('woff'), /* Modern Browsers */
+       url('fonts/GdnEgyDE0Hai.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('fonts/GdnEgyDE0Hai.svg#c344150daf0f001078561677f3b48220') format('svg'); /* Legacy iOS */
+
+  font-style:   normal;
+  font-weight:  100;
+}
+
+@font-face {
+	font-family: 'Icons';
+	src: url('fonts/guardianicons.eot'); /* IE9 Compat Modes */
+	src: url('fonts/guardianicons.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+	     url('fonts/guardianicons.woff') format('woff'), /* Modern Browsers */
+	     url('fonts/guardianicons.ttf')  format('truetype'), /* Safari, Android, iOS */
+	     url('fonts/guardianicons.svg#837184781af97afa4b743943bc31e0f5') format('svg'); /* Legacy iOS */
+
+	font-style:   normal;
+	font-weight:  400;
+}
+
+@font-face {
+	font-family: 'Titlepiece';
+	src: url("fonts/GuardianTitlepieceWeb-Regular.eot");
+	src: url("fonts/GuardianTitlepieceWeb-Regular.eot?#iefix") format("embedded-opentype"),
+	     url("fonts/GuardianTitlepieceWeb-Regular.woff") format("woff"),
+	     url("fonts/GuardianTitlepieceWeb-Regular.ttf") format("truetype"),
+	     url("fonts/GuardianTitlepieceWeb-Regular.svg#Guardian Titlepiece Web") format("svg");
+	font-weight: normal;
+	font-style: normal;
+	font-stretch: normal;
+}
+
+@font-face {
+	font-family: 'Sans';
+	src: url("fonts/Guardian%20Sans%20Web-Regular.eot");
+	src: url("fonts/Guardian%20Sans%20Web-Regular.eot?#iefix") format("embedded-opentype"),
+	     url("fonts/Guardian%20Sans%20Web-Regular.woff") format("woff"),
+	     url("fonts/Guardian%20Sans%20Web-Regular.ttf") format("truetype"),
+	     url("fonts/Guardian%20Sans%20Web-Regular.svg#Guardian%20Sans%20Web") format("svg");
+	font-weight: normal;
+	font-style: normal;
+	font-stretch: normal;
+}
+
+@font-face {
+	font-family: 'Sans';
+	src: url("fonts/Guardian%20Sans%20Web-Light.eot");
+	src: url("fonts/Guardian%20Sans%20Web-Light.eot?#iefix") format("embedded-opentype"),
+	     url("fonts/Guardian%20Sans%20Web-Light.woff") format("woff"),
+	     url("fonts/Guardian%20Sans%20Web-Light.ttf") format("truetype"),
+	     url("fonts/Guardian%20Sans%20Web-Light.svg#Guardian%20Sans%20Web-Light") format("svg");
+	font-weight: 200;
+	font-style: normal;
+	font-stretch: normal;
+}
+
+@font-face {
+	font-family: 'Sans';
+	src: url("fonts/GdnAgaSanOneAS61Bol.eot");
+	src: url("fonts/GdnAgaSanOneAS61Bol.eot?#iefix") format("embedded-opentype"),
+	     url("fonts/GdnAgaSanOneAS61Bol.woff") format("woff"),
+	     url("fonts/GdnAgaSanOneAS61Bol.ttf") format("truetype"),
+	     url("fonts/GdnAgaSanOneAS61Bol.svg#GdnAgaSanOneAS61Bol") format("svg");
+	font-weight: bold;
+	font-style: normal;
+	font-stretch: normal;
+}

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="utf-8">
+<script src="d3.v3.js"></script>
+<!-- <script src="//interactive.guim.co.uk/libs/iframe-messenger/iframeMessenger.js"></script> -->
+
+<link rel="stylesheet" href="font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="guardian-fonts.css" rel="stylesheet">
+
+<title>Fossil fuel ticker</title>
+
+<style>
+	body { margin: 0; padding: 0; font-family: Egyptian; font-weight: 200; color: rgb(51, 51, 51)}
+	* { box-sizing: border-box; }
+	h1, h2, h3, h4, p { margin: 0; font-weight: normal; max-width: 700px; }
+	#wrapper { width: 100%; max-width: 700px; margin: 0 auto; padding: 50px 10px 200px; font-size: 40px; text-align: right; }
+
+	.header { font-size: 25px; margin: 30px 0 20px; }
+	.value { font-family: Sans; font-weight: bold; margin: 0 5px 0 0; }
+	.unit { font-family: Sans; opacity: 0.3; }
+	
+	.sources { font-size: 12px; margin-top: 75px; }
+</style>
+
+</head>
+
+<body>
+<div id="wrapper">
+
+</div>
+<script>
+
+var $ = d3.select,
+	$$ = d3.selectAll,
+	time_on_page = 0,
+	timer_interval = 75,
+	commify = d3.format(",f"),
+	seconds_in_a_year = 365 * 24 * 60 * 60;
+
+var FUELS_DATA = [
+	{
+		name: "oil",
+		production_daily: 86754000,
+		unit: "barrels"
+	},
+	{
+		name: "gas",
+		production_daily: 9232602740,
+		unit: "cubic meters"
+	},
+	{
+		name: "coal",
+		production_daily: 21633972,
+		unit: "tonnes"
+	}
+];
+
+var CARBON_DATA = [
+	{
+		name: "CO2",
+		production_daily: 96712329 * 0.945, // 35.3 billion tonnes/365 - 5.5% for cement
+		unit: "tonnes"
+	}
+];
+
+var BUDGET_DATA = [
+	{
+		name: "budget",
+		budget_total: 2900,
+		budget_used_by_2011: 1900,
+		annual_burn: 35.3
+	},
+];
+
+function initFuels() {
+	$("#wrapper").append("div")
+		.attr("class", "header")
+		.text("Since you loaded this page fossil fuel companies have extracted:");
+
+	var fuel = $("#wrapper").selectAll(".fuel").data(FUELS_DATA).enter()
+			.append("div")
+			.attr("class", "fuel")
+			.attr("id", function(d) { return d.name; });
+	
+	fuel.append("span").attr("class", "value");
+	fuel.append("span").attr("class", "unit").text(function(d) { return d.unit + " of " + d.name; });
+}
+
+function initCarbon() {
+	$("#wrapper").append("div")
+		.attr("class", "header")
+		.text("Burning fossil fuels has released: ");
+
+	var carbon = $("#wrapper").selectAll(".carbon").data(CARBON_DATA).enter()
+			.append("div")
+			.attr("class", "carbon")
+			.attr("id", function(d) { return d.name; });
+	
+	carbon.append("span").attr("class", "value");
+	carbon.append("span").attr("class", "unit").text(function(d) { return d.unit + " of " + d.name; });
+}
+
+function initBudget() {
+	$("#wrapper").append("div")
+		.attr("class", "header")
+		.text("Which means that only: ");
+
+	var budget = $("#wrapper").selectAll(".budget").data(BUDGET_DATA).enter()
+			.append("div")
+			.attr("class", "budget")
+			.attr("id", function(d) { return d.name; });
+	
+	budget.append("span").attr("class", "value");
+	budget.append("span").attr("class", "unit").text("of the all time budget remains");
+}
+
+function initSources() {
+	$("#wrapper").append("div")
+		.attr("class", "sources")
+		.text("Extraction figures based on 2013 data from the BP Statistical Review, 2014; emissions figures based on 2013 global fossil fuel emissions from PBL NEAA; budget for 2011 based on IPCC AR5 Synthesis Report SPM, minus global totals from PBL NEAA");
+}
+
+function updateTicker() {
+	time_on_page += timer_interval/1000;
+	
+	$$(".fuel .value, .carbon .value").each(function(d) {
+		$(this).text(commify(d.production_daily * time_on_page/(60 * 60 * 24)));
+	});
+	
+	$$(".budget .value").text(function(d) {
+		var seconds_since_Jan_1970 = new Date().getTime() / 1000,
+		    years_since_Jan_1970 = seconds_since_Jan_1970 / seconds_in_a_year,
+		    years_since_Jan_2012 = years_since_Jan_1970 - 42
+		    cumulative = d.budget_used_by_2011 + years_since_Jan_2012*d.annual_burn,
+		    percent_remaining = (d.budget_total - cumulative) / d.budget_total;
+		return Math.round(percent_remaining * 10000000000)/100000000 + "%";
+	});
+}
+
+function init() {
+	initFuels();
+	initCarbon();
+	initBudget();
+	initSources();
+	setInterval(updateTicker, timer_interval);
+}
+
+init();
+
+</script>
+</body>
+</html>
