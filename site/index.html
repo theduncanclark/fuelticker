@@ -43,10 +43,10 @@
 
 	<p>When burned, this fuel will warm the planet by releasing:</p>
 	<div class="stat"><span class="value" id="value-co2"></span> tonnes of CO2</div>
-	
+
 	<p>Although there are already many times more fuel than can be safely burned, the top listed fuel companies alone have spent:</p>
 	<div class="stat"><span class="value" id="value-capex"></span> developing new reserves</div>
-	
+
 	<p>On current trends the global CO2 budget will be exceeded in:</p>
 	<div class="stat">
 		<span class="value" id="value-countdown-years"></span> yrs
@@ -56,9 +56,6 @@
 		<span class="value" id="value-countdown-secs"></span> s
 	</div>
 
-	<!-- <p>Which means the all-time carbon budget is dwindling quickly:</p>
-	<div class="stat"><span class="value" id="value-budget"></span> years </div> -->
-		
 	<div class="sources">Extraction figures based on 2013 data from the BP Statistical Review, 2014; emissions figures based on 2013 data from PBL NEAA reduced by 5.5% to remove cement production; carbon budget based on IPCC AR5 Synthesis Report SPM.</div>
 </div>
 <script>
@@ -108,15 +105,7 @@ function updateTicker() {
 	$("#value-countdown-hours").text(hours);
 	$("#value-countdown-mins").text(mins);
 	$("#value-countdown-secs").text(secs);
-		
-	//$("#value-budget").text(function() {
-	//	var secs_since_Jan_1970 = new Date().getTime() / 1000,
-	//	    years_since_Jan_1970 = secs_since_Jan_1970 / secs_in_a_year,
-	//	    years_since_Jan_2012 = years_since_Jan_1970 - 42,
-	//	    cumulative = budget_used_by_2011_gt + (years_since_Jan_2012 * CO2_gt_fuel_cement_2013),
-	//	    percent_gone = cumulative / budget_total_gt;
-	//	return Math.round(percent_gone * 10000000000)/100000000 + "%";
-	//});
+
 }
 
 setInterval(updateTicker, timer_interval);
