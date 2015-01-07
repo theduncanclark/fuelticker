@@ -12,16 +12,21 @@
 <title>Fossil fuel ticker</title>
 
 <style>
-	body { margin: 0; padding: 0; font-family: Egyptian; font-weight: 200; color: rgb(51, 51, 51)}
+	body { margin: 0; padding: 0; font-family: Egyptian; font-weight: 200; color: rgb(51, 51, 51); }
 	* { box-sizing: border-box; }
-	h1, h2, h3, h4, p { margin: 0; font-weight: normal; max-width: 700px; }
-	#wrapper { width: 100%; max-width: 700px; margin: 0 auto; padding: 50px 10px 200px; font-size: 40px; text-align: right; }
+	h1, h2, h3, h4, p { margin: 0; font-weight: 200; max-width: 700px; }
+	#wrapper { width: 100%; max-width: 800px; margin: 0 auto; padding: 50px 20px 200px; font-size: 25px; }
 
-	.header { font-size: 25px; margin: 30px 0 20px; }
-	.value { font-family: Sans; font-weight: bold; margin: 0 5px 0 0; }
-	.unit { font-family: Sans; opacity: 0.3; }
-	
+	.thin { font-weight: bold; font-family: Egyptian-Bold; }
+	.stat { font-family: Sans; color: #aaa; margin: 15px 0; font-size: 27px; }
+	.stat .value { font-weight: bold; color: black; margin: 0 5px 0 5px; }
+	.stat .value:first-child { margin: 0 5px 0 0px; }
 	.sources { font-size: 12px; margin-top: 75px; }
+
+	@media only screen and (max-width: 800px) {
+		#wrapper { font-size: 18px; }
+		.stat { font-size: 20px; }
+	}
 </style>
 
 </head>
@@ -29,125 +34,92 @@
 <body>
 <div id="wrapper">
 
+	<p><span class="thin">Since you loaded this page</span></br> Fossil fuel companies have extracted:</p>
+	<div class="stat">
+		<div><span class="value" id="value-oil"></span> barrels of oil</div>
+		<div><span class="value" id="value-gas"></span> cubic meters of gas</div>
+		<div><span class="value" id="value-coal"></span> tonnes of coal</div>
+	</div>
+
+	<p>When burned, this fuel will warm the planet by releasing:</p>
+	<div class="stat"><span class="value" id="value-co2"></span> tonnes of CO2</div>
+	
+	<p>Although there are already many times more fuel than can be safely burned, the top listed fuel companies alone have spent:</p>
+	<div class="stat"><span class="value" id="value-capex"></span> developing new reserves</div>
+	
+	<p>On current trends the global CO2 budget will be exceeded in:</p>
+	<div class="stat">
+		<span class="value" id="value-countdown-years"></span> yrs
+		<span class="value" id="value-countdown-days"></span> days
+		<span class="value" id="value-countdown-hours"></span> hrs
+		<span class="value" id="value-countdown-mins"></span> mins
+		<span class="value" id="value-countdown-secs"></span> s
+	</div>
+
+	<!-- <p>Which means the all-time carbon budget is dwindling quickly:</p>
+	<div class="stat"><span class="value" id="value-budget"></span> years </div> -->
+		
+	<div class="sources">Extraction figures based on 2013 data from the BP Statistical Review, 2014; emissions figures based on 2013 data from PBL NEAA reduced by 5.5% to remove cement production; carbon budget based on IPCC AR5 Synthesis Report SPM.</div>
 </div>
 <script>
 
 var $ = d3.select,
 	$$ = d3.selectAll,
-	time_on_page = 0,
+	secs_on_page = 0,
 	timer_interval = 75,
 	commify = d3.format(",f"),
-	seconds_in_a_year = 365 * 24 * 60 * 60;
+	secs_in_a_day = 24 * 60 * 60
+	secs_in_a_year = 365 * secs_in_a_day;
 
-var FUELS_DATA = [
-	{
-		name: "oil",
-		production_daily: 86754000,
-		unit: "barrels"
-	},
-	{
-		name: "gas",
-		production_daily: 9232602740,
-		unit: "cubic meters"
-	},
-	{
-		name: "coal",
-		production_daily: 21633972,
-		unit: "tonnes"
-	}
-];
-
-var CARBON_DATA = [
-	{
-		name: "CO2",
-		production_daily: 96712329 * 0.945, // 35.3 billion tonnes/365 - 5.5% for cement
-		unit: "tonnes"
-	}
-];
-
-var BUDGET_DATA = [
-	{
-		name: "budget",
-		budget_total: 2900,
-		budget_used_by_2011: 1900,
-		annual_burn: 35.3
-	},
-];
-
-function initFuels() {
-	$("#wrapper").append("div")
-		.attr("class", "header")
-		.text("Since you loaded this page fossil fuel companies have extracted:");
-
-	var fuel = $("#wrapper").selectAll(".fuel").data(FUELS_DATA).enter()
-			.append("div")
-			.attr("class", "fuel")
-			.attr("id", function(d) { return d.name; });
-	
-	fuel.append("span").attr("class", "value");
-	fuel.append("span").attr("class", "unit").text(function(d) { return d.unit + " of " + d.name; });
-}
-
-function initCarbon() {
-	$("#wrapper").append("div")
-		.attr("class", "header")
-		.text("Burning fossil fuels has released: ");
-
-	var carbon = $("#wrapper").selectAll(".carbon").data(CARBON_DATA).enter()
-			.append("div")
-			.attr("class", "carbon")
-			.attr("id", function(d) { return d.name; });
-	
-	carbon.append("span").attr("class", "value");
-	carbon.append("span").attr("class", "unit").text(function(d) { return d.unit + " of " + d.name; });
-}
-
-function initBudget() {
-	$("#wrapper").append("div")
-		.attr("class", "header")
-		.text("Which means that only: ");
-
-	var budget = $("#wrapper").selectAll(".budget").data(BUDGET_DATA).enter()
-			.append("div")
-			.attr("class", "budget")
-			.attr("id", function(d) { return d.name; });
-	
-	budget.append("span").attr("class", "value");
-	budget.append("span").attr("class", "unit").text("of the all time budget remains");
-}
-
-function initSources() {
-	$("#wrapper").append("div")
-		.attr("class", "sources")
-		.text("Extraction figures based on 2013 data from the BP Statistical Review, 2014; emissions figures based on 2013 global fossil fuel emissions from PBL NEAA; budget for 2011 based on IPCC AR5 Synthesis Report SPM, minus global totals from PBL NEAA");
-}
+// DATA
+var oil_barrels_k_per_day = 86754,
+	gas_bcm_per_year = 3369.9,
+	coal_tonnes_per_year = 7896.4,
+	CO2_gt_fuel_cement_2013 = 35.3,
+	cement_share_of_fuel_cement_2013 = 0.055,
+	capex_2012_billion_usd = 674,
+	budget_total_gt = 2900,
+	budget_used_by_2011_gt = 1900,
+	secs_left_from_2011 = secs_in_a_year * (budget_total_gt - budget_used_by_2011_gt)/CO2_gt_fuel_cement_2013;
 
 function updateTicker() {
-	time_on_page += timer_interval/1000;
-	
-	$$(".fuel .value, .carbon .value").each(function(d) {
-		$(this).text(commify(d.production_daily * time_on_page/(60 * 60 * 24)));
-	});
-	
-	$$(".budget .value").text(function(d) {
-		var seconds_since_Jan_1970 = new Date().getTime() / 1000,
-		    years_since_Jan_1970 = seconds_since_Jan_1970 / seconds_in_a_year,
-		    years_since_Jan_2012 = years_since_Jan_1970 - 42
-		    cumulative = d.budget_used_by_2011 + years_since_Jan_2012*d.annual_burn,
-		    percent_remaining = (d.budget_total - cumulative) / d.budget_total;
-		return Math.round(percent_remaining * 10000000000)/100000000 + "%";
-	});
+	secs_on_page += timer_interval/1000;
+	var days_on_page = secs_on_page/secs_in_a_day;
+
+	$("#value-oil").text(commify(oil_barrels_k_per_day * 1e3 * days_on_page));
+	$("#value-gas").text(commify(gas_bcm_per_year * 1e9 / 365 * days_on_page));
+	$("#value-coal").text(commify(coal_tonnes_per_year * 1e6 / 365 * days_on_page));
+	$("#value-capex").text("$" + commify(capex_2012_billion_usd * 1e9/365 * days_on_page));
+	$("#value-co2").text(commify(CO2_gt_fuel_cement_2013 * (1 - cement_share_of_fuel_cement_2013) * 1e9/365 * days_on_page));
+
+	var budget_from_2011 = budget_total_gt - budget_used_by_2011_gt;
+
+	var secs_since_Jan_1970 = new Date().getTime() / 1000,
+	    secs_since_Jan_2012 = secs_since_Jan_1970 - (42 * secs_in_a_year),
+	    secs_left = secs_left_from_2011 - secs_since_Jan_2012,
+	    years = Math.floor(secs_left/secs_in_a_year),
+	    days = Math.floor((secs_left % secs_in_a_year)/secs_in_a_day),
+	    hours = Math.floor((secs_left % secs_in_a_day)/3600),
+	    mins = Math.floor((secs_left % 3600)/60),
+	    secs = Math.floor((secs_left % 60));
+
+	$("#value-countdown-years").text(years);
+	$("#value-countdown-days").text(days);
+	$("#value-countdown-hours").text(hours);
+	$("#value-countdown-mins").text(mins);
+	$("#value-countdown-secs").text(secs);
+		
+	//$("#value-budget").text(function() {
+	//	var secs_since_Jan_1970 = new Date().getTime() / 1000,
+	//	    years_since_Jan_1970 = secs_since_Jan_1970 / secs_in_a_year,
+	//	    years_since_Jan_2012 = years_since_Jan_1970 - 42,
+	//	    cumulative = budget_used_by_2011_gt + (years_since_Jan_2012 * CO2_gt_fuel_cement_2013),
+	//	    percent_gone = cumulative / budget_total_gt;
+	//	return Math.round(percent_gone * 10000000000)/100000000 + "%";
+	//});
 }
 
-function init() {
-	initFuels();
-	initCarbon();
-	initBudget();
-	initSources();
-	setInterval(updateTicker, timer_interval);
-}
-
-init();
+setInterval(updateTicker, timer_interval);
 
 </script>
 </body>
