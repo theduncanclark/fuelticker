@@ -15,17 +15,18 @@
 	body { margin: 0; padding: 0; font-family: Egyptian; font-weight: 200; color: rgb(51, 51, 51); }
 	* { box-sizing: border-box; }
 	h1, h2, h3, h4, p { margin: 0; font-weight: 200; max-width: 700px; }
-	#wrapper { width: 100%; max-width: 800px; margin: 0 auto; padding: 50px 20px 200px; font-size: 25px; }
+	#wrapper { width: 100%; max-width: 800px; margin: 0 auto; padding: 50px 30px 200px; font-size: 25px; }
 
 	.thin { font-weight: bold; font-family: Egyptian-Bold; }
 	.stat { font-family: Sans; color: #aaa; margin: 15px 0; font-size: 27px; }
 	.stat .value { font-weight: bold; color: black; margin: 0 5px 0 5px; }
 	.stat .value:first-child { margin: 0 5px 0 0px; }
-	.sources { font-size: 12px; margin-top: 75px; }
+	.sources { font-size: 14px; margin-top: 75px; }
 
-	@media only screen and (max-width: 800px) {
+	@media only screen and (max-width: 500px) {
 		#wrapper { font-size: 18px; }
 		.stat { font-size: 20px; }
+		.sources { font-size: 13px; }
 	}
 </style>
 
@@ -44,10 +45,7 @@
 	<p>When burned, this fuel will warm the planet by releasing:</p>
 	<div class="stat"><span class="value" id="value-co2"></span> tonnes of CO2</div>
 
-	<p>Although there are already many times more fuel than can be safely burned, the top listed fuel companies alone have spent:</p>
-	<div class="stat"><span class="value" id="value-capex"></span> developing new reserves</div>
-
-	<p>On current trends the global CO2 budget will be exceeded in:</p>
+	<p>At this rate the global CO2 budget will be exceeded in:</p>
 	<div class="stat">
 		<span class="value" id="value-countdown-years"></span> yrs
 		<span class="value" id="value-countdown-days"></span> days
@@ -55,6 +53,9 @@
 		<span class="value" id="value-countdown-mins"></span> mins
 		<span class="value" id="value-countdown-secs"></span> s
 	</div>
+
+	<p>Although there are already many times more fuel than can be safely burned, the top listed fuel companies alone have spent:</p>
+	<div class="stat"><span class="value" id="value-capex"></span> developing new reserves</div>
 
 	<div class="sources">Extraction figures based on 2013 data from the BP Statistical Review, 2014; emissions figures based on 2013 data from PBL NEAA reduced by 5.5% to remove cement production; carbon budget based on IPCC AR5 Synthesis Report SPM.</div>
 </div>
