@@ -15,13 +15,24 @@
 	body { margin: 0; padding: 0; font-family: Egyptian; font-weight: 200; color: rgb(51, 51, 51); }
 	* { box-sizing: border-box; }
 	h1, h2, h3, h4, p { margin: 0; font-weight: 200; max-width: 700px; }
-	#wrapper { width: 100%; max-width: 800px; margin: 0 auto; padding: 50px 30px 200px; font-size: 25px; }
+	#wrapper { width: 100%; max-width: 800px; margin: 0 auto; padding: 50px 30px; font-size: 25px; }
 
 	.thin { font-weight: bold; font-family: Egyptian-Bold; }
 	.stat { font-family: Sans; color: #aaa; margin: 15px 0; font-size: 27px; }
 	.stat .value { font-weight: bold; color: black; margin: 0 5px 0 5px; }
 	.stat .value:first-child { margin: 0 5px 0 0px; }
-	.sources { font-size: 14px; margin-top: 75px; }
+	.sources { font-size: 13px; margin-top: 75px; line-height: 1.4em; }
+
+	a:link, a:visited {
+		text-decoration: none;
+		color: #005689;
+		border-bottom: 0.0625rem solid #dcdcdc;
+		transition: border-color 0.15s ease-out;
+	}
+	a:hover, a:active {
+		color: #005689;
+		border-bottom: 0.0625rem solid #6e99b2;
+	}
 
 	@media only screen and (max-width: 500px) {
 		#wrapper { font-size: 18px; }
@@ -54,59 +65,62 @@
 		<span class="value" id="value-countdown-secs"></span> s
 	</div>
 
-	<p>Although there are already many times more fuel than can be safely burned, the top listed fuel companies alone have spent:</p>
+	<p>Although most of the existing reserves cannot be safely burned, companies spent:</p>
 	<div class="stat"><span class="value" id="value-capex"></span> developing new reserves</div>
 
-	<div class="sources">Extraction figures based on 2013 data from the BP Statistical Review, 2014; emissions figures based on 2013 data from PBL NEAA reduced by 5.5% to remove cement production; carbon budget based on IPCC AR5 Synthesis Report SPM.</div>
+	<div class="sources">Extraction figures extrapolated from <a target="_blank" href="http://www.bp.com/en/global/corporate/about-bp/energy-economics/statistical-review-of-world-energy.html">BP Statistical Review 2014</a>; emissions figures extrapolated from <a target="_blank" href="http://www.pbl.nl/en/publications/trends-in-global-co2-emissions-2014-report">PBL NEAA 2014</a>. In both cases data are from 2013 and have been adjusted by 2% per year since the start of 2014 to account for estimated subsequent increases, based on <a target="_blank" href="http://www.pbl.nl/en/publications/trends-in-global-co2-emissions-2014-report">PBL NEAA 2014</a>. Emissions figures also reduced by 5.5% to account for cement production, based on <a target="_blank" href="http://www.globalcarbonproject.org/carbonbudget/14/hl-full.htm">Global Carbon Project</a>. Carbon budget set at 1000GT from 2011 based on <a target="_blank" href="http://www.ipcc.ch/pdf/assessment-report/ar5/syr/SYR_AR5_SPMcorr2.pdf">IPCC AR5 Synthesis Report SPM</a>, adjusted for intervening years. Fossil fuel sector capex based on <a target="_blank" href="http://www.iea.org/media/140603_WEOinvestment_Factsheets.pdf">IEA 2014</a>.</div>
 </div>
 <script>
 
+// Globals
 var $ = d3.select,
 	$$ = d3.selectAll,
 	secs_on_page = 0,
 	timer_interval = 75,
 	commify = d3.format(",f"),
-	secs_in_a_day = 24 * 60 * 60
-	secs_in_a_year = 365 * secs_in_a_day;
+	secs_in_a_day = 24 * 60 * 60,
+	secs_in_a_year = 365 * secs_in_a_day,
+	secs_since_Jan_1970 = new Date().getTime() / 1000;
 
-// DATA
+// Data
 var oil_barrels_k_per_day = 86754,
 	gas_bcm_per_year = 3369.9,
 	coal_tonnes_per_year = 7896.4,
 	CO2_gt_fuel_cement_2013 = 35.3,
 	cement_share_of_fuel_cement_2013 = 0.055,
-	capex_2012_billion_usd = 674,
+	capex_2013_billion_usd = 1000, // http://www.iea.org/media/140603_WEOinvestment_Factsheets.pdf
 	budget_total_gt = 2900,
 	budget_used_by_2011_gt = 1900,
-	secs_left_from_2011 = secs_in_a_year * (budget_total_gt - budget_used_by_2011_gt)/CO2_gt_fuel_cement_2013;
+	secs_left_from_2011 = secs_in_a_year * (budget_total_gt - budget_used_by_2011_gt)/CO2_gt_fuel_cement_2013,
+	annual_fossil_fuel_growth_since_2014 = 1.02; // https://ec.europa.eu/jrc/en/news/global-co2-emissions-increase-new-all-time-record-growth-slowing-down
 
 function updateTicker() {
 	secs_on_page += timer_interval/1000;
+	secs_since_Jan_1970 += timer_interval/1000;
+
 	var days_on_page = secs_on_page/secs_in_a_day;
+	var years_since_Jan_2013 = secs_since_Jan_1970/secs_in_a_year - 43,
+	    adjustment_scaler = Math.pow(annual_fossil_fuel_growth_since_2014, years_since_Jan_2013);
 
-	$("#value-oil").text(commify(oil_barrels_k_per_day * 1e3 * days_on_page));
-	$("#value-gas").text(commify(gas_bcm_per_year * 1e9 / 365 * days_on_page));
-	$("#value-coal").text(commify(coal_tonnes_per_year * 1e6 / 365 * days_on_page));
-	$("#value-capex").text("$" + commify(capex_2012_billion_usd * 1e9/365 * days_on_page));
-	$("#value-co2").text(commify(CO2_gt_fuel_cement_2013 * (1 - cement_share_of_fuel_cement_2013) * 1e9/365 * days_on_page));
+	$("#value-oil").text(commify(oil_barrels_k_per_day * 1e3 * days_on_page * adjustment_scaler));
+	$("#value-gas").text(commify(gas_bcm_per_year * 1e9 / 365 * days_on_page * adjustment_scaler));
+	$("#value-coal").text(commify(coal_tonnes_per_year * 1e6 / 365 * days_on_page * adjustment_scaler));
+	$("#value-co2").text(commify(CO2_gt_fuel_cement_2013 * (1 - cement_share_of_fuel_cement_2013) * 1e9/365 * days_on_page * adjustment_scaler));
 
-	var budget_from_2011 = budget_total_gt - budget_used_by_2011_gt;
+	$("#value-capex").text("$" + commify(capex_2013_billion_usd * 1e9/365 * days_on_page));
 
-	var secs_since_Jan_1970 = new Date().getTime() / 1000,
-	    secs_since_Jan_2012 = secs_since_Jan_1970 - (42 * secs_in_a_year),
+	var secs_since_Jan_2012 = secs_since_Jan_1970 - (42 * secs_in_a_year),
 	    secs_left = secs_left_from_2011 - secs_since_Jan_2012,
 	    years = Math.floor(secs_left/secs_in_a_year),
 	    days = Math.floor((secs_left % secs_in_a_year)/secs_in_a_day),
 	    hours = Math.floor((secs_left % secs_in_a_day)/3600),
 	    mins = Math.floor((secs_left % 3600)/60),
 	    secs = Math.floor((secs_left % 60));
-
 	$("#value-countdown-years").text(years);
 	$("#value-countdown-days").text(days);
 	$("#value-countdown-hours").text(hours);
 	$("#value-countdown-mins").text(mins);
 	$("#value-countdown-secs").text(secs);
-
 }
 
 setInterval(updateTicker, timer_interval);
