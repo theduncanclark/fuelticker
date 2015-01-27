@@ -3,6 +3,8 @@
 <head>
 
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <script src="d3.v3.js"></script>
 <!-- <script src="//interactive.guim.co.uk/libs/iframe-messenger/iframeMessenger.js"></script> -->
 
@@ -74,25 +76,37 @@
 
 // Globals
 var $ = d3.select,
-	$$ = d3.selectAll,
-	secs_on_page = 0,
-	timer_interval = 75,
-	commify = d3.format(",f"),
-	secs_in_a_day = 24 * 60 * 60,
-	secs_in_a_year = 365 * secs_in_a_day,
-	secs_since_Jan_1970 = new Date().getTime() / 1000;
+    $$ = d3.selectAll,
+    secs_on_page = 0,
+    timer_interval = 75,
+    commify = d3.format(",f"),
+    secs_since_Jan_1970 = new Date().getTime() / 1000;
+
+// Conversion factors
+var secs_in_a_day = 24 * 60 * 60,
+    secs_in_a_year = 365 * secs_in_a_day,
+    oil_barrel_in_m3 = 0.158987295, // Google convert
+    albert_hall_m3 = 90000, // Approx: http://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement#Royal_Albert_Hall
+    oil_barrels_in_albert_hall = albert_hall_m3 / oil_barrel_in_m3;
 
 // Data
 var oil_barrels_k_per_day = 86754,
-	gas_bcm_per_year = 3369.9,
-	coal_tonnes_per_year = 7896.4,
-	CO2_gt_fuel_cement_2013 = 35.3,
-	cement_share_of_fuel_cement_2013 = 0.055,
-	capex_2013_billion_usd = 1000, // http://www.iea.org/media/140603_WEOinvestment_Factsheets.pdf
-	budget_total_gt = 2900,
-	budget_used_by_2011_gt = 1900,
-	secs_left_from_2011 = secs_in_a_year * (budget_total_gt - budget_used_by_2011_gt)/CO2_gt_fuel_cement_2013,
-	annual_fossil_fuel_growth_since_2014 = 1.02; // https://ec.europa.eu/jrc/en/news/global-co2-emissions-increase-new-all-time-record-growth-slowing-down
+    gas_bcm_per_year = 3369.9,
+    coal_tonnes_per_year = 7896.4,
+    CO2_gt_fuel_cement_2013 = 35.3,
+    cement_share_of_fuel_cement_2013 = 0.055,
+    capex_2013_billion_usd = 1000, // http://www.iea.org/media/140603_WEOinvestment_Factsheets.pdf
+    budget_total_gt = 2900,
+    budget_used_by_2011_gt = 1900,
+    secs_left_from_2011 = secs_in_a_year * (budget_total_gt - budget_used_by_2011_gt)/CO2_gt_fuel_cement_2013;
+    annual_fossil_fuel_growth_since_2014 = 1.02; // https://ec.europa.eu/jrc/en/news/global-co2-emissions-increase-new-all-time-record-growth-slowing-down
+
+// Oil in my lifetime, m3: 86754 * 1000 * 365 * 37 * 0.15 = 2 million m3
+// Oil in a day: 86754 * 1000 * 0.15 = 13,013,100 cubic meters = 5.5 * the Great Pyramid of Giza = 150 times Albert Hall
+// Source: http://www.bluebulbprojects.com/MeasureOfThings/results.php?comp=volume&unit=cm&amt=13013100
+// Oil in a min: 86754 * 1000 * 0.15 / (24 * 60) = 9000 = 1 tenth of Albert Hall
+// Oil in a second: 86754 * 1000 * 0.15 / (24 * 60 * 60) = 150
+// Enough to fill the Albert Hall every 10 minutes
 
 function updateTicker() {
 	secs_on_page += timer_interval/1000;
