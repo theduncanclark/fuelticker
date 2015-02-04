@@ -14,6 +14,7 @@
 <title>Fossil fuel ticker</title>
 
 <style>
+
 	* { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
 	h1, h2, h3, h4, p { margin: 0.66em auto 0; font-weight: 200; max-width: 600px; }
 
@@ -21,7 +22,7 @@
 	h1 { font-size: 1.8em; font-weight: bold; }
 	h2 { font-size: 1.6em; }
 	h3 { font-size: 1.4em; }
-	h3 { font-size: 1.2em; }
+	h4 { font-size: 1.2em; }
 	p  { font-size: 1.0em; }
 
 	#wrapper { width: 100%; height: 100%; position: absolute; font-size: 24px; left: 0; top: 0; overflow: scroll; }
@@ -37,17 +38,25 @@
 	.shares i { margin: 10px 2px 0; color: white; cursor: pointer; font-size: 1.8em; background: #aaa; border-radius: 50%; width: 1.5em; height: 1.5em; padding-top: 0.3em; }
 	.shares i:hover { background: black; }
 
+	.section.blue { background: #005689; } /* Blue: news-main-1 */
+	.section.orange { background: #c05303; } /* Dark orange: comment-main-1 */
+	.section.purple { background: #7d0068; } /* Dark purple: features-main-1 */
+	.section.red { background: #b51800; } /* Dark red: live-main-1 */
+	.section.green { background: #1c6326; } /* Green: maps-main-1 */
+
 	.arrow { position: absolute; left: 50%; margin-left: -0.48em; font-size: 3em; cursor: pointer; }
 	.arrow.disabled { display: none; }
 	.up { top: 15px; }
 	.down { bottom: 15px; }
 	.sources-toggler { position: absolute; left: 20px; top: 20px; font-size: 1em; cursor: pointer; }
-
+	.sources-toggler:hover { opacity: 0.5; }
 	#section-0 { background-image: url(media/coal.jpg); background-size: cover; }
 	#section-5 .comparison { font-size: 1em; margin: 1em 0; }
 	#sources { position: fixed; top: 0; left: 0; font-size: 12px; line-height: 1.4em; padding: 15px; text-align: left; width: 100%; max-width: none; }
-	#sources-inner { width: 100%; max-width: 600px; margin: auto; }
-	.close-sources { position: fixed; right: 20px; top: 20px; }
+	#sources-inner { width: 100%; margin: auto; }
+	#sources-inner * { max-width: 900px; }
+	.close-sources { position: fixed; right: 20px; top: 20px; cursor: pointer; }
+	.close-sources:hover { opacity: 0.5; }
 
 	a:link, a:visited {
 		text-decoration: none;
@@ -61,11 +70,13 @@
 		/*color: #005689;*/
 		border-bottom: 0.0625rem solid #6e99b2;
 	}
-	#slider { display: inline-block; width: 280px; }
+	#slider { display: inline-block; width: 100%; height: 300px; max-width: 425px; padding-top: 40px; }
+	#slider h3 { font-family: Sans; margin-top: 0; font-weight: bold; font-size: 1.25em;}
+	#slider svg { width: 100%; height: 100%; }
 	#age-slider text { font-size: 13px; fill: white; }
 	#age-slider .domain { fill: none; stroke: white; stroke-width: 1; }
-	#age-slider .slider-channel { fill: #ccc; stroke: #333; cursor: pointer; }
-	#age-slider .slider-handle { fill: #eee; stroke: #333; cursor: col-resize; }
+	#age-slider .slider-channel { fill: #ddd; stroke: #777; cursor: pointer; }
+	#age-slider .slider-handle { fill: #eee; stroke: #999; cursor: col-resize; }
 	#age-slider .slider-axis .domain { stroke: none; }
 	#age-slider .tick line { stroke: white; }
 
@@ -95,12 +106,12 @@
 
 	<div id="section-6" class="section">
 		<div class="section-inner">
-			<p>&ldquo;If we keep extracting fossil fuels at current rates, I'll be <span class="age-at-deadline"></span> when we blow the budget for stopping global warming at 2C.&rdquo;</p>
+			<p>&ldquo;At current rates of fossil fuel use, we'll blow the budget for stopping global warming at 2C when I am <span class="age-at-deadline"></span>&rdquo;</p>
 			<div class="shares"><i class="fa fa-facebook"></i> <i class="fa fa-twitter"></i></div>
 		</div>
 	</div>
 
-	<div id="section-5" class="section">
+	<div id="section-5" class="section green">
 		<div class="section-inner">
 			<p>On current trends, we'll blow the global carbon budget and lock it more than 2C of global warming in:</p>
 			<div class="stats">
@@ -119,7 +130,7 @@
 		</div>
 	</div>
 
-	<div id="section-4" class="section section-lifetime">
+	<div id="section-4" class="section purple section-lifetime">
 		<div class="section-inner">
 			<p>Since you were born, <span class="age">5</span> years ago, the world has extracted and burned:</p>
 			<div class="stat oil">
@@ -140,19 +151,19 @@
 		</div>
 	</div>
 
-	<div id="section-3" class="section">
+	<div id="section-3" class="section orange">
 		<div class="section-inner">
 			<p>What about since you were born?</p>
 			<p>Enter your age to find out</p>
 			<div id="slider">
-				<h2>I am</h2>
+				<h3>I am</h3>
 				<div id="age-slider-holder"></div>
-				<h2 id="age-label">&nbsp;</h2>
+				<h3 id="age-label">&nbsp;</h3>
 			</div>
 		</div>
 	</div>
 
-	<div id="section-2" class="section section-month">
+	<div id="section-2" class="section blue section-month">
 		<div class="section-inner">
 			<p>Since the start of 2015, that adds up to:</p>
 			<div class="stat oil">
@@ -173,7 +184,7 @@
 		</div>
 	</div>
 
-	<div id="section-1" class="section section-page">
+	<div id="section-1" class="section red section-page">
 		<div class="section-inner">
 			<p>Since you loaded this page, fossil fuel companies have extracted:</p>
 			<div class="stats">
@@ -200,7 +211,7 @@
 		<div class="section-inner">
 			<h1>It's the fossil <span style="display: inline-block;">fuel, stupid!</p></h1>
 			<p>We hear a lot about the causes of climate change, but it really boils down to this: we take way too much oil, coal and gas out of the ground.</p>
-			<p>Buts how much exactly?</p>
+			<p>But how much exactly?</p>
 		</div>
 	</div>
 
@@ -366,7 +377,7 @@ function changePanel() {
 
 var slider_position = 0;
 function initSlider(options) {
-	var slider_w = 250,
+	var slider_w = 230,
 	    slider_h = 50,
 	    slider_padding = 25;
 
@@ -475,6 +486,7 @@ function initControls() {
 	$(".arrow").on("mousedown", function() { d3.event.preventDefault(); });
 	$(".sources-toggler").on("click", toggleSources);
 	$(".close-sources").on("click", function() { if (sources_showing) hideSources(); });
+	$$(".shares, .arrow").on("mousedown", function() { d3.event.preventDefault(); });
 }
 
 function init() {
@@ -490,8 +502,10 @@ function init() {
 		},
 		snap: true,
 		start: 5,
-		domain: [5, 95],
-		axis: true
+		domain: [0, 110],
+		axis: function(scale) {
+			return d3.svg.axis().scale(scale).tickPadding(6).tickValues([10,20,30,40,50,60,70,80,90,100]);
+		}
 	});
 	initControls();
 	updateLayout();
