@@ -507,8 +507,12 @@ function initControls() {
 		.on("click", goToPreviousPanel)
 		.on("touchstart", goToPreviousPanel);
 	$(".arrow").on("mousedown", function() { d3.event.preventDefault(); });
-	$(".sources-toggler").on("click", toggleSources);
-	$(".close-sources").on("click", function() { if (sources_showing) hideSources(); });
+	$(".sources-toggler")
+		.on("click", toggleSources)
+		.on("touchstart", toggleSources);;
+	$(".close-sources")
+			.on("click", function() { if (sources_showing) hideSources(); })
+			.on("touchstart", function() { if (sources_showing) hideSources(); });
 	$$(".shares, .arrow").on("mousedown", function() { d3.event.preventDefault(); });
 }
 
