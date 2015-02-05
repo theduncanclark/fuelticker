@@ -24,7 +24,8 @@
 	h3 { font-size: 1.4em; }
 	h4 { font-size: 1.2em; }
 	p  { font-size: 1.0em; }
-
+	.hide-wide { display: none; }
+	
 	a:link, a:visited { text-decoration: none; color: #eee; border-bottom: 0.0625rem solid #dcdcdc; transition: border-color 0.15s ease-out; }
 	a:hover, a:active { color: white; border-bottom: 0.0625rem solid #6e99b2; }
 
@@ -38,7 +39,7 @@
 	.ticker .label { display: inline-block; }
 	.comparison { margin: 5px 0 0; font-size: 0.9em; font-family: Egyptian; }
 	.shares { font-size: 0.5em; text-transform: uppercase; font-family: Sans; font-weight: bold; }
-	.shares i { margin: 10px 2px 0; color: white; cursor: pointer; font-size: 1.8em; background: #aaa; border-radius: 50%; width: 1.5em; height: 1.5em; padding-top: 0.3em; }
+	.shares i { text-align: center; margin: 10px 2px 0; color: white; cursor: pointer; font-size: 1.8em; background: #aaa; border-radius: 50%; width: 1.5em; height: 1.5em; padding-top: 0.3em; }
 	.shares i:hover { background: black; }
 
 	.section.blue { background: #005689; } /* Blue: news-main-1 */
@@ -62,7 +63,7 @@
 	.close-sources { position: fixed; right: 20px; top: 20px; cursor: pointer; font-size: 2em; }
 	.close-sources:hover { opacity: 0.5; }
 
-	#slider { display: inline-block; width: 100%; height: 300px; max-width: 425px; padding-top: 40px; }
+	#slider { display: inline-block; width: 100%; height: 200px; max-width: 425px; padding-top: 40px; text-align: center; }
 	#slider h3 { font-family: Sans; margin-top: 0; font-weight: bold; font-size: 1.25em;}
 	#slider svg { width: 100%; height: 100%; }
 	#age-slider text { font-size: 13px; fill: white; }
@@ -76,10 +77,16 @@
 		#wrapper { font-size: 20px; }
 	}
 	@media only screen and (max-width: 600px) {
+		.shares { font-size: 0.7em; }
 		#wrapper { font-size: 17px; }
 	}
 	@media only screen and (max-width: 500px) {
-		#wrapper { font-size: 16px; }
+		.hide-narrow { display: none; }
+		.hide-wide { display: inline-block; }
+		#wrapper { font-size: 16px; text-align: left; }
+		.ticker { font-size: 1.25em; }
+		.sources-toggler { left: 8px; top: 8px; }
+		.arrow { left: auto; right: 10px; margin-left: 0; font-size: 2em; }
 	}
 </style>
 
@@ -136,7 +143,7 @@
 				<div class="shares"><i class="fa fa-facebook"></i> <i class="fa fa-twitter"></i></div>
 			</div>
 			<div class="stat gas">
-				<div class="ticker"><span class="value actual"></span> <span class="label">cubic meters of gas<span></div>
+				<div class="ticker"><span class="value actual"></span> <span class="label"><span class="hide-narrow">cubic meters</span><span class="hide-wide">m3</span> of gas<span></div>
 				<div class="comparison">– enough to fill <span class="value"></span></div>
 				<div class="shares"><i class="fa fa-facebook"></i> <i class="fa fa-twitter"></i></div>
 			</div>
@@ -169,7 +176,7 @@
 				<div class="shares"><i class="fa fa-facebook"></i> <i class="fa fa-twitter"></i></div>
 			</div>
 			<div class="stat gas">
-				<div class="ticker"><span class="value actual"></span> <span class="label">cubic meters of gas<span></div>
+				<div class="ticker"><span class="value actual"></span> <span class="hide-narrow">cubic meters</span><span class="hide-wide">m3</span></div>
 				<div class="comparison">– enough to fill <span class="value"></span></div>
 				<div class="shares"><i class="fa fa-facebook"></i> <i class="fa fa-twitter"></i></div>
 			</div>
@@ -191,7 +198,7 @@
 					<div class="shares"><i class="fa fa-facebook"></i> <i class="fa fa-twitter"></i></div>
 				</div>
 				<div class="stat gas">
-					<div class="ticker"><span class="value actual"></span> <span class="label">cubic meters of gas<span></div>
+					<div class="ticker"><span class="value actual"></span> <span class="hide-narrow">cubic meters</span><span class="hide-wide">m3</span></div>
 					<div class="comparison">– enough to fill <span class="value"></span></div>
 					<div class="shares"><i class="fa fa-facebook"></i> <i class="fa fa-twitter"></i></div>
 				</div>
