@@ -71,8 +71,8 @@
 	.close-sources { position: fixed; right: 20px; top: 20px; cursor: pointer; font-size: 1.5em; }
 	.close-sources:hover { opacity: 0.5; }
 
-	#slider { display: inline-block; width: 100%; height: 200px; max-width: 325px; padding-top: 40px; text-align: center; }
-	#slider h3 { font-family: Sans; margin-top: 0; font-weight: bold; font-size: 1.25em;}
+	#slider { display: inline-block; width: 100%; height: 100px; max-width: 275px; padding-top: 40px; text-align: center; }
+	#slider h3 { font-family: Sans; margin-top: 0; font-weight: bold; font-size: 1em;}
 	#slider svg { width: 100%; height: 100%; }
 	#age-slider text { font-size: 13px; fill: white; }
 	#age-slider .domain { fill: none; stroke: white; stroke-width: 1; }
@@ -82,6 +82,7 @@
 	#age-slider .tick line { stroke: white; }
 
 	@media only screen and (max-width: 800px) {
+		h1, h2, h3, h4, p { max-width: 450px; }
 		#wrapper { font-size: 20px; }
 	}
 	@media only screen and (max-width: 600px) {
@@ -89,12 +90,13 @@
 		#wrapper { font-size: 17px; }
 	}
 	@media only screen and (max-width: 500px) {
+		#section-0 { background-position-x: 95%; }
 		.hide-narrow { display: none; }
 		.hide-wide { display: inline-block; }
 		#wrapper { font-size: 16px; text-align: left; }
 		.ticker { font-size: 1.25em; }
 		.sources-toggler { left: auto; top: 50%; right: 10px; margin-top: -0.5em; }
-		.section-inner { padding: 0 40px 0 10px; }
+		.section-inner { padding: 0 40px 0 20px; }
 		.arrow { left: auto; right: 10px; margin-left: 0; font-size: 2em; }
 	}
 </style>
@@ -166,9 +168,8 @@
 		<div class="overlay"></div>
 		<div class="section-inner">
 			<p>What about since you were born?</p>
-			<p>Enter your age to find out</p>
 			<div id="slider">
-				<h3>I am</h3>
+				<h3>Enter your age</h3>
 				<div id="age-slider-holder"></div>
 				<h3 id="age-label">&nbsp;</h3>
 			</div>
@@ -330,11 +331,11 @@ function updateValues(all) {
 
 	if (current_section == 1 || all) {
 		$(".section-page .oil .ticker .value").text(commify(oil_since_load));
-		$(".section-page .oil .comparison .value").text(commify_decimal(oil_since_load / oil_barrels_in_swimming_pool) + " Olympic swimming pools");
+		$(".section-page .oil .comparison .value").text(commify_decimal(oil_since_load / oil_barrels_in_swimming_pool) + " Olympic swimming pools");
 		$(".section-page .coal .ticker .value").text(commify(coal_since_load));
 		$(".section-page .coal .comparison .value").text(commify(coal_since_load / blue_whale_weight_tonnes) + " blue whales");
 		$(".section-page .gas .ticker .value").text(commify(gas_since_load));
-		$(".section-page .gas .comparison .value").text("Sydney Opera House " + commify(gas_since_load / sydney_opera_house_m3) + " times");
+		$(".section-page .gas .comparison .value").text("Sydney Opera House " + commify(gas_since_load / sydney_opera_house_m3) + " times");
 	}
 
 	if (current_section == 2 || all == true) {
@@ -344,7 +345,7 @@ function updateValues(all) {
 		    coal_since_2015 = coal_per_year_tonnes * years_since_Jan_2015 * adjustment_scaler;
 
 		$(".section-month .oil .ticker .value").text(commify(oil_since_2015));
-		$(".section-month .oil .comparison .value").text("the Empire State Building " + commify_decimal(oil_since_2015 / empire_state_m3) + " times");
+		$(".section-month .oil .comparison .value").text("the Empire State Building " + commify_decimal(oil_since_2015 / empire_state_m3) + " times");
 		$(".section-month .coal .ticker .value").text(commify(coal_since_2015));
 		$(".section-month .coal .comparison .value").text(commify_decimal(coal_since_2015 / eiffel_tower_tonnes) + " Eiffel Towers");
 		$(".section-month .gas .ticker .value").text(commify(gas_since_2015));
@@ -421,9 +422,9 @@ function changePanel() {
 
 var slider_position = 0;
 function initSlider(options) {
-	var slider_w = 230,
+	var slider_w = 250,
 	    slider_h = 50,
-	    slider_padding = 25;
+	    slider_padding = 0;
 
 	var scale = d3.scale.linear()
 		.domain(options.domain)
@@ -487,24 +488,6 @@ function initSlider(options) {
 			.attr("text-anchor", "start")
 			.attr("pointer-events", "none");
 	}
-}
-
-function scrollToValue(val, duration) {
-	if (typeof duration == "undefined") duration = 1000;
-	d3.transition().duration(duration).tween("scroller", scrollTopTween(val));
-}
-
-function scrollToId(id, scroll_offset_top) {
-	var element = document.getElementById(id);
-	if (!element) return;
-	scrollToValue(element.offsetTop - (scroll_offset_top || 0));
-}
-
-function scrollTopTween(scrollY) {
-	return function() {
-		var i = d3.interpolateNumber(wrapper.scrollTop, scrollY);
-		return function(t) { wrapper.scrollTop = i(t); };
-	};
 }
 
 function showSources() {
