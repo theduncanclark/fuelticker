@@ -63,7 +63,7 @@
 	.close-sources { position: fixed; right: 20px; top: 20px; cursor: pointer; font-size: 1.5em; }
 	.close-sources:hover { opacity: 0.5; }
 
-	#slider { display: inline-block; width: 100%; height: 200px; max-width: 425px; padding-top: 40px; text-align: center; }
+	#slider { display: inline-block; width: 100%; height: 200px; max-width: 325px; padding-top: 40px; text-align: center; }
 	#slider h3 { font-family: Sans; margin-top: 0; font-weight: bold; font-size: 1.25em;}
 	#slider svg { width: 100%; height: 100%; }
 	#age-slider text { font-size: 13px; fill: white; }
@@ -273,6 +273,8 @@ var oil_barrel_in_m3 = 0.158987295, // Google convert
     blue_whale_weight_tonnes = 190; // http://en.wikipedia.org/wiki/Blue_whale
     dead_sea_m3 = 114 * 1e9, // http://en.wikipedia.org/wiki/Dead_Sea
     eiffel_tower_tonnes = 10100, // http://www.toureiffel.paris/images/PDF/supports-pedagogiques/EN/en_10_la_tour_en_chiffres.pdf
+    golden_gate_tonnes = 380800, // http://goldengatebridge.org/research/factsGGBDesign.php, excluding anchorages and approaches
+    empire_state_m3 = 1.04772e6 // http://www.esbnyc.com/sites/default/files/esb_fact_sheet_4_9_14_4.pdf
     grand_canyon_m3 = 4.17 * 1e12; // http://www.nps.gov/grca/parkmgmt/statistics.htm
 
 // Emissions data
@@ -327,9 +329,9 @@ function updateValues(all) {
 		    coal_since_2015 = coal_per_year_tonnes * years_since_Jan_2015 * adjustment_scaler;
 
 		$(".section-month .oil .ticker .value").text(commify(oil_since_2015));
-		$(".section-month .oil .comparison .value").text(commify_decimal(oil_since_2015 / oil_barrels_in_swimming_pool /1e6) + " million Olympic swimming pools");
+		$(".section-month .oil .comparison .value").text("the Empire State Building " + commify_decimal(oil_since_2015 / empire_state_m3) + " times");
 		$(".section-month .coal .ticker .value").text(commify(coal_since_2015));
-		$(".section-month .coal .comparison .value").text(commify_decimal(coal_since_2015 / blue_whale_weight_tonnes / 1e6) + " million blue whales");
+		$(".section-month .coal .comparison .value").text(commify_decimal(coal_since_2015 / eiffel_tower_tonnes) + " Eiffel Towers");
 		$(".section-month .gas .ticker .value").text(commify(gas_since_2015));
 		$(".section-month .gas .comparison .value").text(commify_decimal(gas_since_2015 / albert_hall_m3 / 1e6) + " million Royal Albert Halls");
 	}
@@ -346,7 +348,7 @@ function updateValues(all) {
 		$(".section-lifetime .oil .ticker .value").text(commify(oil_lifetime));
 		$(".section-lifetime .oil .comparison .value").text("the Dead Sea " + commify_decimal(oil_lifetime/dead_sea_m3) + " times");
 		$(".section-lifetime .coal .ticker .value").text(commify(coal_lifetime));
-		$(".section-lifetime .coal .comparison .value").text(commify_decimal(coal_lifetime/eiffel_tower_tonnes / 1e6) + " million Eiffel Towers");
+		$(".section-lifetime .coal .comparison .value").text(commify_decimal(coal_lifetime/golden_gate_tonnes) + " Golden Gate Bridges");
 		$(".section-lifetime .gas .ticker .value").text(commify(gas_lifetime));
 		$(".section-lifetime .gas .comparison .value").text("the Grand Canyon " + commify_decimal(gas_lifetime / grand_canyon_m3) + " times");
 	}
