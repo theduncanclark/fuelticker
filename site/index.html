@@ -16,7 +16,7 @@
 <style>
 
 	* { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
-	h1, h2, h3, h4, p { margin: 0.66em auto 0; font-weight: 200; max-width: 600px; }
+	h1, h2, h3, h4, p { margin: 0.66em 0 0; font-weight: 200; max-width: 600px; }
 
 	body { margin: 0; padding: 0; font-family: Egyptian; font-weight: 200; color: white; text-align: center; background: #222; }
 	h1 { font-size: 1.8em; font-weight: bold; }
@@ -30,23 +30,31 @@
 	a:hover, a:active { color: white; border-bottom: 0.0625rem solid #6e99b2; }
 
 	#wrapper { width: 100%; height: 100%; position: absolute; font-size: 24px; left: 0; top: 0; overflow: scroll; }
-	.section { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #333; transition: top 0.7s; overflow: hidden; }
+	.section { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #333; background-size: cover; background-position: 50% 50%; transition: top 0.7s; overflow: hidden; }
 	.section.dismissed { top: -100%; }
-	.section-inner { position: absolute; top: 50%; padding: 0 20px; width: 100%; }
+	.section .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url(media/grad.png); background-size: 100% 100%; background-repeat: repeat-y; }
+	.section-inner { position: absolute; top: 50%; padding: 0 0 0 8%; width: 100%; text-align: left; }
 	.section-inner p:first-child { margin-top: 0; }
-	.ticker { font-family: Sans; color: #aaa; margin: 0.75em 0 0; font-size: 1.5em; }
+	.ticker { font-family: Sans; color: #aaa; margin: 0.75em 0 0; font-size: 1.25em; }
 	.ticker .value { font-weight: bold; color: white; margin: 0 5px; }
 	.ticker .label { display: inline-block; }
-	.comparison { margin: 5px 0 0; font-size: 0.9em; font-family: Egyptian; }
+	.comparison { font-size: 0.9em; font-family: Egyptian; }
 	.shares { font-size: 0.5em; text-transform: uppercase; font-family: Sans; font-weight: bold; }
 	.shares i { text-align: center; margin: 10px 2px 0; color: white; cursor: pointer; font-size: 1.8em; background: #aaa; border-radius: 50%; width: 1.5em; height: 1.5em; padding-top: 0.3em; }
 	.shares i:hover { background: black; }
 
-	.section.blue { background: #005689; } /* Blue: news-main-1 */
-	.section.orange { background: #c05303; } /* Dark orange: comment-main-1 */
-	.section.purple { background: #7d0068; } /* Dark purple: features-main-1 */
-	.section.red { background: #b51800; } /* Dark red: live-main-1 */
-	.section.green { background: #1c6326; } /* Green: maps-main-1 */
+	.section.blue { background-color: #005689; }  /* Blue: news-main-1 */
+	.section.orange { background-color: #c05303; }  /* Dark orange: comment-main-1 */
+	.section.purple { background-color: #7d0068; }  /* Dark purple: features-main-1 */
+	.section.red { background-color: #b51800; }  /* Dark red: live-main-1 */
+	.section.green { background-color: #1c6326; }  /* Green: maps-main-1 */
+	#section-0 { background-image: url("media/42-60628060.jpg"); }
+	#section-1 { background-image: url("media/42-65669664.jpg"); }
+	#section-2 { background-image: url("media/42-60628060.jpg"); }
+	#section-3 { background-image: url("media/42-65400915.jpg"); }
+	#section-4 { background-image: url("media/BT001071.jpg"); }
+	#section-5 { background-image: url("media/42-29297064.jpg"); }
+	#section-6 { background-image: url("media/42-18376685.jpg"); }
 
 	.arrow { position: absolute; left: 50%; margin-left: -0.48em; font-size: 3em; cursor: pointer; }
 	.arrow.disabled { display: none; }
@@ -105,6 +113,7 @@
 <div id="wrapper">
 
 	<div id="section-6" class="section">
+		<div class="overlay"></div>
 		<div class="section-inner">
 			<p>&ldquo;At current rates of fossil fuel use, we'll blow the budget for stopping global warming at 2C when I&nbsp;am&nbsp;<span class="age-at-deadline"></span>&rdquo;</p>
 			<div class="shares"><i class="fa fa-facebook"></i> <i class="fa fa-twitter"></i></div>
@@ -112,6 +121,7 @@
 	</div>
 
 	<div id="section-5" class="section green">
+		<div class="overlay"></div>
 		<div class="section-inner">
 			<p>On current trends, we'll blow the global carbon budget and lock it more than 2C of global&nbsp;warming&nbsp;in:</p>
 			<div class="stats">
@@ -131,6 +141,7 @@
 	</div>
 
 	<div id="section-4" class="section purple section-lifetime">
+		<div class="overlay"></div>
 		<div class="section-inner">
 			<p>Since you were born, <span class="age">5</span> years ago, the world has extracted and burned:</p>
 			<div class="stat oil">
@@ -152,6 +163,7 @@
 	</div>
 
 	<div id="section-3" class="section orange">
+		<div class="overlay"></div>
 		<div class="section-inner">
 			<p>What about since you were born?</p>
 			<p>Enter your age to find out</p>
@@ -164,6 +176,7 @@
 	</div>
 
 	<div id="section-2" class="section blue section-month">
+		<div class="overlay"></div>
 		<div class="section-inner">
 			<p>Since the start of 2015, that&nbsp;makes:</p>
 			<div class="stat oil">
@@ -185,6 +198,7 @@
 	</div>
 
 	<div id="section-1" class="section red section-page">
+		<div class="overlay"></div>
 		<div class="section-inner">
 			<p>Since you loaded this page, fossil fuel companies have&nbsp;extracted:</p>
 			<div class="stats">
@@ -208,6 +222,7 @@
 	</div>
 
 	<div id="section-0" class="section">
+		<div class="overlay"></div>
 		<div class="section-inner">
 			<h1>It's the fossil <span style="display: inline-block;">fuel, stupid!</p></h1>
 			<p>We hear a lot about the causes of climate change, but it really boils down to this: we take way too much oil, coal and gas out&nbsp;of&nbsp;the&nbsp;ground.</p>
@@ -605,7 +620,7 @@ function getLifetime(fuel_data, since_last_year_of_data) {
 		if (isNaN(+fuel_data[year]) || +fuel_data[year] == 0) year_value *= 1/annual_fossil_fuel_growth // No data available
 		else year_value = +fuel_data[year] * fuel_data.multiplier;
 		fuel_running_total += year_value;
-		if (fuel_data.name == "gas") console.log("In " + year + " we burned " + fuel_running_total + " units of " + fuel_data.name + " which is " + Math.round((100*year_value)/(fuel_data["2013"]*fuel_data.multiplier))+ "% of the 2013 value" );
+		// if (fuel_data.name == "gas") console.log("In " + year + " we burned " + fuel_running_total + " units of " + fuel_data.name + " which is " + Math.round((100*year_value)/(fuel_data["2013"]*fuel_data.multiplier))+ "% of the 2013 value" );
 	}
 	return fuel_running_total;
 }
