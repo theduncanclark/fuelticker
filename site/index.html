@@ -25,7 +25,7 @@
 	h4 { font-size: 1.2em; }
 	p  { font-size: 1.0em; }
 	.hide-wide { display: none; }
-	
+
 	a:link, a:visited { text-decoration: none; color: #eee; border-bottom: 0.0625rem solid #dcdcdc; transition: border-color 0.15s ease-out; }
 	a:hover, a:active { color: white; border-bottom: 0.0625rem solid #6e99b2; }
 
@@ -229,21 +229,36 @@
 <script>
 
 // Globals
+var DATA,
+    TIMER_INTERVAL = 75;
+
 var $ = d3.select,
     $$ = d3.selectAll,
-    secs_on_page = 0,
-    timer_interval = 75,
     commify = d3.format(",f"),
-    commify_decimal = d3.format(",.1f"),
-    secs_since_Jan_1970 = new Date().getTime() / 1000,
-    age = 50,
-    current_section = 0,
-    num_sections = $$(".section").size(),
+    commify_decimal = d3.format(",.1f");
+
+var date = new Date(),
+    secs_since_Jan_1970 = date.getTime() / 1000,
+    current_year = date.getFullYear(),
+    secs_on_page = 0;
+
+var current_section = 0,
+    age = 3,
     sources_showing = false,
-    wrapper = document.getElementById("wrapper"),
     virgin_slider = true;
 
-// Conversion factors
+var num_sections = $$(".section").size(),
+    wrapper = document.getElementById("wrapper");
+
+var last_year_of_fuel_data = 2013,
+    oil_data,
+    coal_data,
+    gas_data,
+    oil_per_year_barrels,
+    coal_per_year_tonnes,
+    gas_per_year_m3,
+    annual_fossil_fuel_growth = 1.02 // NEAA;
+
 var secs_in_a_day = 24 * 60 * 60,
     secs_in_a_year = 365 * secs_in_a_day,
     oil_barrel_in_m3 = 0.158987295, // Google convert
@@ -253,48 +268,40 @@ var secs_in_a_day = 24 * 60 * 60,
     oil_barrels_in_swimming_pool = olympic_swimming_pool_m3 / oil_barrel_in_m3,
     blue_whale_weight_tonnes = 190; // http://en.wikipedia.org/wiki/Blue_whale
 
-// Extraction
-var oil_barrels_k_per_day = 86754, // BP 2014
-    gas_bcm_per_year = 3369.9, // BP 2014
-    coal_mt_per_year = 7896.4, // BP 2014
-    oil_per_year = oil_barrels_k_per_day * 1000 * 365,
-    gas_per_year = gas_bcm_per_year * 1e9,
-    coal_per_year = coal_mt_per_year * 1e6;
-
-// Carbon
-var emissions_2012 = (9.67 + 0.89) * 44/12, // http://www.globalcarbonproject.org/carbonbudget/14/data.htm
-    emissions_2013 = (9.86 + 0.93) * 44/12, // http://www.globalcarbonproject.org/carbonbudget/14/data.htm
+var emissions_2012_gt = (9.67 + 0.89) * 44/12, // http://www.globalcarbonproject.org/carbonbudget/14/data.htm
+    emissions_2013_gt = (9.86 + 0.93) * 44/12, // http://www.globalcarbonproject.org/carbonbudget/14/data.htm
     budget_total_gt = 2900, // IPCC 2014
     budget_used_by_2011_gt = 1900, // IPCC 2014
-    budget_from_jan_2014_gt = budget_total_gt - budget_used_by_2011_gt - emissions_2012 - emissions_2013,
-    annual_emissions_growth = 1.018; // TBQ
-
-// Get estimated budget deadline
-var budget_left = budget_from_jan_2014_gt,
-    emissions_per_year = emissions_2013 * annual_emissions_growth,
-    seconds_left_from_jan_2014 = 0;
-while (budget_left > emissions_per_year * annual_emissions_growth) {
-	emissions_per_year *= annual_emissions_growth;
-	budget_left -= emissions_per_year;
-	seconds_left_from_jan_2014 += secs_in_a_year;
-}
-seconds_left_from_jan_2014 += secs_in_a_year * budget_left/(emissions_per_year * annual_emissions_growth);
+    budget_from_jan_2014_gt = budget_total_gt - budget_used_by_2011_gt - emissions_2012_gt - emissions_2013_gt,
+    annual_emissions_growth = 1.018, // TBQ
+    seconds_left_from_jan_2014 = getSecsLeftFrom2014();
 
 // Capex
 var capex_2013_billion_usd = 1000; // http://www.iea.org/media/140603_WEOinvestment_Factsheets.pdf
 
+function getSecsLeftFrom2014() {
+	var budget_left = budget_from_jan_2014_gt,
+	    emissions_per_year = emissions_2013_gt * annual_emissions_growth,
+	    secs_left_from_jan_2014 = 0;
+	while (budget_left > emissions_per_year * annual_emissions_growth) {
+		emissions_per_year *= annual_emissions_growth;
+		budget_left -= emissions_per_year;
+		secs_left_from_jan_2014 += secs_in_a_year;
+	}
+	seconds_left_from_jan_2014 += secs_in_a_year * budget_left/(emissions_per_year * annual_emissions_growth);
+	return secs_left_from_jan_2014;
+}
+
 function updateValues(all) {
-	secs_on_page += timer_interval/1000;
-	secs_since_Jan_1970 += timer_interval/1000;
+	secs_on_page += TIMER_INTERVAL/1000;
+	secs_since_Jan_1970 += TIMER_INTERVAL/1000;
 
-	var days_on_page = secs_on_page/secs_in_a_day;
-	var years_since_Jan_2013 = secs_since_Jan_1970/secs_in_a_year - 43,
-	    years_since_Jan_2015 = secs_since_Jan_1970/secs_in_a_year - 45,
-	    adjustment_scaler = Math.pow(annual_emissions_growth, years_since_Jan_2013);
+	var years_since_end_of_last_data_year = secs_since_Jan_1970/secs_in_a_year - (last_year_of_fuel_data - 1970),
+	    adjustment_scaler = Math.pow(annual_fossil_fuel_growth, years_since_end_of_last_data_year);
 
-	var oil_since_load = oil_per_year/365 * days_on_page * adjustment_scaler,
-	    gas_since_load = gas_per_year/365 * days_on_page * adjustment_scaler,
-	    coal_since_load = coal_per_year/365 * days_on_page * adjustment_scaler;
+	var oil_since_load = oil_per_year_barrels * secs_on_page/secs_in_a_year * adjustment_scaler,
+	    gas_since_load = gas_per_year_m3 * secs_on_page/secs_in_a_year * adjustment_scaler,
+	    coal_since_load = coal_per_year_tonnes * secs_on_page/secs_in_a_year * adjustment_scaler;
 
 	if (current_section == 1 || all) {
 		$(".section-page .oil .ticker .value").text(commify(oil_since_load));
@@ -306,9 +313,10 @@ function updateValues(all) {
 	}
 
 	if (current_section == 2 || all == true) {
-		var oil_since_2015 = oil_per_year * years_since_Jan_2015 * adjustment_scaler,
-		    gas_since_2015 = gas_per_year * years_since_Jan_2015 * adjustment_scaler,
-		    coal_since_2015 = coal_per_year * years_since_Jan_2015 * adjustment_scaler;
+		var years_since_Jan_2015 = secs_since_Jan_1970/secs_in_a_year - 45,
+		    oil_since_2015 = oil_per_year_barrels * years_since_Jan_2015 * adjustment_scaler,
+		    gas_since_2015 = gas_per_year_m3 * years_since_Jan_2015 * adjustment_scaler,
+		    coal_since_2015 = coal_per_year_tonnes * years_since_Jan_2015 * adjustment_scaler;
 
 		$(".section-month .oil .ticker .value").text(commify(oil_since_2015));
 		$(".section-month .oil .comparison .value").text(commify_decimal(oil_since_2015 / oil_barrels_in_swimming_pool /1e6) + " million Olympic swimming pools");
@@ -319,9 +327,13 @@ function updateValues(all) {
 	}
 
 	if (current_section == 4 || all) {
-		var oil_lifetime = (oil_per_year * age/3) + oil_since_load,
-		    gas_lifetime = (gas_per_year * age/3) + coal_since_load,
-		    coal_lifetime = (coal_per_year * age/2) + gas_since_load;
+		var oil_since_last_year_of_data = oil_per_year_barrels * years_since_end_of_last_data_year * adjustment_scaler,
+		    coal_since_last_year_of_data = coal_per_year_tonnes * years_since_end_of_last_data_year * adjustment_scaler;
+		    gas_since_last_year_of_data = gas_per_year_m3 * years_since_end_of_last_data_year * adjustment_scaler;
+
+		var oil_lifetime = getLifetime(oil_data, oil_since_last_year_of_data),
+		    coal_lifetime = getLifetime(coal_data, coal_since_last_year_of_data),
+		    gas_lifetime = getLifetime(gas_data, gas_since_last_year_of_data);
 
 		$(".section-lifetime .oil .ticker .value").text(commify(oil_lifetime));
 		$(".section-lifetime .oil .comparison .value").text(commify_decimal(oil_lifetime/ oil_barrels_in_swimming_pool /1e6) + " million Olympic swimming pools");
@@ -332,10 +344,6 @@ function updateValues(all) {
 	}
 
 	if (current_section == 5 || all) {
-		var oil_last_month = oil_per_year/12 * adjustment_scaler,
-		    gas_last_month = gas_per_year/12 * adjustment_scaler,
-		    coal_last_month = coal_per_year/12 * adjustment_scaler;
-
 		var secs_since_Jan_2014 = secs_since_Jan_1970 - (44 * secs_in_a_year),
 		    secs_left = seconds_left_from_jan_2014 - secs_since_Jan_2014,
 		    years = Math.floor(secs_left/secs_in_a_year),
@@ -349,7 +357,6 @@ function updateValues(all) {
 		$("#value-countdown-hours").text(hours);
 		$("#value-countdown-mins").text(mins);
 		$("#value-countdown-secs").text(secs);
-
 		$$(".age-at-deadline").text(Math.round(age + years));
 	}
 
@@ -359,7 +366,7 @@ function updateValues(all) {
 
 var updater;
 function startTicker() {
-	updater = setInterval(updateValues, timer_interval);
+	updater = setInterval(updateValues, TIMER_INTERVAL);
 }
 
 function stopTicker() {
@@ -546,7 +553,7 @@ function detectSwipe(el, callback){
 	    elapsedTime,
 	    startTime,
 	    handleswipe = callback || function(swipedir) {};
-	
+
 	touchsurface.addEventListener('touchstart', function(e) {
 		var touchobj = e.changedTouches[0];
 		swipedir = 'none';
@@ -556,11 +563,11 @@ function detectSwipe(el, callback){
 		startTime = new Date().getTime(); // record time when finger first makes contact with surface
 		e.preventDefault();
 	}, false);
-	
+
 	touchsurface.addEventListener('touchmove', function(e) {
 		e.preventDefault(); // prevent scrolling when inside DIV
 	}, false);
-	
+
 	touchsurface.addEventListener('touchend', function(e) {
 		var touchobj = e.changedTouches[0];
 		distX = touchobj.pageX - startX // get horizontal dist traveled by finger while in contact with surface
@@ -579,8 +586,21 @@ function detectSwipe(el, callback){
 	}, false)
 }
 
-function init() {
-	window.onresize = updateLayout;
+function getLifetime(fuel_data, since_last_year_of_data) {
+	var fuel_running_total = since_last_year_of_data,
+	    year_value = 0,
+	    year_of_birth = current_year - age;
+	for (i = last_year_of_fuel_data; i > year_of_birth - 1; i--) {
+		var year = "" + i;
+		if (isNaN(+fuel_data[year]) || +fuel_data[year] == 0) year_value *= 1/annual_fossil_fuel_growth // No data available
+		else year_value = +fuel_data[year] * fuel_data.multiplier;
+		fuel_running_total += year_value;
+		// console.log("In " + year + " we burned " + fuel_running_total + " units of " + fuel_data.name + " which is " + Math.round((100*year_value)/(fuel_data["2013"]*fuel_data.multiplier))+ "% of the 2013 value" );
+	}
+	return fuel_running_total;
+}
+
+function createSlider() {
 	initSlider({
 		id: "age-slider",
 		container: "#age-slider-holder",
@@ -599,13 +619,30 @@ function init() {
 			return d3.svg.axis().scale(scale).tickPadding(6).tickValues([10,20,30,40,50,60,70,80,90,100]);
 		}
 	});
-	initControls();
-	initFixedSocialButtons();
-	updateValues(true); // Update all values on init to ensure numbers are correct length before updateLayout runs
-	updateLayout();
-	startTicker();
 }
 
+function setFuelValues() {
+	oil_data = DATA.filter(function(d) { return d.name == "oil" })[0];
+	coal_data = DATA.filter(function(d) { return d.name == "coal" })[0];
+	gas_data = DATA.filter(function(d) { return d.name == "gas" })[0];
+	oil_per_year_barrels = oil_data["" + last_year_of_fuel_data] * oil_data.multiplier;
+	gas_per_year_m3 = gas_data["" + last_year_of_fuel_data] * gas_data.multiplier;
+	coal_per_year_tonnes = coal_data["" + last_year_of_fuel_data] * coal_data.multiplier;
+}
+
+function init() {
+	d3.csv("FuelChangeOverTime.csv", function(raw_data) {
+		DATA = raw_data;
+		setFuelValues();
+		window.onresize = updateLayout;
+		createSlider()
+		initControls();
+		initFixedSocialButtons();
+		updateValues(true); // Update all values on init to ensure numbers are correct length before updateLayout runs
+		updateLayout();
+		startTicker();
+	});
+}
 
 init();
 
