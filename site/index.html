@@ -228,28 +228,33 @@
 </div>
 <script>
 
-// Globals
+// Constants
 var DATA,
     TIMER_INTERVAL = 75;
 
+// Shortcuts
 var $ = d3.select,
     $$ = d3.selectAll,
     commify = d3.format(",f"),
-    commify_decimal = d3.format(",.1f");
+    commify_decimal = d3.format(",.1f")
+    num_sections = $$(".section").size(),
+    wrapper = document.getElementById("wrapper");
 
-var date = new Date(),
-    secs_since_Jan_1970 = date.getTime() / 1000,
-    current_year = date.getFullYear(),
-    secs_on_page = 0;
-
+// States
 var current_section = 0,
-    age = 3,
+    age = 55,
     sources_showing = false,
     virgin_slider = true;
 
-var num_sections = $$(".section").size(),
-    wrapper = document.getElementById("wrapper");
+// Timings
+var date = new Date(),
+    secs_since_Jan_1970 = date.getTime() / 1000,
+    current_year = date.getFullYear(),
+    secs_on_page = 0,
+    secs_in_a_day = 24 * 60 * 60,
+    secs_in_a_year = 365 * secs_in_a_day;
 
+// Fuel data globals
 var last_year_of_fuel_data = 2013,
     oil_data,
     coal_data,
@@ -259,15 +264,18 @@ var last_year_of_fuel_data = 2013,
     gas_per_year_m3,
     annual_fossil_fuel_growth = 1.02 // NEAA;
 
-var secs_in_a_day = 24 * 60 * 60,
-    secs_in_a_year = 365 * secs_in_a_day,
-    oil_barrel_in_m3 = 0.158987295, // Google convert
+// Conversion factors
+var oil_barrel_in_m3 = 0.158987295, // Google convert
     albert_hall_m3 = 90000, // Approx: http://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement#Royal_Albert_Hall
-    oil_barrels_in_albert_hall = albert_hall_m3 / oil_barrel_in_m3,
+    sydney_opera_house_m3 = 26400, // http://www.gids.nl/sydney/opera.html
     olympic_swimming_pool_m3 = 2500,
     oil_barrels_in_swimming_pool = olympic_swimming_pool_m3 / oil_barrel_in_m3,
     blue_whale_weight_tonnes = 190; // http://en.wikipedia.org/wiki/Blue_whale
+    dead_sea_m3 = 114 * 1e9, // http://en.wikipedia.org/wiki/Dead_Sea
+    eiffel_tower_tonnes = 10100, // http://www.toureiffel.paris/images/PDF/supports-pedagogiques/EN/en_10_la_tour_en_chiffres.pdf
+    grand_canyon_m3 = 4.17 * 1e12; // http://www.nps.gov/grca/parkmgmt/statistics.htm
 
+// Emissions data
 var emissions_2012_gt = (9.67 + 0.89) * 44/12, // http://www.globalcarbonproject.org/carbonbudget/14/data.htm
     emissions_2013_gt = (9.86 + 0.93) * 44/12, // http://www.globalcarbonproject.org/carbonbudget/14/data.htm
     budget_total_gt = 2900, // IPCC 2014
@@ -309,7 +317,7 @@ function updateValues(all) {
 		$(".section-page .coal .ticker .value").text(commify(coal_since_load));
 		$(".section-page .coal .comparison .value").text(commify(coal_since_load / blue_whale_weight_tonnes) + " blue whales");
 		$(".section-page .gas .ticker .value").text(commify(gas_since_load));
-		$(".section-page .gas .comparison .value").text(commify(gas_since_load / albert_hall_m3) + " Royal Albert Halls");
+		$(".section-page .gas .comparison .value").text("Sydney Opera House " + commify(gas_since_load / sydney_opera_house_m3) + " times");
 	}
 
 	if (current_section == 2 || all == true) {
@@ -336,11 +344,11 @@ function updateValues(all) {
 		    gas_lifetime = getLifetime(gas_data, gas_since_last_year_of_data);
 
 		$(".section-lifetime .oil .ticker .value").text(commify(oil_lifetime));
-		$(".section-lifetime .oil .comparison .value").text(commify_decimal(oil_lifetime/ oil_barrels_in_swimming_pool /1e6) + " million Olympic swimming pools");
-		$(".section-lifetime .coal .ticker .value").text(commify(gas_lifetime));
-		$(".section-lifetime .coal .comparison .value").text(commify_decimal(coal_lifetime / blue_whale_weight_tonnes / 1e6) + " million blue whales");
-		$(".section-lifetime .gas .ticker .value").text(commify(coal_lifetime));
-		$(".section-lifetime .gas .comparison .value").text(commify_decimal(gas_lifetime / albert_hall_m3 / 1e6) + " million Royal Albert Halls");
+		$(".section-lifetime .oil .comparison .value").text("the Dead Sea " + commify_decimal(oil_lifetime/dead_sea_m3) + " times");
+		$(".section-lifetime .coal .ticker .value").text(commify(coal_lifetime));
+		$(".section-lifetime .coal .comparison .value").text(commify_decimal(coal_lifetime/eiffel_tower_tonnes / 1e6) + " million Eiffel Towers");
+		$(".section-lifetime .gas .ticker .value").text(commify(gas_lifetime));
+		$(".section-lifetime .gas .comparison .value").text("the Grand Canyon " + commify_decimal(gas_lifetime / grand_canyon_m3) + " times");
 	}
 
 	if (current_section == 5 || all) {
@@ -595,7 +603,7 @@ function getLifetime(fuel_data, since_last_year_of_data) {
 		if (isNaN(+fuel_data[year]) || +fuel_data[year] == 0) year_value *= 1/annual_fossil_fuel_growth // No data available
 		else year_value = +fuel_data[year] * fuel_data.multiplier;
 		fuel_running_total += year_value;
-		// console.log("In " + year + " we burned " + fuel_running_total + " units of " + fuel_data.name + " which is " + Math.round((100*year_value)/(fuel_data["2013"]*fuel_data.multiplier))+ "% of the 2013 value" );
+		if (fuel_data.name == "gas") console.log("In " + year + " we burned " + fuel_running_total + " units of " + fuel_data.name + " which is " + Math.round((100*year_value)/(fuel_data["2013"]*fuel_data.multiplier))+ "% of the 2013 value" );
 	}
 	return fuel_running_total;
 }
@@ -614,7 +622,7 @@ function createSlider() {
 		},
 		snap: true,
 		start: 50,
-		domain: [0, 110],
+		domain: [5, 105],
 		axis: function(scale) {
 			return d3.svg.axis().scale(scale).tickPadding(6).tickValues([10,20,30,40,50,60,70,80,90,100]);
 		}
