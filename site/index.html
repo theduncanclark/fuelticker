@@ -25,6 +25,9 @@
 	h4 { font-size: 1.2em; }
 	p  { font-size: 1.0em; }
 
+	a:link, a:visited { text-decoration: none; color: #eee; border-bottom: 0.0625rem solid #dcdcdc; transition: border-color 0.15s ease-out; }
+	a:hover, a:active { color: white; border-bottom: 0.0625rem solid #6e99b2; }
+
 	#wrapper { width: 100%; height: 100%; position: absolute; font-size: 24px; left: 0; top: 0; overflow: scroll; }
 	.section { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #333; transition: top 0.7s; }
 	.section.dismissed { top: -100%; }
@@ -50,6 +53,7 @@
 	.down { bottom: 15px; }
 	.sources-toggler { position: absolute; left: 20px; top: 20px; font-size: 1em; cursor: pointer; }
 	.sources-toggler:hover { opacity: 0.5; }
+
 	#section-0 { background-image: url(media/coal.jpg); background-size: cover; }
 	#section-5 .comparison { font-size: 1em; margin: 1em 0; }
 	#sources { position: fixed; top: 0; left: 0; font-size: 0.75em; line-height: 1.4em; padding: 15px; text-align: left; width: 100%; max-width: none; }
@@ -58,18 +62,6 @@
 	.close-sources { position: fixed; right: 20px; top: 20px; cursor: pointer; font-size: 2em; }
 	.close-sources:hover { opacity: 0.5; }
 
-	a:link, a:visited {
-		text-decoration: none;
-		color: #eee;
-		/*color: #005689;*/
-		border-bottom: 0.0625rem solid #dcdcdc;
-		transition: border-color 0.15s ease-out;
-	}
-	a:hover, a:active {
-		color: white;
-		/*color: #005689;*/
-		border-bottom: 0.0625rem solid #6e99b2;
-	}
 	#slider { display: inline-block; width: 100%; height: 300px; max-width: 425px; padding-top: 40px; }
 	#slider h3 { font-family: Sans; margin-top: 0; font-weight: bold; font-size: 1.25em;}
 	#slider svg { width: 100%; height: 100%; }
@@ -98,30 +90,30 @@
 <div id="sources">
 	<div id="sources-inner">
 		<i class="close-sources fa fa-times-circle"></i>
-		<h2>Sources &amp; infomation</h2>
-		<p>Extraction figures extrapolated from <a target="_blank" href="http://www.bp.com/en/global/corporate/about-bp/energy-economics/statistical-review-of-world-energy.html">BP Statistical Review 2014</a>; emissions figures extrapolated from <a target="_blank" href="http://www.pbl.nl/en/publications/trends-in-global-co2-emissions-2014-report">PBL NEAA 2014</a>. In both cases data are from 2013 and have been adjusted by 2% per year since the start of 2014 to account for estimated subsequent increases, based on <a target="_blank" href="http://www.pbl.nl/en/publications/trends-in-global-co2-emissions-2014-report">PBL NEAA 2014</a>. Emissions figures also reduced by 5.5% to account for cement production, based on <a target="_blank" href="http://www.globalcarbonproject.org/carbonbudget/14/hl-full.htm">Global Carbon Project</a>. Carbon budget set at 1000GT from 2011 based on <a target="_blank" href="http://www.ipcc.ch/pdf/assessment-report/ar5/syr/SYR_AR5_SPMcorr2.pdf">IPCC AR5 Synthesis Report SPM</a>, adjusted for intervening years. Fossil fuel sector capex based on <a target="_blank" href="http://www.iea.org/media/140603_WEOinvestment_Factsheets.pdf">IEA 2014</a>.</p>
+		<h2>Assumptions &amp; sources</h2>
+		<p>Current extraction figures extrapolated from <a target="_blank" href="http://www.bp.com/en/global/corporate/about-bp/energy-economics/statistical-review-of-world-energy.html">BP Statistical Review 2014</a>; data are from 2013 and have been adjusted by 2% per year since the start of 2014 to account for estimated subsequent increases, based on <a target="_blank" href="http://www.pbl.nl/en/publications/trends-in-global-co2-emissions-2014-report">PBL NEAA 2014</a>. The all-time carbon budget is set at 2900GT (enough to give a two-thirds chance of staying below 2 degree C according to the <a target="_blank" href="http://www.ipcc.ch/pdf/assessment-report/ar5/syr/SYR_AR5_SPMcorr2.pdf">IPCC AR5 Synthesis Report SPM</a>), of which 1000GT remains from 2011. Fossil fuel and land use emissions for 2012 and 2013 taken from the <a href="http://www.globalcarbonproject.org/">Global Carbon Project</a>. Subsequent years assume 1.8% annual growth in total emissions, in line with the <a href="http://www.nature.com/nclimate/journal/v2/n9/full/nclimate1586.html">trend since the mid-nineteenth century</a>. Historical fossil fuel extraction figures are from BP where available, interpolated for earlier years.</p>
 	</div>
 </div>
 <div id="wrapper">
 
 	<div id="section-6" class="section">
 		<div class="section-inner">
-			<p>&ldquo;At current rates of fossil fuel use, we'll blow the budget for stopping global warming at 2C when I am <span class="age-at-deadline"></span>&rdquo;</p>
+			<p>&ldquo;At current rates of fossil fuel use, we'll blow the budget for stopping global warming at 2C when I&nbsp;am&nbsp;<span class="age-at-deadline"></span>&rdquo;</p>
 			<div class="shares"><i class="fa fa-facebook"></i> <i class="fa fa-twitter"></i></div>
 		</div>
 	</div>
 
 	<div id="section-5" class="section green">
 		<div class="section-inner">
-			<p>On current trends, we'll blow the global carbon budget and lock it more than 2C of global warming in:</p>
+			<p>On current trends, we'll blow the global carbon budget and lock it more than 2C of global&nbsp;warming&nbsp;in:</p>
 			<div class="stats">
 				<div class="stat">
 					<div class="ticker">
-						<span class="value" id="value-countdown-years"></span> yrs
-						<span class="value" id="value-countdown-days"></span> days
-						<span class="value" id="value-countdown-hours"></span> hrs
-						<span class="value" id="value-countdown-mins"></span> mins
-						<span class="value" id="value-countdown-secs"></span> s
+						<span class="value" id="value-countdown-years"></span>&nbsp;yrs
+						<span class="value" id="value-countdown-days"></span>&nbsp;days
+						<span class="value" id="value-countdown-hours"></span>&nbsp;hrs
+						<span class="value" id="value-countdown-mins"></span>&nbsp;mins
+						<span class="value" id="value-countdown-secs"></span>&nbsp;s
 					</div>
 				</div>
 				<div class="comparison">– about the time when you turn <span class="age-at-deadline"></span></div>
@@ -165,7 +157,7 @@
 
 	<div id="section-2" class="section blue section-month">
 		<div class="section-inner">
-			<p>Since the start of 2015, that adds up to:</p>
+			<p>Since the start of 2015, that adds up&nbsp;to:</p>
 			<div class="stat oil">
 				<div class="ticker"><span class="value actual"></span> <span class="label">barrels of oil<span></div>
 				<div class="comparison">– enough to fill <span class="value"></span></div>
@@ -186,7 +178,7 @@
 
 	<div id="section-1" class="section red section-page">
 		<div class="section-inner">
-			<p>Since you loaded this page, fossil fuel companies have extracted:</p>
+			<p>Since you loaded this page, fossil fuel companies have&nbsp;extracted:</p>
 			<div class="stats">
 				<div class="stat oil">
 					<div class="ticker"><span class="value actual"></span> <span class="label">barrels of oil<span></div>
@@ -210,8 +202,8 @@
 	<div id="section-0" class="section">
 		<div class="section-inner">
 			<h1>It's the fossil <span style="display: inline-block;">fuel, stupid!</p></h1>
-			<p>We hear a lot about the causes of climate change, but it really boils down to this: we take way too much oil, coal and gas out of the ground.</p>
-			<p>But how much exactly?</p>
+			<p>We hear a lot about the causes of climate change, but it really boils down to this: we take way too much oil, coal and gas out&nbsp;of&nbsp;the&nbsp;ground.</p>
+			<p>But how much exactly, and how much longer can&nbsp;this&nbsp;go&nbsp;on?</p>
 		</div>
 	</div>
 
@@ -236,7 +228,7 @@ var $ = d3.select,
     commify = d3.format(",f"),
     commify_decimal = d3.format(",.1f"),
     secs_since_Jan_1970 = new Date().getTime() / 1000,
-    age = 5,
+    age = 50,
     current_section = 0,
     num_sections = $$(".section").size(),
     sources_showing = false,
@@ -253,100 +245,113 @@ var secs_in_a_day = 24 * 60 * 60,
     oil_barrels_in_swimming_pool = olympic_swimming_pool_m3 / oil_barrel_in_m3,
     blue_whale_weight_tonnes = 190; // http://en.wikipedia.org/wiki/Blue_whale
 
-// Data
-var oil_barrels_k_per_day = 86754,
-    gas_bcm_per_year = 3369.9,
-    coal_mt_per_year = 7896.4,
-    CO2_gt_fuel_cement_2013 = 35.3,
-    cement_share_of_fuel_cement_2013 = 0.055,
-    capex_2013_billion_usd = 1000, // http://www.iea.org/media/140603_WEOinvestment_Factsheets.pdf
-    budget_total_gt = 2900,
-    budget_used_by_2011_gt = 1900,
-    land_use_scaler = 1.12 // Number to times fossil fuel by to get total emission. Assumed will be unchanged going forward
-    budget_gt_from_2011 = budget_total_gt - budget_used_by_2011_gt,
-    secs_left_from_2011 = secs_in_a_year * budget_gt_from_2011/(CO2_gt_fuel_cement_2013 * land_use_scaler);
-    annual_fossil_fuel_growth_since_2014 = 1.02; // https://ec.europa.eu/jrc/en/news/global-co2-emissions-increase-new-all-time-record-growth-slowing-down
-
-// Calibrated
-var oil_per_year = oil_barrels_k_per_day * 1000 * 365,
+// Extraction
+var oil_barrels_k_per_day = 86754, // BP 2014
+    gas_bcm_per_year = 3369.9, // BP 2014
+    coal_mt_per_year = 7896.4, // BP 2014
+    oil_per_year = oil_barrels_k_per_day * 1000 * 365,
     gas_per_year = gas_bcm_per_year * 1e9,
     coal_per_year = coal_mt_per_year * 1e6;
 
-// Comparisons working out
-// Oil in my lifetime, m3: 86754 * 1000 * 365 * 37 * 0.15 = 2 million m3
-// Oil in a day: 86754 * 1000 * 0.15 = 13,013,100 cubic meters = 5.5 * the Great Pyramid of Giza = 150 times Albert Hall
-// Source: http://www.bluebulbprojects.com/MeasureOfThings/results.php?comp=volume&unit=cm&amt=13013100
-// Oil in a min: 86754 * 1000 * 0.15 / (24 * 60) = 9000 = 1 tenth of Albert Hall
-// Oil in a second: 86754 * 1000 * 0.15 / (24 * 60 * 60) = 150
+// Carbon
+var emissions_2012 = (9.67 + 0.89) * 44/12, // http://www.globalcarbonproject.org/carbonbudget/14/data.htm
+    emissions_2013 = (9.86 + 0.93) * 44/12, // http://www.globalcarbonproject.org/carbonbudget/14/data.htm
+    budget_total_gt = 2900, // IPCC 2014
+    budget_used_by_2011_gt = 1900, // IPCC 2014
+    budget_from_jan_2014_gt = budget_total_gt - budget_used_by_2011_gt - emissions_2012 - emissions_2013,
+    annual_emissions_growth = 1.018; // TBQ
 
-function updateTicker() {
+// Get estimated budget deadline
+var budget_left = budget_from_jan_2014_gt,
+    emissions_per_year = emissions_2013 * annual_emissions_growth,
+    seconds_left_from_jan_2014 = 0;
+while (budget_left > emissions_per_year * annual_emissions_growth) {
+	emissions_per_year *= annual_emissions_growth;
+	budget_left -= emissions_per_year;
+	seconds_left_from_jan_2014 += secs_in_a_year;
+}
+seconds_left_from_jan_2014 += secs_in_a_year * budget_left/(emissions_per_year * annual_emissions_growth);
+
+// Capex
+var capex_2013_billion_usd = 1000; // http://www.iea.org/media/140603_WEOinvestment_Factsheets.pdf
+
+function updateValues(all) {
 	secs_on_page += timer_interval/1000;
 	secs_since_Jan_1970 += timer_interval/1000;
 
 	var days_on_page = secs_on_page/secs_in_a_day;
 	var years_since_Jan_2013 = secs_since_Jan_1970/secs_in_a_year - 43,
 	    years_since_Jan_2015 = secs_since_Jan_1970/secs_in_a_year - 45,
-	    adjustment_scaler = Math.pow(annual_fossil_fuel_growth_since_2014, years_since_Jan_2013);
+	    adjustment_scaler = Math.pow(annual_emissions_growth, years_since_Jan_2013);
 
 	var oil_since_load = oil_per_year/365 * days_on_page * adjustment_scaler,
 	    gas_since_load = gas_per_year/365 * days_on_page * adjustment_scaler,
 	    coal_since_load = coal_per_year/365 * days_on_page * adjustment_scaler;
 
-	$(".section-page .oil .ticker .value").text(commify(oil_since_load));
-	$(".section-page .oil .comparison .value").text(commify_decimal(oil_since_load / oil_barrels_in_swimming_pool) + " Olympic swimming pools");
-	$(".section-page .coal .ticker .value").text(commify(coal_since_load));
-	$(".section-page .coal .comparison .value").text(commify(coal_since_load / blue_whale_weight_tonnes) + " blue whales");
-	$(".section-page .gas .ticker .value").text(commify(gas_since_load));
-	$(".section-page .gas .comparison .value").text(commify(gas_since_load / albert_hall_m3) + " Royal Albert Halls");
+	if (current_section == 1 || all) {
+		$(".section-page .oil .ticker .value").text(commify(oil_since_load));
+		$(".section-page .oil .comparison .value").text(commify_decimal(oil_since_load / oil_barrels_in_swimming_pool) + " Olympic swimming pools");
+		$(".section-page .coal .ticker .value").text(commify(coal_since_load));
+		$(".section-page .coal .comparison .value").text(commify(coal_since_load / blue_whale_weight_tonnes) + " blue whales");
+		$(".section-page .gas .ticker .value").text(commify(gas_since_load));
+		$(".section-page .gas .comparison .value").text(commify(gas_since_load / albert_hall_m3) + " Royal Albert Halls");
+	}
 
-	var oil_since_2015 = oil_per_year * years_since_Jan_2015 * adjustment_scaler,
-	    gas_since_2015 = gas_per_year * years_since_Jan_2015 * adjustment_scaler,
-	    coal_since_2015 = coal_per_year * years_since_Jan_2015 * adjustment_scaler;
+	if (current_section == 2 || all == true) {
+		var oil_since_2015 = oil_per_year * years_since_Jan_2015 * adjustment_scaler,
+		    gas_since_2015 = gas_per_year * years_since_Jan_2015 * adjustment_scaler,
+		    coal_since_2015 = coal_per_year * years_since_Jan_2015 * adjustment_scaler;
 
-	$(".section-month .oil .ticker .value").text(commify(oil_since_2015));
-	$(".section-month .oil .comparison .value").text(commify_decimal(oil_since_2015 / oil_barrels_in_swimming_pool /1e6) + " million Olympic swimming pools");
-	$(".section-month .coal .ticker .value").text(commify(coal_since_2015));
-	$(".section-month .coal .comparison .value").text(commify_decimal(coal_since_2015 / blue_whale_weight_tonnes / 1e6) + " million blue whales");
-	$(".section-month .gas .ticker .value").text(commify(gas_since_2015));
-	$(".section-month .gas .comparison .value").text(commify_decimal(gas_since_2015 / albert_hall_m3 / 1e6) + " million Royal Albert Halls");
+		$(".section-month .oil .ticker .value").text(commify(oil_since_2015));
+		$(".section-month .oil .comparison .value").text(commify_decimal(oil_since_2015 / oil_barrels_in_swimming_pool /1e6) + " million Olympic swimming pools");
+		$(".section-month .coal .ticker .value").text(commify(coal_since_2015));
+		$(".section-month .coal .comparison .value").text(commify_decimal(coal_since_2015 / blue_whale_weight_tonnes / 1e6) + " million blue whales");
+		$(".section-month .gas .ticker .value").text(commify(gas_since_2015));
+		$(".section-month .gas .comparison .value").text(commify_decimal(gas_since_2015 / albert_hall_m3 / 1e6) + " million Royal Albert Halls");
+	}
 
-	var oil_lifetime = (oil_per_year * age/3) + oil_since_load,
-	    gas_lifetime = (gas_per_year * age/3) + coal_since_load,
-	    coal_lifetime = (coal_per_year * age/2) + gas_since_load;
+	if (current_section == 4 || all) {
+		var oil_lifetime = (oil_per_year * age/3) + oil_since_load,
+		    gas_lifetime = (gas_per_year * age/3) + coal_since_load,
+		    coal_lifetime = (coal_per_year * age/2) + gas_since_load;
 
-	$(".section-lifetime .oil .ticker .value").text(commify(oil_lifetime));
-	$(".section-lifetime .oil .comparison .value").text(commify_decimal(oil_lifetime/ oil_barrels_in_swimming_pool /1e6) + " million Olympic swimming pools");
-	$(".section-lifetime .coal .ticker .value").text(commify(gas_lifetime));
-	$(".section-lifetime .coal .comparison .value").text(commify_decimal(coal_lifetime / blue_whale_weight_tonnes / 1e6) + " million blue whales");
-	$(".section-lifetime .gas .ticker .value").text(commify(coal_lifetime));
-	$(".section-lifetime .gas .comparison .value").text(commify_decimal(gas_lifetime / albert_hall_m3 / 1e6) + " million Royal Albert Halls");
+		$(".section-lifetime .oil .ticker .value").text(commify(oil_lifetime));
+		$(".section-lifetime .oil .comparison .value").text(commify_decimal(oil_lifetime/ oil_barrels_in_swimming_pool /1e6) + " million Olympic swimming pools");
+		$(".section-lifetime .coal .ticker .value").text(commify(gas_lifetime));
+		$(".section-lifetime .coal .comparison .value").text(commify_decimal(coal_lifetime / blue_whale_weight_tonnes / 1e6) + " million blue whales");
+		$(".section-lifetime .gas .ticker .value").text(commify(coal_lifetime));
+		$(".section-lifetime .gas .comparison .value").text(commify_decimal(gas_lifetime / albert_hall_m3 / 1e6) + " million Royal Albert Halls");
+	}
 
-	var oil_last_month = oil_per_year/12 * adjustment_scaler,
-	    gas_last_month = gas_per_year/12 * adjustment_scaler,
-	    coal_last_month = coal_per_year/12 * adjustment_scaler;
+	if (current_section == 5 || all) {
+		var oil_last_month = oil_per_year/12 * adjustment_scaler,
+		    gas_last_month = gas_per_year/12 * adjustment_scaler,
+		    coal_last_month = coal_per_year/12 * adjustment_scaler;
 
-	var secs_since_Jan_2012 = secs_since_Jan_1970 - (42 * secs_in_a_year),
-	    secs_left = secs_left_from_2011 - secs_since_Jan_2012,
-	    years = Math.floor(secs_left/secs_in_a_year),
-	    days = Math.floor((secs_left % secs_in_a_year)/secs_in_a_day),
-	    hours = Math.floor((secs_left % secs_in_a_day)/3600),
-	    mins = Math.floor((secs_left % 3600)/60),
-	    secs = Math.floor((secs_left % 60));
+		var secs_since_Jan_2014 = secs_since_Jan_1970 - (44 * secs_in_a_year),
+		    secs_left = seconds_left_from_jan_2014 - secs_since_Jan_2014,
+		    years = Math.floor(secs_left/secs_in_a_year),
+		    days = Math.floor((secs_left % secs_in_a_year)/secs_in_a_day),
+		    hours = Math.floor((secs_left % secs_in_a_day)/3600),
+		    mins = Math.floor((secs_left % 3600)/60),
+		    secs = Math.floor((secs_left % 60));
 
-	$("#value-countdown-years").text(years);
-	$("#value-countdown-days").text(days);
-	$("#value-countdown-hours").text(hours);
-	$("#value-countdown-mins").text(mins);
-	$("#value-countdown-secs").text(secs);
+		$("#value-countdown-years").text(years);
+		$("#value-countdown-days").text(days);
+		$("#value-countdown-hours").text(hours);
+		$("#value-countdown-mins").text(mins);
+		$("#value-countdown-secs").text(secs);
 
-	$$(".age-at-deadline").text(Math.round(age + years));
-	$("#month-co2").text(commify(CO2_gt_fuel_cement_2013 * (1 - cement_share_of_fuel_cement_2013) * 1e9/365 * days_on_page * adjustment_scaler));
-	$("#value-capex").text("$" + commify(capex_2013_billion_usd * 1e9/365 * days_on_page));
+		$$(".age-at-deadline").text(Math.round(age + years));
+	}
+
+	// $("#month-co2").text(commify(CO2_gt_fuel_cement_2013 * (1 - cement_share_of_fuel_cement_2013) * 1e9/365 * days_on_page * adjustment_scaler));
+	// $("#value-capex").text("$" + commify(capex_2013_billion_usd * 1e9/365 * days_on_page));
 }
 
 var updater;
 function startTicker() {
-	updater = setInterval(updateTicker, timer_interval);
+	updater = setInterval(updateValues, timer_interval);
 }
 
 function stopTicker() {
@@ -372,7 +377,7 @@ function changePanel() {
 	$$(".down").classed("disabled", function() {
 		return (virgin_slider && current_section == 3) || current_section >= num_sections - 1;
 	});
-	updateLayout(); // In case slow loading fonts etc have meant that the layout isn't correctly set yet
+	// updateLayout(); // In case slow loading fonts etc have meant that the layout isn't correctly set yet
 }
 
 var slider_position = 0;
@@ -456,7 +461,6 @@ function scrollToId(id, scroll_offset_top) {
 	scrollToValue(element.offsetTop - (scroll_offset_top || 0));
 }
 
-// Adapted from http://bl.ocks.org/humbletim/5507619
 function scrollTopTween(scrollY) {
 	return function() {
 		var i = d3.interpolateNumber(wrapper.scrollTop, scrollY);
@@ -489,7 +493,15 @@ function initControls() {
 	$$(".shares, .arrow").on("mousedown", function() { d3.event.preventDefault(); });
 }
 
+function initCustomSocialButtons() {
+
+}
+
+function initFixedSocialButtons() {
+}
+
 function init() {
+	window.onresize = updateLayout;
 	initSlider({
 		id: "age-slider",
 		container: "#age-slider-holder",
@@ -499,21 +511,30 @@ function init() {
 			$("#age-label").text(age + " years old")
 			$$(".arrow").classed("disabled", false);
 			virgin_slider = false;
+			initCustomSocialButtons(age);
 		},
 		snap: true,
-		start: 5,
+		start: 50,
 		domain: [0, 110],
 		axis: function(scale) {
 			return d3.svg.axis().scale(scale).tickPadding(6).tickValues([10,20,30,40,50,60,70,80,90,100]);
 		}
 	});
 	initControls();
+	initFixedSocialButtons();
+	updateValues(true); // Update all values on init to ensure numbers are correct length before updateLayout runs
 	updateLayout();
-	window.onresize = updateLayout;
 	startTicker();
 }
 
 init();
+
+// Comparisons working out
+// Oil in my lifetime, m3: 86754 * 1000 * 365 * 37 * 0.15 = 2 million m3
+// Oil in a day: 86754 * 1000 * 0.15 = 13,013,100 cubic meters = 5.5 * the Great Pyramid of Giza = 150 times Albert Hall
+// Source: http://www.bluebulbprojects.com/MeasureOfThings/results.php?comp=volume&unit=cm&amt=13013100
+// Oil in a min: 86754 * 1000 * 0.15 / (24 * 60) = 9000 = 1 tenth of Albert Hall
+// Oil in a second: 86754 * 1000 * 0.15 / (24 * 60 * 60) = 150
 
 </script>
 </body>
