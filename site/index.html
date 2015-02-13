@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" href="guardian-fonts.css" rel="stylesheet">
 
-<title>Fossil fuel ticker</title>
+<title>Guardian fossil fuel interactive</title>
 
 <style>
 
@@ -30,6 +30,8 @@
 
 	a:link, a:visited { text-decoration: none; color: #eee; border-bottom: 0.0625rem solid #dcdcdc; transition: border-color 0.15s ease-out; }
 	a:hover, a:active { color: white; border-bottom: 0.0625rem solid #6e99b2; }
+
+	.shares a  { border-bottom: none; }
 
 	#wrapper { width: 100%; height: 100%; position: absolute; font-size: 24px; left: 0; top: 0; overflow: scroll; }
 	.section { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #333; background-size: cover; background-position: 50% 50%; transition: top 0.7s; overflow: hidden; }
@@ -107,11 +109,30 @@
 		.section-inner { padding: 0 40px 0 20px; }
 		.arrow { left: auto; right: 10px; margin-left: 0; font-size: 2em; }
 	}
+
 </style>
 
 </head>
 
 <body>
+
+<script>
+	window.fbAsyncInit = function() {
+		FB.init({
+			appId: '781881648554717',
+			xfbml: true,
+			version: 'v2.2'
+		});
+	};
+
+	(function(d, s, id){
+		 var js, fjs = d.getElementsByTagName(s)[0];
+		 if (d.getElementById(id)) {return;}
+		 js = d.createElement(s); js.id = id;
+		 js.src = "//connect.facebook.net/en_US/sdk.js";
+		 fjs.parentNode.insertBefore(js, fjs);
+	 }(document, 'script', 'facebook-jssdk'));
+</script>
 
 <div id="sources">
 	<div id="sources-inner">
@@ -126,7 +147,7 @@
 		<div class="overlay"></div>
 		<div class="section-inner">
 			<p>&ldquo;At current rates of fossil fuel use, we'll blow the budget for stopping global warming at 2C when I&nbsp;am&nbsp;<span class="age-at-deadline"></span>&rdquo;</p>
-			<div class="shares"><i class="fa fa-facebook"></i> <i class="fa fa-twitter"></i></div>
+			<div class="shares"><a class="fb-link"><i class="fa fa-facebook"></i></a> <a class="tw-link"><i class="fa fa-twitter"></i></a></div>
 		</div>
 	</div>
 
@@ -145,7 +166,7 @@
 					</div>
 				</div>
 				<div class="comparison">– about the time when you turn <span class="age-at-deadline"></span></div>
-				<div class="shares"><i class="fa fa-facebook"></i> <i class="fa fa-twitter"></i></div>
+				<div class="shares"><a class="fb-link"><i class="fa fa-facebook"></i></a> <a class="tw-link"><i class="fa fa-twitter"></i></a></div>
 			</div>
 		</div>
 	</div>
@@ -157,17 +178,17 @@
 			<div class="stat oil">
 				<div class="ticker"><span class="value actual"></span> <span class="label">barrels of oil<span></div>
 				<div class="comparison">– enough to fill <span class="value"></span></div>
-				<div class="shares"><i class="fa fa-facebook"></i> <i class="fa fa-twitter"></i></div>
+				<div class="shares"><a class="fb-link"><i class="fa fa-facebook"></i></a> <a class="tw-link"><i class="fa fa-twitter"></i></a></div>
 			</div>
 			<div class="stat coal">
 				<div class="ticker"><span class="value actual"></span> <span class="label">tonnes of coal<span></div>
 				<div class="comparison">– the weight of <span class="value"></span></div>
-				<div class="shares"><i class="fa fa-facebook"></i> <i class="fa fa-twitter"></i></div>
+				<div class="shares"><a class="fb-link"><i class="fa fa-facebook"></i></a> <a class="tw-link"><i class="fa fa-twitter"></i></a></div>
 			</div>
 			<div class="stat gas">
 				<div class="ticker"><span class="value actual"></span> <span class="label"><span class="hide-narrow">cubic meters</span><span class="hide-wide">m3</span> of gas<span></div>
 				<div class="comparison">– enough to fill <span class="value"></span></div>
-				<div class="shares"><i class="fa fa-facebook"></i> <i class="fa fa-twitter"></i></div>
+				<div class="shares"><a class="fb-link"><i class="fa fa-facebook"></i></a> <a class="tw-link"><i class="fa fa-twitter"></i></a></div>
 			</div>
 		</div>
 	</div>
@@ -191,17 +212,17 @@
 			<div class="stat oil">
 				<div class="ticker"><span class="value actual"></span> <span class="label">barrels of oil<span></div>
 				<div class="comparison">– enough to fill <span class="value"></span></div>
-				<div class="shares"><i class="fa fa-facebook"></i> <i class="fa fa-twitter"></i></div>
+				<div class="shares"><a class="fb-link"><i class="fa fa-facebook"></i></a> <a class="tw-link"><i class="fa fa-twitter"></i></a></div>
 			</div>
 			<div class="stat coal">
 				<div class="ticker"><span class="value actual"></span> <span class="label">tonnes of coal<span></div>
 				<div class="comparison">– the weight of <span class="value"></span></div>
-				<div class="shares"><i class="fa fa-facebook"></i> <i class="fa fa-twitter"></i></div>
+				<div class="shares"><a class="fb-link"><i class="fa fa-facebook"></i></a> <a class="tw-link"><i class="fa fa-twitter"></i></a></div>
 			</div>
 			<div class="stat gas">
 				<div class="ticker"><span class="value actual"></span> <span class="hide-narrow">cubic meters</span><span class="hide-wide">m3</span></div>
 				<div class="comparison">– enough to fill <span class="value"></span></div>
-				<div class="shares"><i class="fa fa-facebook"></i> <i class="fa fa-twitter"></i></div>
+				<div class="shares"><a class="fb-link"><i class="fa fa-facebook"></i></a> <a class="tw-link"><i class="fa fa-twitter"></i></a></div>
 			</div>
 		</div>
 	</div>
@@ -214,17 +235,17 @@
 				<div class="stat oil">
 					<div class="ticker"><span class="value actual"></span> <span class="label">barrels of oil<span></div>
 					<div class="comparison">– enough to fill <span class="value"></span></div>
-					<div class="shares"><i class="fa fa-facebook"></i> <i class="fa fa-twitter"></i></div>
+					<div class="shares"><a class="fb-link"><i class="fa fa-facebook"></i></a> <a class="tw-link"><i class="fa fa-twitter"></i></a></div>
 				</div>
 				<div class="stat coal">
 					<div class="ticker"><span class="value actual"></span> <span class="label">tonnes of coal<span></div>
 					<div class="comparison">– the weight of <span class="value"></span></div>
-					<div class="shares"><i class="fa fa-facebook"></i> <i class="fa fa-twitter"></i></div>
+					<div class="shares"><a class="fb-link"><i class="fa fa-facebook"></i></a> <a class="tw-link"><i class="fa fa-twitter"></i></a></div>
 				</div>
 				<div class="stat gas">
 					<div class="ticker"><span class="value actual"></span> <span class="hide-narrow">cubic meters</span><span class="hide-wide">m3</span></div>
 					<div class="comparison">– enough to fill <span class="value"></span></div>
-					<div class="shares"><i class="fa fa-facebook"></i> <i class="fa fa-twitter"></i></div>
+					<div class="shares"><a class="fb-link"><i class="fa fa-facebook"></i></a> <a class="tw-link"><i class="fa fa-twitter"></i></a></div>
 				</div>
 			</div>
 		</div>
@@ -254,7 +275,11 @@
 
 // Constants
 var DATA,
-    TIMER_INTERVAL = 75;
+    TIMER_INTERVAL = 75,
+    FB_HEAD = "https://www.facebook.com/dialog/feed?app_id=781881648554717&display=popup&caption=",
+    FB_TAIL = "&link=http://interactive.guim.co.uk/embed/kiln/fuelticker/&description=See%20how%20much%20fossil%20fuel%20has%20been%20produced%20in%20your%20lifetime%20with%20this%20Guardian%20interactive&redirect_uri=http://interactive.guim.co.uk/embed/kiln/fuelticker/",
+    TW_HEAD = "https://twitter.com/intent/tweet?text=",
+    TW_TAIL = "http%3A%2F%2Fbit.ly%2FLINK%20via%20%40TheGuardian%20%40k_i_l_n"
 
 // Shortcuts
 var $ = d3.select,
@@ -268,7 +293,10 @@ var $ = d3.select,
 var current_section = 0,
     age = 55,
     sources_showing = false,
-    virgin_slider = true;
+    virgin_slider = true,
+    slider_just_moved = false,
+    initial_social_bubttons_set = false,
+    year_social_buttons_set = false
 
 // Timings
 var date = new Date(),
@@ -286,6 +314,9 @@ var last_year_of_fuel_data = 2013,
     oil_per_year_barrels,
     coal_per_year_tonnes,
     gas_per_year_m3,
+    oil_barrels_per_second,
+    coal_tonnes_per_second,
+    gas_m3_per_second,
     annual_fossil_fuel_growth = 1.02 // NEAA;
 
 // Conversion factors
@@ -344,6 +375,13 @@ function updateValues(all) {
 		$(".section-page .coal .comparison .value").text(commify(coal_since_load / blue_whale_weight_tonnes) + " blue whales");
 		$(".section-page .gas .ticker .value").text(commify(gas_since_load));
 		$(".section-page .gas .comparison .value").text("Sydney Opera House " + commify(gas_since_load / sydney_opera_house_m3) + " times");
+
+		if (!initial_social_bubttons_set) {
+			$$(".section-page .oil a").attr("data-social-text", "Fossil fuel companies extract enough oil to fill an Olympic swimming pool every " + commify(oil_barrels_in_swimming_pool/oil_barrels_per_second) + " seconds");
+			$$(".section-page .coal a").attr("data-social-text", "Fossil fuel companies extract the weight of a blue whale in coal every " + commify_decimal(blue_whale_weight_tonnes/coal_tonnes_per_second) + " seconds");
+			$$(".section-page .gas a").attr("data-social-text", "Fossil fuel companies extract enough gas to fill the Sydney Opera House " + commify_decimal(gas_m3_per_second/sydney_opera_house_m3) + " times a second");
+			initial_social_bubttons_set = true;
+		}
 	}
 
 	if (current_section == 2 || all == true) {
@@ -358,16 +396,24 @@ function updateValues(all) {
 		$(".section-month .coal .comparison .value").text(commify_decimal(coal_since_2015 / eiffel_tower_tonnes) + " Eiffel Towers");
 		$(".section-month .gas .ticker .value").text(commify(gas_since_2015));
 		$(".section-month .gas .comparison .value").text(commify_decimal(gas_since_2015 / albert_hall_m3 / 1e6) + " million Royal Albert Halls");
+
+		if (!year_social_buttons_set) {
+			// If this is the first tick of the ticker, set the year-specific social-media text
+			$$(".section-month .oil a").attr("data-social-text", "So far this year, companies have extracted enough oil to fill the Empire State Building " + commify_decimal(oil_since_2015 / empire_state_m3) + " times");
+			$$(".section-month .coal a").attr("data-social-text", "So far this year, companies have extracted coal weighing as much as " + commify_decimal(coal_since_2015 / eiffel_tower_tonnes) + " Eiffel Towers");
+			$$(".section-month .gas a").attr("data-social-text", "So far this year, companies have extracted enough natural gas to fill" + commify_decimal(gas_since_2015 / albert_hall_m3 / 1e6) + " million Royal Albert Halls");
+			year_social_buttons_set = true;
+		}
 	}
 
 	if (current_section == 4 || all) {
 		var oil_since_last_year_of_data = oil_per_year_barrels * years_since_end_of_last_data_year * adjustment_scaler,
-		    coal_since_last_year_of_data = coal_per_year_tonnes * years_since_end_of_last_data_year * adjustment_scaler;
+		    coal_since_last_year_of_data = coal_per_year_tonnes * years_since_end_of_last_data_year * adjustment_scaler,
 		    gas_since_last_year_of_data = gas_per_year_m3 * years_since_end_of_last_data_year * adjustment_scaler;
 
-		var oil_lifetime = getLifetime(oil_data, oil_since_last_year_of_data),
-		    coal_lifetime = getLifetime(coal_data, coal_since_last_year_of_data),
-		    gas_lifetime = getLifetime(gas_data, gas_since_last_year_of_data);
+		oil_lifetime = getLifetime(oil_data, oil_since_last_year_of_data),
+		coal_lifetime = getLifetime(coal_data, coal_since_last_year_of_data),
+		gas_lifetime = getLifetime(gas_data, gas_since_last_year_of_data);
 
 		$(".section-lifetime .oil .ticker .value").text(commify(oil_lifetime));
 		$(".section-lifetime .oil .comparison .value").text("the Dead Sea " + commify_decimal(oil_lifetime/dead_sea_m3) + " times");
@@ -375,6 +421,14 @@ function updateValues(all) {
 		$(".section-lifetime .coal .comparison .value").text(commify_decimal(coal_lifetime/golden_gate_tonnes) + " Golden Gate Bridges");
 		$(".section-lifetime .gas .ticker .value").text(commify(gas_lifetime));
 		$(".section-lifetime .gas .comparison .value").text("the Grand Canyon " + commify_decimal(gas_lifetime / grand_canyon_m3) + " times");
+
+		if (slider_just_moved) {
+			// If this is the first tick of the ticker since the slider was updated, update the age-specific social media text
+			$$(".section-lifetime .oil a").attr("data-social-text", "In my lifetime, companies have extracted enough oil to fill the Dead Sea " + commify_decimal(oil_lifetime/dead_sea_m3) + " times");
+			$$(".section-lifetime .coal a").attr("data-social-text", "In my lifetime, companies have extracted coal weighing as much as " + commify_decimal(coal_lifetime/golden_gate_tonnes) + " Golden Gate Bridges");
+			$$(".section-lifetime .gas a").attr("data-social-text", "In my lifetime, companies have extracted enough natural gas to fill the Grand Canyon " + commify_decimal(gas_lifetime / grand_canyon_m3) + " times");
+			slider_just_moved = false;
+		}
 	}
 
 	if (current_section == 5 || all) {
@@ -545,14 +599,16 @@ function initControls() {
 			.on("click", function() { if (sources_showing) hideSources(); })
 			.on("touchstart", function() { if (sources_showing) hideSources(); });
 	$$(".shares, .arrow").on("mousedown", function() { d3.event.preventDefault(); });
+	$$(".fb-link").on("click", function() {
+		var text = this.getAttribute("data-social-text");
+		this.setAttribute("href", FB_HEAD + encodeURI(text || "Guardian Fossil Fuel Interactive") + " " + FB_TAIL);
+	});
+	$$(".tw-link").on("click", function() {
+		var text = this.getAttribute("data-social-text");
+		this.setAttribute("href", TW_HEAD + encodeURI(text || "Guardian Fossil Fuel Interactive") + " " + TW_TAIL);
+	});
 }
 
-function initCustomSocialButtons() {
-
-}
-
-function initFixedSocialButtons() {
-}
 
 // http://www.javascriptkit.com/javatutors/touchevents2.shtml
 function detectSwipe(el, callback){
@@ -626,7 +682,7 @@ function createSlider() {
 			$("#age-label").text(age + " years old")
 			$$(".arrow").classed("disabled", false);
 			virgin_slider = false;
-			initCustomSocialButtons(age);
+			slider_just_moved = true;
 		},
 		snap: true,
 		start: 50,
@@ -642,8 +698,11 @@ function setFuelValues() {
 	coal_data = DATA.filter(function(d) { return d.name == "coal" })[0];
 	gas_data = DATA.filter(function(d) { return d.name == "gas" })[0];
 	oil_per_year_barrels = oil_data["" + last_year_of_fuel_data] * oil_data.multiplier;
-	gas_per_year_m3 = gas_data["" + last_year_of_fuel_data] * gas_data.multiplier;
 	coal_per_year_tonnes = coal_data["" + last_year_of_fuel_data] * coal_data.multiplier;
+	gas_per_year_m3 = gas_data["" + last_year_of_fuel_data] * gas_data.multiplier;
+	oil_barrels_per_second = oil_per_year_barrels / secs_in_a_year;
+	coal_tonnes_per_second = coal_per_year_tonnes / secs_in_a_year;
+	gas_m3_per_second = gas_per_year_m3 / secs_in_a_year;
 }
 
 function init() {
@@ -653,7 +712,6 @@ function init() {
 		window.onresize = updateLayout;
 		createSlider()
 		initControls();
-		initFixedSocialButtons();
 		updateValues(true); // Update all values on init to ensure numbers are correct length before updateLayout runs
 		updateLayout();
 		startTicker();
