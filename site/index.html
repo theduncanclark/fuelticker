@@ -143,15 +143,15 @@
 </div>
 <div id="wrapper">
 
-	<div id="section-6" class="section">
+	<div id="section-6" class="section section-final-share">
 		<div class="overlay"></div>
 		<div class="section-inner">
-			<p>&ldquo;At current rates of fossil fuel use, we'll blow the budget for stopping global warming at 2C when I&nbsp;am&nbsp;<span class="age-at-deadline"></span>&rdquo;</p>
+			<p>&ldquo;At current rates of fossil fuel use, we'll blow the budget for stopping global warming at 2&deg;C when I&nbsp;am&nbsp;<span class="age-at-deadline"></span>&rdquo;</p>
 			<div class="shares"><a class="fb-link"><i class="fa fa-facebook"></i></a> <a class="tw-link"><i class="fa fa-twitter"></i></a></div>
 		</div>
 	</div>
 
-	<div id="section-5" class="section green">
+	<div id="section-5" class="section green section-countdown">
 		<div class="overlay"></div>
 		<div class="section-inner">
 			<p>On current trends, we'll blow the global carbon budget and lock it more than 2C of global&nbsp;warming&nbsp;in:</p>
@@ -279,7 +279,7 @@ var DATA,
     FB_HEAD = "https://www.facebook.com/dialog/feed?app_id=781881648554717&display=popup&caption=",
     FB_TAIL = "&link=http://interactive.guim.co.uk/embed/kiln/fuelticker/&description=See%20how%20much%20fossil%20fuel%20has%20been%20produced%20in%20your%20lifetime%20with%20this%20Guardian%20interactive&redirect_uri=http://interactive.guim.co.uk/embed/kiln/fuelticker/",
     TW_HEAD = "https://twitter.com/intent/tweet?text=",
-    TW_TAIL = "http%3A%2F%2Fbit.ly%2FLINK%20via%20%40TheGuardian%20%40k_i_l_n"
+    TW_TAIL = "http%3A%2F%2Fbit.ly%2FLINK%20via%20%40TheGuardian"
 
 // Shortcuts
 var $ = d3.select,
@@ -294,9 +294,10 @@ var current_section = 0,
     age = 55,
     sources_showing = false,
     virgin_slider = true,
-    slider_just_moved = false,
     initial_social_bubttons_set = false,
-    year_social_buttons_set = false
+    year_social_buttons_set = false,
+    lifetime_share_text_needs_updating = false,
+    countdown_share_text_needs_updating = false;
 
 // Timings
 var date = new Date(),
@@ -401,7 +402,7 @@ function updateValues(all) {
 			// If this is the first tick of the ticker, set the year-specific social-media text
 			$$(".section-month .oil a").attr("data-social-text", "So far this year, companies have extracted enough oil to fill the Empire State Building " + commify_decimal(oil_since_2015 / empire_state_m3) + " times");
 			$$(".section-month .coal a").attr("data-social-text", "So far this year, companies have extracted coal weighing as much as " + commify_decimal(coal_since_2015 / eiffel_tower_tonnes) + " Eiffel Towers");
-			$$(".section-month .gas a").attr("data-social-text", "So far this year, companies have extracted enough natural gas to fill" + commify_decimal(gas_since_2015 / albert_hall_m3 / 1e6) + " million Royal Albert Halls");
+			$$(".section-month .gas a").attr("data-social-text", "So far this year, companies have extracted enough natural gas to fill " + commify_decimal(gas_since_2015 / albert_hall_m3 / 1e6) + " million Royal Albert Halls");
 			year_social_buttons_set = true;
 		}
 	}
@@ -422,12 +423,12 @@ function updateValues(all) {
 		$(".section-lifetime .gas .ticker .value").text(commify(gas_lifetime));
 		$(".section-lifetime .gas .comparison .value").text("the Grand Canyon " + commify_decimal(gas_lifetime / grand_canyon_m3) + " times");
 
-		if (slider_just_moved) {
+		if (lifetime_share_text_needs_updating) {
 			// If this is the first tick of the ticker since the slider was updated, update the age-specific social media text
 			$$(".section-lifetime .oil a").attr("data-social-text", "In my lifetime, companies have extracted enough oil to fill the Dead Sea " + commify_decimal(oil_lifetime/dead_sea_m3) + " times");
 			$$(".section-lifetime .coal a").attr("data-social-text", "In my lifetime, companies have extracted coal weighing as much as " + commify_decimal(coal_lifetime/golden_gate_tonnes) + " Golden Gate Bridges");
 			$$(".section-lifetime .gas a").attr("data-social-text", "In my lifetime, companies have extracted enough natural gas to fill the Grand Canyon " + commify_decimal(gas_lifetime / grand_canyon_m3) + " times");
-			slider_just_moved = false;
+			lifetime_share_text_needs_updating = false;
 		}
 	}
 
@@ -446,6 +447,12 @@ function updateValues(all) {
 		$("#value-countdown-mins").text(mins);
 		$("#value-countdown-secs").text(secs);
 		$$(".age-at-deadline").text(Math.round(age + years));
+
+		if (countdown_share_text_needs_updating) {
+			$$(".section-countdown a, .section-final-share a")
+				.attr("data-social-text", "If fossil fuel use keeps growing, we'll blow the 2°C budget for solving global warming when I'm " + Math.round(age + years));
+			countdown_share_text_needs_updating = false;
+		}
 	}
 
 	// $("#month-co2").text(commify(CO2_gt_fuel_cement_2013 * (1 - cement_share_of_fuel_cement_2013) * 1e9/365 * days_on_page * adjustment_scaler));
@@ -682,7 +689,8 @@ function createSlider() {
 			$("#age-label").text(age + " years old")
 			$$(".arrow").classed("disabled", false);
 			virgin_slider = false;
-			slider_just_moved = true;
+			countdown_share_text_needs_updating = true;
+			lifetime_share_text_needs_updating = true;
 		},
 		snap: true,
 		start: 50,
