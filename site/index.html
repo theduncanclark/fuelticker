@@ -71,7 +71,8 @@
 	#section-5 .comparison { font-size: 1em; margin: 1em 0; }
 	#sources { position: fixed; top: 0; left: 0; font-size: 0.75em; line-height: 1.4em; padding: 15px; text-align: left; width: 100%; max-width: none; }
 	#sources-inner { width: 100%; max-width: 1000px; margin: auto; }
-	#sources-inner * { max-width: none; font-family: 'Sans'; font-weight: 200; }
+	#sources-inner h2,
+	#sources-inner p { max-width: none; font-family: 'Sans'; font-weight: 200; }
 	.close-sources { position: fixed; right: 20px; top: 20px; cursor: pointer; font-size: 1.5em; }
 	.close-sources:hover { opacity: 0.5; }
 
@@ -603,9 +604,10 @@ function initControls() {
 		.on("click", toggleSources)
 		.on("touchstart", toggleSources);;
 	$(".close-sources")
-			.on("click", function() { if (sources_showing) hideSources(); })
-			.on("touchstart", function() { if (sources_showing) hideSources(); });
-	$$(".shares, .arrow").on("mousedown", function() { d3.event.preventDefault(); });
+		.on("click", function() { if (sources_showing) hideSources(); })
+		.on("touchstart", function() { if (sources_showing) hideSources(); });
+	$$(".shares, .arrow")
+		.on("mousedown", function() { d3.event.preventDefault(); });
 	$$(".fb-link").on("click", function() {
 		var text = this.getAttribute("data-social-text");
 		this.setAttribute("href", FB_HEAD + encodeURI(text || "Guardian Fossil Fuel Interactive") + " " + FB_TAIL);
