@@ -606,8 +606,11 @@ function initControls() {
 	$(".close-sources")
 		.on("click", function() { if (sources_showing) hideSources(); })
 		.on("touchstart", function() { if (sources_showing) hideSources(); });
-	$$(".shares, .arrow")
-		.on("mousedown", function() { d3.event.preventDefault(); });
+	$$(".shares, .arrow").on("mousedown", function() { d3.event.preventDefault(); });
+	$$(".shares a")
+		.on("touchstart", function() { 
+			window.location.href = this.getAttribute("href");
+		});
 	$$(".fb-link").on("click", function() {
 		var text = this.getAttribute("data-social-text");
 		this.setAttribute("href", FB_HEAD + encodeURI(text || "Guardian Fossil Fuel Interactive") + " " + FB_TAIL);
