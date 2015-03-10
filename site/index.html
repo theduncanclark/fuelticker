@@ -346,6 +346,18 @@ var emissions_2012_gt = (9.67 + 0.89) * 44/12, // http://www.globalcarbonproject
 // Capex
 var capex_2013_billion_usd = 1000; // http://www.iea.org/media/140603_WEOinvestment_Factsheets.pdf
 
+// Collect query string parameters
+(function(query, re, match) {
+	window.params = {};
+	while (match = re.exec(query)) {
+		window.params[decodeURIComponent(match[1])] = decodeURIComponent(match[2]);
+	}
+})(window.location.search.substring(1).replace(/\+/g, "%20"), /([^&=]+)=?([^&]*)/g);
+var mode, time, fuel;
+if (params.mode) mode = params.mode;
+if (params.since) since = params.time;
+if (params.fuel) fuel = params.fuel;
+
 function getSecsLeftFrom2014() {
 	var budget_left = budget_from_jan_2014_gt,
 	    emissions_per_year = emissions_2013_gt * annual_emissions_growth,
