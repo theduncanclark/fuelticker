@@ -500,6 +500,15 @@ function changePanel() {
 	$$(".down").classed("disabled", function() {
 		return (virgin_slider && current_section == 3) || current_section >= num_sections - 1;
 	});
+	var r = 100 * Math.random(),
+	    fuel_to_show;
+	if (r < 33.33) fuel_to_show = "oil";
+	else if (r < 66.66) fuel_to_show = "coal";
+	else fuel_to_show = "gas"
+	$$(".coal, .oil, .gas").style("display", function() {
+		return $(this).classed(fuel_to_show) ? "block" : "none";
+	});
+	updateLayout();
 }
 
 var slider_position = 0;
