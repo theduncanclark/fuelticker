@@ -18,7 +18,7 @@
 <style>
 
 	* { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
-	h1, h2, h3, h4, p { margin: 0.66em 0 0; font-weight: 200; max-width: 680px; }
+	h1, h2, h3, h4, p { margin: 0.66em 0 0; font-weight: 200; max-width: 600px; }
 
 	body { margin: 0; padding: 0; font-family: Egyptian; font-weight: 200; color: white; text-align: center; background: #222; }
 	h1 { font-size: 1.8em; font-weight: bold; }
@@ -30,38 +30,33 @@
 
 	a:link, a:visited { text-decoration: none; color: #eee; border-bottom: 0.0625rem solid #dcdcdc; transition: border-color 0.15s ease-out; }
 	a:hover, a:active { color: white; border-bottom: 0.0625rem solid #6e99b2; }
-
 	.shares a  { border-bottom: none; }
 
 	#wrapper { width: 100%; height: 100%; position: absolute; font-size: 24px; left: 0; top: 0; overflow: scroll; }
+
 	.section { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #333; background-size: cover; background-position: 50% 50%; transition: top 0.7s; overflow: hidden; }
+
 	.section.dismissed { top: -100%; }
-
-	.section.results { display: block; }
-	
-	.overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url(media/grad.png); background-size: 100% 100%; background-repeat: repeat-y; }
-	.section-inner { display: none; position: absolute; top: 50%; padding: 0 0 0 8%; width: 100%; text-align: left; }
+	.section .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url(media/grad.png); background-size: 100% 100%; background-repeat: repeat-y; }
+	.section-inner { position: absolute; top: 50%; padding: 0 0 0 8%; width: 100%; text-align: left; }
 	.section-inner p:first-child { margin-top: 0; }
-	.section-inner.extraction { display: block; }
-
 	.ticker { font-family: Sans; color: #aaa; margin: 0.75em 0 0; font-size: 1.25em; }
 	.ticker .value { font-weight: bold; color: white; margin: 0 5px; }
 	.ticker .label { display: inline-block; }
+	.stat { display: none; }
 	.comparison { font-size: 0.9em; font-family: Egyptian; }
 	.shares { font-size: 0.5em; text-transform: uppercase; font-family: Sans; font-weight: bold; }
 	.shares i { text-align: center; margin: 10px 2px 0; color: white; cursor: pointer; font-size: 1.8em; background: #aaa; border-radius: 50%; width: 1.5em; height: 1.5em; padding-top: 0.3em; }
 	.shares i:hover { background: black; }
 
-	.lifetime { display: none; }
-	
-/*	.section { background-image: url("media/42-65669664.jpg"); }
-	.section { background-image: url("media/42-60628060.jpg"); }
-	.section { background-image: url("media/42-65400915.jpg"); }
-	.section { background-image: url("media/BT001071.jpg"); }
-	.section { background-image: url("media/AAMK001169.jpg"); }
-	.section { background-image: url("media/42-29297064.jpg"); }
-	.section { background-image: url("media/42-18376685.jpg"); }
-*/
+	.oil.bg { background-image: url("media/42-65669664.jpg"); }
+	.coal.bg { background-image: url("media/42-60628060.jpg"); }
+	.gas.bg { background-image: url("media/42-65400915.jpg"); }
+	#section-3 { background-image: url("media/BT001071.jpg"); }
+	#section-4 { background-image: url("media/AAMK001169.jpg"); }
+	#section-5 { background-image: url("media/42-29297064.jpg"); }
+	#section-6 { background-image: url("media/42-18376685.jpg"); }
+
 	.arrow { position: absolute; left: 50%; margin-left: -0.48em; font-size: 3em; cursor: pointer; }
 	.arrow.disabled { display: none; }
 	.up { top: 15px; }
@@ -87,28 +82,21 @@
 	#age-slider .slider-axis .domain { stroke: none; }
 	#age-slider .tick line { stroke: white; }
 
-	#ground-link { position: absolute; bottom: 20px; right: 20px; font-size: 14px; }
-	
 	@media only screen and (max-width: 800px) {
 		h1, h2, h3, h4, p { max-width: 450px; }
 		#wrapper { font-size: 20px; }
 	}
-	@media only screen and (max-height: 210px) {
-		#wrapper { font-size: 22px; }
-		.ticker { margin-top: 12px; }
-	}
-	
 	@media only screen and (max-width: 600px) {
 		.shares { font-size: 0.7em; }
 		#wrapper { font-size: 17px; }
-		#section-0 { background-image: url("media/mobile/42-65669664.jpg"); }
-		#section-1 { background-image: url("media/mobile/42-60628060.jpg"); }
-		#section-2 { background-image: url("media/mobile/42-65400915.jpg"); }
-		#section-3 { background-image: url("media/mobile/BT001071.jpg"); }
-		#section-4 { background-image: url("media/mobile/AAMK001169.jpg"); }
-		#section-5 { background-image: url("media/mobile/42-29297064.jpg"); }
-		#section-6 { background-image: url("media/mobile/42-18376685.jpg"); }
-	}
+		.bg.oil { background-image: url("media/mobile/42-65669664.jpg"); }
+		.bg.coal { background-image: url("media/mobile/42-60628060.jpg"); }
+		.bg.gas { background-image: url("media/mobile/42-65400915.jpg"); }
+/*		.bg.oil { background-image: url("media/mobile/BT001071.jpg"); }
+		.bg.oil { background-image: url("media/mobile/AAMK001169.jpg"); }
+		.bg.oil { background-image: url("media/mobile/42-29297064.jpg"); }
+		.bg.oil { background-image: url("media/mobile/42-18376685.jpg"); }
+*/	}
 	@media only screen and (max-width: 500px) {
 		.hide-narrow { display: none; }
 		.hide-wide { display: inline-block; }
@@ -150,54 +138,47 @@
 	</div>
 </div>
 <div id="wrapper">
-	
-	<div class="section results">
-		<div class="overlay">
-			
-			<div class="section-inner extraction">
-				<!-- <div class="nav extraction"><span class="nav-item oil"></span> • <span class="nav-item gas"></span> • <span class="nav-item coal"></span></div> -->
-				<p>Since <span class="timeframe"></span> the world has extracted and burned:</p>
-				<div class="stat oil">
-					<div class="ticker"><span class="value actual"></span> <span class="label">barrels of oil<span></div>
-					<div class="comparison">– enough to fill <span class="value"></span></div>
-					<div class="shares"><a class="fb-link"><i class="fa fa-facebook"></i></a> <a class="tw-link"><i class="fa fa-twitter"></i></a></div>
-				</div>
-				<div class="stat coal">
-					<div class="ticker"><span class="value actual"></span> <span class="label">tonnes of coal<span></div>
-					<div class="comparison">– the weight of <span class="value"></span></div>
-					<div class="shares"><a class="fb-link"><i class="fa fa-facebook"></i></a> <a class="tw-link"><i class="fa fa-twitter"></i></a></div>
-				</div>
-				<div class="stat gas">
-					<div class="ticker"><span class="value actual"></span> <span class="label"><span class="hide-narrow">cubic meters</span><span class="hide-wide">m³</span> of gas<span></div>
-					<div class="comparison">– enough to fill <span class="value"></span></div>
-					<div class="shares"><a class="fb-link"><i class="fa fa-facebook"></i></a> <a class="tw-link"><i class="fa fa-twitter"></i></a></div>
-				</div>
+
+	<div id="extraction-results" class="section extraction">
+		<div class="bg oil"></div>
+		<div class="bg coal"></div>
+		<div class="bg gas"></div>
+		<div class="overlay"></div>
+		<div class="section-inner">
+			<p>Since <span id="timeframe"></span> the world has extracted and burned:</p>
+			<div class="nav extraction">
+				<span class="nav-item oil"></span>
+				<span class="nav-item gas"></span>
+				<span class="nav-item coal"></span>
 			</div>
-			
-			<div class="section-inner countdown">
-				<p>On current trends, we'll blow the global carbon budget and lock in more than 2&deg;C of global&nbsp;warming&nbsp;in:</p>
-				<div class="stat">
-					<div class="ticker">
-						<span class="value" id="value-countdown-years"></span>&nbsp;yrs
-						<span class="value" id="value-countdown-days"></span>&nbsp;days
-						<span class="value" id="value-countdown-hours"></span>&nbsp;hrs
-						<span class="value" id="value-countdown-mins"></span>&nbsp;mins
-						<span class="value" id="value-countdown-secs"></span>&nbsp;s
-					</div>
-				</div>
-				<div class="comparison lifetime">– about the time when you turn <span class="age-at-deadline"></span></div>
+			<div class="stat oil">
+				<div class="ticker"><span class="value actual"></span> <span class="label">barrels of oil<span></div>
+				<div class="comparison">– enough to fill <span class="value"></span></div>
 				<div class="shares"><a class="fb-link"><i class="fa fa-facebook"></i></a> <a class="tw-link"><i class="fa fa-twitter"></i></a></div>
 			</div>
-			
-			<div id="ground-link"><a href="http://www.theguardian.com/environment/series/keep-it-in-the-ground">Keep it in the ground</a></div>
-
+			<div class="stat coal">
+				<div class="ticker"><span class="value actual"></span> <span class="label">tonnes of coal<span></div>
+				<div class="comparison">– the weight of <span class="value"></span></div>
+				<div class="shares"><a class="fb-link"><i class="fa fa-facebook"></i></a> <a class="tw-link"><i class="fa fa-twitter"></i></a></div>
+			</div>
+			<div class="stat gas">
+				<div class="ticker"><span class="value actual"></span> <span class="label"><span class="hide-narrow">cubic meters</span><span class="hide-wide">m³</span> of gas<span></div>
+				<div class="comparison">– enough to fill <span class="value"></span></div>
+				<div class="shares"><a class="fb-link"><i class="fa fa-facebook"></i></a> <a class="tw-link"><i class="fa fa-twitter"></i></a></div>
+			</div>
 		</div>
 	</div>
 
-	<!-- <i class="arrow up fa fa-chevron-up disabled"></i>
+	<i class="arrow up fa fa-chevron-up disabled"></i>
 	<i class="arrow down fa fa-chevron-down"></i>
-	<div class="sources-toggler"><i class="fa fa-info-circle"></i></div> -->
+	<div class="sources-toggler"><i class="fa fa-info-circle"></i></div>
 
+<!--
+	<p>When burned, this fuel will warm the planet by releasing:</p>
+	<div class="stat"><span class="value" id="value-co2"></span> tonnes of CO2</div>
+	<p>Although most of the existing reserves cannot be safely burned, companies spent:</p>
+	<div class="stat"><span class="value" id="value-capex"></span> developing new reserves</div>
+-->
 </div>
 <script>
 
@@ -251,9 +232,6 @@ var last_year_of_fuel_data = 2013,
 // Conversion factors
 var oil_barrel_in_m3 = 0.158987295, // Google convert
     albert_hall_m3 = 90000, // Approx: http://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement#Royal_Albert_Hall
-	// Use Golden Gate instead of Eiffel
-	// Add Superdome instead of Albert Hall
-	// 
     sydney_opera_house_m3 = 26400, // http://www.gids.nl/sydney/opera.html
     olympic_swimming_pool_m3 = 2500,
     oil_barrels_in_swimming_pool = olympic_swimming_pool_m3 / oil_barrel_in_m3,
@@ -276,43 +254,19 @@ var emissions_2012_gt = (9.67 + 0.89) * 44/12, // http://www.globalcarbonproject
 // Capex
 var capex_2013_billion_usd = 1000; // http://www.iea.org/media/140603_WEOinvestment_Factsheets.pdf
 
-// Set default states
-var mode = getRandomMode(),
-	since = getRandomTimeframe(),
-	fuel = getRandomFuel(),
-	link = true;
-
-function getRandomMode() {
-	var r = Math.random();
-	if (r < 0.5) return "extraction";
-	else return "countdown";
-}
-
-function getRandomFuel() {
-	var r = Math.random();
-	if (r < 0.333) return "oil";
-	else if (r < 0.666) return "coal";
-	else return "gas";
-}
-
-function getRandomTimeframe() {
-	var r = Math.random();
-	if (r < 0.333) return "page";
-	else if (r < 0.666) return "year";
-	else return "lifetime";
-}
-
-// Collect and apply query string parameters
+// Collect query string parameters
 (function(query, re, match) {
 	window.params = {};
 	while (match = re.exec(query)) {
 		window.params[decodeURIComponent(match[1])] = decodeURIComponent(match[2]);
 	}
 })(window.location.search.substring(1).replace(/\+/g, "%20"), /([^&=]+)=?([^&]*)/g);
+var mode, time, fuel;
 if (params.mode) mode = params.mode;
-if (params.since) since = params.time;
+if (params.time) time = params.time;
 if (params.fuel) fuel = params.fuel;
-if (params.link) link = params.link;
+
+
 
 function getSecsLeftFrom2014() {
 	var budget_left = budget_from_jan_2014_gt,
@@ -338,18 +292,18 @@ function updateValues(all) {
 	    gas_since_load = gas_per_year_m3 * secs_on_page/secs_in_a_year * adjustment_scaler,
 	    coal_since_load = coal_per_year_tonnes * secs_on_page/secs_in_a_year * adjustment_scaler;
 
-	if (current_section == 0 || all) {
-		$(".extraction .oil .ticker .value").text(commify(oil_since_load));
-		$(".extraction .oil .comparison .value").text(commify_decimal(oil_since_load / oil_barrels_in_swimming_pool) + " Olympic swimming pools");
-		$(".extraction .coal .ticker .value").text(commify(coal_since_load));
-		$(".extraction .coal .comparison .value").text(commify(coal_since_load / blue_whale_weight_tonnes) + " blue whales");
-		$(".extraction .gas .ticker .value").text(commify(gas_since_load));
-		$(".extraction .gas .comparison .value").text("Sydney Opera House " + commify(gas_since_load / sydney_opera_house_m3) + " times");
+	if (current_section == 1 || all) {
+		$(".section-page .oil .ticker .value").text(commify(oil_since_load));
+		$(".section-page .oil .comparison .value").text(commify_decimal(oil_since_load / oil_barrels_in_swimming_pool) + " Olympic swimming pools");
+		$(".section-page .coal .ticker .value").text(commify(coal_since_load));
+		$(".section-page .coal .comparison .value").text(commify(coal_since_load / blue_whale_weight_tonnes) + " blue whales");
+		$(".section-page .gas .ticker .value").text(commify(gas_since_load));
+		$(".section-page .gas .comparison .value").text("Sydney Opera House " + commify(gas_since_load / sydney_opera_house_m3) + " times");
 
 		if (!initial_social_bubttons_set) {
-			$$(".extraction .oil a").attr("data-social-text", "Fossil fuel companies extract enough oil to fill an Olympic swimming pool every " + commify(oil_barrels_in_swimming_pool/oil_barrels_per_second) + " seconds");
-			$$(".extraction .coal a").attr("data-social-text", "Fossil fuel companies extract the weight of a blue whale in coal every " + commify_decimal(blue_whale_weight_tonnes/coal_tonnes_per_second) + " seconds");
-			$$(".extraction .gas a").attr("data-social-text", "Fossil fuel companies extract enough gas to fill the Sydney Opera House " + commify_decimal(gas_m3_per_second/sydney_opera_house_m3) + " times a second");
+			$$(".section-page .oil a").attr("data-social-text", "Fossil fuel companies extract enough oil to fill an Olympic swimming pool every " + commify(oil_barrels_in_swimming_pool/oil_barrels_per_second) + " seconds");
+			$$(".section-page .coal a").attr("data-social-text", "Fossil fuel companies extract the weight of a blue whale in coal every " + commify_decimal(blue_whale_weight_tonnes/coal_tonnes_per_second) + " seconds");
+			$$(".section-page .gas a").attr("data-social-text", "Fossil fuel companies extract enough gas to fill the Sydney Opera House " + commify_decimal(gas_m3_per_second/sydney_opera_house_m3) + " times a second");
 			initial_social_bubttons_set = true;
 		}
 	}
@@ -401,7 +355,7 @@ function updateValues(all) {
 		}
 	}
 
-	if (mode == "countdown") {
+	if (current_section == 5 || all) {
 		var secs_since_Jan_2014 = secs_since_Jan_1970 - (44 * secs_in_a_year),
 		    secs_left = seconds_left_from_jan_2014 - secs_since_Jan_2014,
 		    years = Math.floor(secs_left/secs_in_a_year),
@@ -409,18 +363,19 @@ function updateValues(all) {
 		    hours = Math.floor((secs_left % secs_in_a_day)/3600),
 		    mins = Math.floor((secs_left % 3600)/60),
 		    secs = Math.floor((secs_left % 60));
+
 		$("#value-countdown-years").text(years);
 		$("#value-countdown-days").text(days);
 		$("#value-countdown-hours").text(hours);
 		$("#value-countdown-mins").text(mins);
 		$("#value-countdown-secs").text(secs);
-		// $$(".age-at-deadline").text(Math.round(age + years));
+		$$(".age-at-deadline").text(Math.round(age + years));
 
-		// if (countdown_share_text_needs_updating) {
-		// 	$$(".section-countdown a, .section-final-share a")
-		// 		.attr("data-social-text", "If fossil fuel use keeps growing, we'll blow the 2°C budget for solving global warming when I'm " + Math.round(age + years));
-		// 	countdown_share_text_needs_updating = false;
-		// }
+		if (countdown_share_text_needs_updating) {
+			$$(".section-countdown a, .section-final-share a")
+				.attr("data-social-text", "If fossil fuel use keeps growing, we'll blow the 2°C budget for solving global warming when I'm " + Math.round(age + years));
+			countdown_share_text_needs_updating = false;
+		}
 	}
 
 	// $("#month-co2").text(commify(CO2_gt_fuel_cement_2013 * (1 - cement_share_of_fuel_cement_2013) * 1e9/365 * days_on_page * adjustment_scaler));
@@ -437,29 +392,7 @@ function stopTicker() {
 	updater = null;
 }
 
-function updateTemplate() {
-	$("#ground-link").style("display", function() {
-		console.log("link", link);
-		return link == true ? "block" : "none";
-	});
-	$$(".stat.coal, .stat.oil, .stat.gas").style("display", function() {
-		if (fuel == "all") return "block";
-		return $(this).classed(fuel) ? "block" : "none";
-	});
-	$$(".results .section-inner").style("display", function() {
-		return $(this).classed(mode) ? "block" : "none";
-	});
-	$(".section.results").style("background-image", function() {
-		if (mode == "countdown") return "url(media/42-29297064.jpg)";
-		if (fuel == "oil" || fuel == "all") return "url(media/42-65669664.jpg)";
-		if (fuel == "coal") return "url(media/42-60628060.jpg)";
-		if (fuel == "gas") return "url(media/42-65400915.jpg)";
-	});
-	$(".section.results .timeframe").text(function() {
-		if (since == "page") return "you loaded this page";
-		if (since == "year") return "the start of this year";
-		if (since == "lifetime") return "you were born";
-	});
+function updateLayout() {
 	$$(".section-inner").style("margin-top", function() {
 		return -this.getBoundingClientRect().height/2 + "px";
 	});
@@ -477,6 +410,15 @@ function changePanel() {
 	$$(".down").classed("disabled", function() {
 		return (virgin_slider && current_section == 3) || current_section >= num_sections - 1;
 	});
+	var r = 100 * Math.random(),
+	    fuel_to_show;
+	if (r < 33.33) fuel_to_show = "oil";
+	else if (r < 66.66) fuel_to_show = "coal";
+	else fuel_to_show = "gas"
+	$$(".coal, .oil, .gas").style("display", function() {
+		return $(this).classed(fuel_to_show) ? "block" : "none";
+	});
+	updateLayout();
 }
 
 var slider_position = 0;
@@ -711,12 +653,12 @@ function init() {
 	d3.csv("FuelChangeOverTime.csv", function(raw_data) {
 		DATA = raw_data;
 		setFuelValues();
+		window.onresize = updateLayout;
+		createSlider()
+		initControls();
+		updateValues(true); // Update all values on init to ensure numbers are correct length before updateLayout runs
+		updateLayout();
 		startTicker();
-		updateTemplate();
-		// initControls();
-		// updateValues(true); // Update all values on init to ensure numbers are correct length before updateTemplate runs
-		// createSlider();
-		window.onresize = updateTemplate;
 	});
 }
 
