@@ -188,15 +188,15 @@
 				<div class="comparison lifetime">– about the time when you turn <span class="age-at-deadline"></span></div>
 				<div class="shares"><a class="fb-link"><i class="fa fa-facebook"></i></a> <a class="tw-link"><i class="fa fa-twitter"></i></a></div>
 			</div>
-			
-			<div id="ground-link"><a href="http://www.theguardian.com/environment/series/keep-it-in-the-ground">Keep it in the ground</a></div>
 
 		</div>
 	</div>
+	
+	<div id="ground-link"><a href="http://www.theguardian.com/environment/series/keep-it-in-the-ground">Keep it in the ground</a></div>
 
 	<!-- <i class="arrow up fa fa-chevron-up disabled"></i>
-	<i class="arrow down fa fa-chevron-down"></i>
-	<div class="sources-toggler"><i class="fa fa-info-circle"></i></div> -->
+	<i class="arrow down fa fa-chevron-down"></i>-->
+	<div class="sources-toggler"><i class="fa fa-info-circle"></i></div>
 
 </div>
 <script>
@@ -438,10 +438,7 @@ function stopTicker() {
 }
 
 function updateTemplate() {
-	$("#ground-link").style("display", function() {
-		console.log("link", link);
-		return link == true ? "block" : "none";
-	});
+	if (link == true) $("#ground-link").style("display", "block");
 	$$(".stat.coal, .stat.oil, .stat.gas").style("display", function() {
 		if (fuel == "all") return "block";
 		return $(this).classed(fuel) ? "block" : "none";
@@ -588,17 +585,17 @@ function goToTwitter() {
 }
 
 function initControls() {
-	detectSwipe(wrapper, function(swipedir){
-		if (swipedir == "down") goToPreviousPanel();
-		if (swipedir == "up") goToNextPanel();
-	});
-	$(".down")
-		.on("click", goToNextPanel)
-		.on("touchstart",  goToNextPanel);
-	$(".up")
-		.on("click", goToPreviousPanel)
-		.on("touchstart", goToPreviousPanel);
-	$(".arrow").on("mousedown", function() { d3.event.preventDefault(); });
+	// detectSwipe(wrapper, function(swipedir){
+	// 	if (swipedir == "down") goToPreviousPanel();
+	// 	if (swipedir == "up") goToNextPanel();
+	// });
+	// $(".down")
+	// 	.on("click", goToNextPanel)
+	// 	.on("touchstart",  goToNextPanel);
+	// $(".up")
+	// 	.on("click", goToPreviousPanel)
+	// 	.on("touchstart", goToPreviousPanel);
+	// $(".arrow").on("mousedown", function() { d3.event.preventDefault(); });
 	$(".sources-toggler")
 		.on("click", toggleSources)
 		.on("touchstart", toggleSources);;
@@ -713,7 +710,7 @@ function init() {
 		setFuelValues();
 		startTicker();
 		updateTemplate();
-		// initControls();
+		initControls();
 		// updateValues(true); // Update all values on init to ensure numbers are correct length before updateTemplate runs
 		// createSlider();
 		window.onresize = updateTemplate;
