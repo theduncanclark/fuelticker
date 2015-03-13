@@ -86,8 +86,8 @@
 	#age-slider .slider-handle { fill: #eee; stroke: #999; cursor: col-resize; }
 	#age-slider .slider-axis .domain { stroke: none; }
 	#age-slider .tick line { stroke: white; }
-	#slider-submit { display: inline-block; background: #aad801; color: black; font-size: 0.85em; padding: 4px; border-radius: 5px; font-weight: bold; position: relative; bottom: 0.5em; margin-left: 1em; cursor: pointer; display: none; }
-	#slider-submit:hover { background: black; color: white; border: 1px solid rgba(255, 255, 255, 0.7); }
+	#slider-submit { display: inline-block; background: rgba(255,255,255,0.65); color: black; font-size: 1.25em; padding: 0 0 0 0.15em; width: 1.25em; height: 1.25em; border-radius: 50%; position: relative; margin-left: 1em; cursor: pointer; display: none; font-family: Icons; }
+	#slider-submit:hover { opacity: 0.75; }
 
 	#ground-link { position: absolute; bottom: 20px; right: 20px; font-size: 14px; }
 
@@ -187,7 +187,7 @@
 					<span class="value" id="value-countdown-secs"></span>&nbsp;s
 				</div>
 			</div>
-			<div class="comparison lifetime">– about the time when you turn <span class="age-at-deadline"></span></div>
+			<p class="lifetime">– about the time when you turn <span id="age-at-deadline"></span></p>
 			<div class="shares"><a class="fb-link"><i class="fa fa-facebook"></i></a> <a class="tw-link"><i class="fa fa-twitter"></i></a></div>
 		</div>
 
@@ -204,7 +204,7 @@
 				<div id="age-slider-holder"></div>
 				<h3 id="age-label">&nbsp;</h3>
 			</div>
-			<div id="slider-submit">Go</div>
+			<div id="slider-submit">&#xE061</div>
 		</div>
 
 	</div>
@@ -432,13 +432,13 @@ function updateValues(all) {
 		$("#value-countdown-hours").text(hours);
 		$("#value-countdown-mins").text(mins);
 		$("#value-countdown-secs").text(secs);
-		// $$(".age-at-deadline").text(Math.round(age + years));
+		$("#age-at-deadline").text(Math.round(age + years));
 
-		// if (countdown_share_text_needs_updating) {
-		// 	$$(".section-countdown a, .section-final-share a")
-		// 		.attr("data-social-text", "If fossil fuel use keeps growing, we'll blow the 2°C budget for solving global warming when I'm " + Math.round(age + years));
-		// 	countdown_share_text_needs_updating = false;
-		// }
+		if (countdown_share_text_needs_updating) {
+			$$(".section-countdown a")
+				.attr("data-social-text", "If fossil fuel use keeps growing, we'll blow the 2°C budget for solving global warming when I'm " + Math.round(age + years));
+			countdown_share_text_needs_updating = false;
+		}
 	}
 
 	// $("#month-co2").text(commify(CO2_gt_fuel_cement_2013 * (1 - cement_share_of_fuel_cement_2013) * 1e9/365 * days_on_page * adjustment_scaler));
@@ -484,6 +484,9 @@ function initEnterAge() {
 
 function updateTemplate() {
 	if (link == true) $("#ground-link").style("display", "block");
+	if (time == "lifetime") {
+		$(".lifetime").style("display", "block");
+	}
 	$$(".stat.coal, .stat.oil, .stat.gas").style("display", function() {
 		if (fuel == "all") return "block";
 		return $(this).classed(fuel) ? "block" : "none";
