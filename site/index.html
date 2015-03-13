@@ -86,7 +86,7 @@
 	#age-slider .slider-handle { fill: #eee; stroke: #999; cursor: col-resize; }
 	#age-slider .slider-axis .domain { stroke: none; }
 	#age-slider .tick line { stroke: white; }
-	#slider-submit { display: inline-block; background: rgba(255,255,255,0.65); color: black; font-size: 1.25em; padding: 0 0 0 0.15em; width: 1.25em; height: 1.25em; border-radius: 50%; position: relative; margin-left: 1em; cursor: pointer; display: none; font-family: Icons; }
+	#slider-submit { display: inline-block; background: rgba(255,255,255,0.65); color: black; font-size: 1.25em; padding: 0 0 0 0.15em; width: 1.25em; height: 1.25em; border-radius: 50%; position: relative; margin-left: 0.75em; cursor: pointer; display: none; font-family: Icons; bottom: 8px; }
 	#slider-submit:hover { opacity: 0.75; }
 
 	#ground-link { position: absolute; bottom: 20px; right: 20px; font-size: 14px; }
@@ -116,7 +116,8 @@
 		.hide-wide { display: inline-block; }
 		#wrapper { font-size: 16px; text-align: left; }
 		.ticker { font-size: 1.25em; }
-		.sources-toggler { left: auto; top: 50%; right: 10px; margin-top: -0.5em; }
+		.sources-toggler { left: auto; top: auto; left: auto; bottom: 18px; right: 10px; }
+		#ground-link { right: 30px; }
 		.section-inner { padding: 0 40px 0 20px; }
 		.arrow { left: auto; right: 10px; margin-left: 0; font-size: 2em; }
 	}
@@ -200,9 +201,8 @@
 		<div class="section-inner">
 			<p id="lifetime-metric"></p>
 			<div id="slider">
-				<h3>Enter your age</h3>
+				<h3 id="age-label">Enter your age</h3>
 				<div id="age-slider-holder"></div>
-				<h3 id="age-label">&nbsp;</h3>
 			</div>
 			<div id="slider-submit">&#xE061</div>
 		</div>
@@ -268,9 +268,7 @@ var last_year_of_fuel_data = 2013,
 // Conversion factors
 var oil_barrel_in_m3 = 0.158987295, // Google convert
     albert_hall_m3 = 90000, // Approx: http://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement#Royal_Albert_Hall
-	// Use Golden Gate instead of Eiffel
-	// Add Superdome instead of Albert Hall
-	//
+    superdome_m3 = 3500000, // http://structurae.net/structures/louisiana-superdome
     sydney_opera_house_m3 = 26400, // http://www.gids.nl/sydney/opera.html
     olympic_swimming_pool_m3 = 2500,
     oil_barrels_in_swimming_pool = olympic_swimming_pool_m3 / oil_barrel_in_m3,
@@ -278,6 +276,7 @@ var oil_barrel_in_m3 = 0.158987295, // Google convert
     dead_sea_m3 = 114 * 1e9, // http://en.wikipedia.org/wiki/Dead_Sea
     eiffel_tower_tonnes = 10100, // http://www.toureiffel.paris/images/PDF/supports-pedagogiques/EN/en_10_la_tour_en_chiffres.pdf
     golden_gate_tonnes = 380800, // http://goldengatebridge.org/research/factsGGBDesign.php, excluding anchorages and approaches
+    great_pyramid_tonnes = 5900000, // http://en.wikipedia.org/wiki/Great_Pyramid_of_Giza
     empire_state_m3 = 1.04772e6 // http://www.esbnyc.com/sites/default/files/esb_fact_sheet_4_9_14_4.pdf
     grand_canyon_m3 = 4.17 * 1e12; // http://www.nps.gov/grca/parkmgmt/statistics.htm
 
@@ -381,15 +380,15 @@ function updateValues(all) {
 		$(".extraction .oil .ticker .value").text(commify(oil_since_2015));
 		$(".extraction .oil .comparison .value").text("the Empire State Building " + commify_decimal(oil_since_2015 / empire_state_m3) + " times");
 		$(".extraction .coal .ticker .value").text(commify(coal_since_2015));
-		$(".extraction .coal .comparison .value").text(commify_decimal(coal_since_2015 / eiffel_tower_tonnes) + " Eiffel Towers");
+		$(".extraction .coal .comparison .value").text(commify_decimal(coal_since_2015 / golden_gate_tonnes) + " Golden Gate Bridges");
 		$(".extraction .gas .ticker .value").text(commify(gas_since_2015));
-		$(".extraction .gas .comparison .value").text(commify_decimal(gas_since_2015 / albert_hall_m3 / 1e6) + " million Royal Albert Halls");
+		$(".extraction .gas .comparison .value").text(commify_decimal(gas_since_2015 / superdome_m3) + " Superdomes");
 
 		if (!year_social_buttons_set) {
 			// If this is the first tick of the ticker, set the year-specific social-media text
 			$$(".extraction .oil a").attr("data-social-text", "So far this year, companies have extracted enough oil to fill the Empire State Building " + commify_decimal(oil_since_2015 / empire_state_m3) + " times");
-			$$(".extraction .coal a").attr("data-social-text", "So far this year, companies have extracted coal weighing as much as " + commify_decimal(coal_since_2015 / eiffel_tower_tonnes) + " Eiffel Towers");
-			$$(".extraction .gas a").attr("data-social-text", "So far this year, companies have extracted enough natural gas to fill " + commify_decimal(gas_since_2015 / albert_hall_m3 / 1e6) + " million Royal Albert Halls");
+			$$(".extraction .coal a").attr("data-social-text", "So far this year, companies have extracted coal weighing as much as " + commify_decimal(coal_since_2015 / golden_gate_tonnes) + " Golden Gate Bridges");
+			$$(".extraction .gas a").attr("data-social-text", "So far this year, companies have extracted enough natural gas to fill " + commify_decimal(gas_since_2015 / superdome_m3) + " Superdomes");
 			year_social_buttons_set = true;
 		}
 	}
@@ -406,14 +405,14 @@ function updateValues(all) {
 		$(".extraction .oil .ticker .value").text(commify(oil_lifetime));
 		$(".extraction .oil .comparison .value").text("the Dead Sea " + commify_decimal(oil_lifetime/dead_sea_m3) + " times");
 		$(".extraction .coal .ticker .value").text(commify(coal_lifetime));
-		$(".extraction .coal .comparison .value").text(commify_decimal(coal_lifetime/golden_gate_tonnes) + " Golden Gate Bridges");
+		$(".extraction .coal .comparison .value").text(commify_decimal(coal_lifetime/great_pyramid_tonnes) + " Great Pyramids of Giza");
 		$(".extraction .gas .ticker .value").text(commify(gas_lifetime));
 		$(".extraction .gas .comparison .value").text("the Grand Canyon " + commify_decimal(gas_lifetime / grand_canyon_m3) + " times");
 
 		if (lifetime_share_text_needs_updating) {
 			// If this is the first tick of the ticker since the slider was updated, update the age-specific social media text
 			$$(".extraction .oil a").attr("data-social-text", "In my lifetime, companies have extracted enough oil to fill the Dead Sea " + commify_decimal(oil_lifetime/dead_sea_m3) + " times");
-			$$(".extraction .coal a").attr("data-social-text", "In my lifetime, companies have extracted coal weighing as much as " + commify_decimal(coal_lifetime/golden_gate_tonnes) + " Golden Gate Bridges");
+			$$(".extraction .coal a").attr("data-social-text", "In my lifetime, companies have extracted coal weighing as much as " + commify_decimal(coal_lifetime/great_pyramid_tonnes) + " Great Pyramids of Giza");
 			$$(".extraction .gas a").attr("data-social-text", "In my lifetime, companies have extracted enough natural gas to fill the Grand Canyon " + commify_decimal(gas_lifetime / grand_canyon_m3) + " times");
 			lifetime_share_text_needs_updating = false;
 		}
@@ -741,9 +740,9 @@ function init() {
 		DATA = raw_data;
 		setFuelValues();
 		startTicker();
-		updateTemplate();
 		initControls();
 		if (time == "lifetime") initEnterAge();
+		updateTemplate();
 		window.onresize = updateTemplate;
 	});
 }
