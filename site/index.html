@@ -7,7 +7,7 @@
 <meta property="og:image" content="http://interactive.guim.co.uk/embed/kiln/fuelticker/media/42-65669664.jpg" />
 
 <script src="d3.min.js"></script>
-<script src="//interactive.guim.co.uk/libs/iframe-messenger/iframeMessenger.js"></script>
+<!-- <script src="//interactive.guim.co.uk/libs/iframe-messenger/iframeMessenger.js"></script> -->
 
 <link rel="stylesheet" href="font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" href="guardian-fonts.css" rel="stylesheet">
@@ -34,9 +34,8 @@
 	.section.slider { display: none; background-image: url("media/BT001071.jpg"); }
 
 	.overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url(media/grad.png); background-size: 100% 100%; background-repeat: repeat-y; }
-	.section-inner { position: absolute; top: 50%; padding: 0 0 0 8%; width: 100%; text-align: left; }
+	.section-inner { display: none; position: absolute; top: 150px; padding: 0 0 0 8%; width: 100%; text-align: left; }
 	.section-inner p:first-child { margin-top: 0; }
-	.section-inner.extraction { display: block; }
 
 	.ticker { font-family: Sans; color: #aaa; margin: 0.75em 0 0; font-size: 1.25em; }
 	.ticker .value { font-weight: bold; color: white; margin: 0 5px; }
@@ -178,7 +177,7 @@
 
 		<div class="overlay"></div>
 
-		<div class="section-inner">
+		<div class="section-inner lifetime">
 			<p id="lifetime-metric"></p>
 			<div id="slider">
 				<h3 id="age-label">Enter your age</h3>
@@ -471,9 +470,6 @@ function updateTemplate() {
 		if (fuel == "all") return "block";
 		return $(this).classed(fuel) ? "block" : "none";
 	});
-	$$(".results .section-inner").style("display", function() {
-		return $(this).classed(mode) || $(this).classed(time) ? "block" : "none";
-	});
 	$(".section.slider").style("display", function() {
 		if (time == "lifetime") return "block";
 	});
@@ -488,9 +484,14 @@ function updateTemplate() {
 		if (time == "year") return "the start of 2015";
 		if (time == "lifetime") return "you were born";
 	});
-	$$(".section-inner").style("margin-top", function() {
-		return -this.getBoundingClientRect().height/2 + "px";
-	});
+	$$(".section-inner")
+		.style("top", "50%")
+		.style("display", function() {
+				return $(this).classed(mode) || $(this).classed(time) ? "block" : "none";
+		})
+		.style("margin-top", function() {
+			return -this.getBoundingClientRect().height/2 + "px";
+		});
 	if (sources_showing) hideSources();
 }
 
