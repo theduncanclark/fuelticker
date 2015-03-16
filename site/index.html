@@ -55,7 +55,7 @@
 	#sources .close-sources { position: fixed; right: 20px; top: 20px; cursor: pointer; font-size: 1.5em; }
 	#sources .close-sources:hover { opacity: 0.5; }
 
-	#slider { display: inline-block; width: 100%; height: 100px; max-width: 275px; padding-top: 40px; text-align: center; }
+	#slider { display: inline-block; width: 100%; height: 100px; max-width: 275px; padding-top: 30px; text-align: center; }
 	#slider h3 { font-family: Sans; margin-top: 0; font-weight: bold; font-size: 1em;}
 	#slider svg { width: 100%; height: 100%; }
 	#slider text { font-size: 13px; fill: white; }
@@ -67,36 +67,37 @@
 	#slider-submit { display: inline-block; background: rgba(255,255,255,0.65); color: black; font-size: 1.25em; padding: 0 0 0 0.15em; width: 1.25em; height: 1.25em; border-radius: 50%; position: relative; margin-left: 0.75em; cursor: pointer; display: none; font-family: Icons; bottom: 8px; }
 	#slider-submit:hover { opacity: 0.75; }
 
-	#ground-link { position: absolute; bottom: 20px; right: 20px; font-size: 14px; }
 	.arrow { position: absolute; left: 50%; margin-left: -0.48em; font-size: 3em; cursor: pointer; }
 	.arrow.disabled { display: none; }
 	.up { top: 15px; }
 	.down { bottom: 15px; }
 	.sources-toggler { position: absolute; left: 20px; top: 20px; font-size: 1em; cursor: pointer; }
 	.sources-toggler:hover { opacity: 0.5; }
+	#ground-link { position: absolute; bottom: 20px; right: 20px; width: 56px; height: 80px; background: url(media/logo.png) no-repeat; background-size: 100%; border: 0; opacity: 0.85; }
+	#ground-link:hover { opacity: 1; }
 
 	@media only screen and (max-width: 800px) {
 		h1, h2, h3, h4, p { max-width: 450px; }
 		#wrapper { font-size: 20px; }
 	}
 
-	@media only screen and (max-height: 210px) {
-		#wrapper { font-size: 22px; }
-		.ticker { margin-top: 12px; }
-	}
-
 	@media only screen and (max-width: 600px) {
-		#wrapper { font-size: 17px; }
-		.shares { font-size: 0.7em; }
-	}
-
-	@media only screen and (max-width: 500px) {
-		#wrapper { font-size: 16px; text-align: left; }
-		#ground-link { right: 30px; }
 		.hide-narrow { display: none; }
 		.hide-wide { display: inline-block; }
+		#slider { width: 200px; }
+	}
+	
+	@media only screen and (max-height: 210px) {
+		#wrapper { font-size: 20px; }
+		.ticker { margin-top: 12px; }
+		#slider { padding-top: 20px; }
+	}
+
+	@media only screen and (max-width: 600px) and (max-height: 250px) {
+		#wrapper { font-size: 17px; }
+		#ground-link { right: 45px; height: 34px; background: url(media/logo_text.png) no-repeat; background-size: 100%; bottom: 10px; }
 		.ticker { font-size: 1.25em; }
-		.sources-toggler { left: auto; top: auto; left: auto; bottom: 18px; right: 10px; }
+		.sources-toggler { left: auto; top: auto; left: auto; bottom: 10px; right: 15px; }
 		.section-inner { padding: 0 40px 0 20px; }
 		.arrow { left: auto; right: 10px; margin-left: 0; font-size: 2em; }
 	}
@@ -160,11 +161,11 @@
 			<p>On current trends, we'll blow the global carbon budget and lock in more than 2&deg;C of global&nbsp;warming&nbsp;in:</p>
 			<div class="stat">
 				<div class="ticker">
-					<span class="value" id="value-countdown-years"></span>&nbsp;yrs
-					<span class="value" id="value-countdown-days"></span>&nbsp;days
-					<span class="value" id="value-countdown-hours"></span>&nbsp;hrs
-					<span class="value" id="value-countdown-mins"></span>&nbsp;mins
-					<span class="value" id="value-countdown-secs"></span>&nbsp;s
+					<span class="value" id="value-countdown-years"></span>yrs
+					<span class="value" id="value-countdown-days"></span>days
+					<span class="value" id="value-countdown-hours"></span>hrs
+					<span class="value" id="value-countdown-mins"></span>mins
+					<span class="value" id="value-countdown-secs"></span>s
 				</div>
 			</div>
 			<p class="lifetime">– about the time when you turn <span id="age-at-deadline"></span></p>
@@ -188,7 +189,7 @@
 
 	</div>
 
-	<div id="ground-link"><a href="http://www.theguardian.com/environment/series/keep-it-in-the-ground">Keep it in the ground</a></div>
+	<a href="http://www.theguardian.com/keep-it-in-the-ground"><div id="ground-link"></div></a>
 
 	<!-- <i class="arrow up fa fa-chevron-up disabled"></i>
 	<i class="arrow down fa fa-chevron-down"></i>-->
@@ -201,9 +202,9 @@
 var DATA,
     TIMER_INTERVAL = 75,
     FB_HEAD = "https://www.facebook.com/dialog/feed?app_id=781881648554717&display=popup&description=",
-    FB_TAIL = "&link=http://www.theguardian.com/environment/series/keep-it-in-the-ground&redirect_uri=http://interactive.guim.co.uk/embed/kiln/fuelticker/redirect&caption=See%20how%20much%20fossil%20fuel%20has%20been%20produced%20in%20your%20lifetime%20with%20this%20Guardian%20interactive",
+    FB_TAIL = "&link=http:/www.theguardian.com/keep-it-in-the-ground&redirect_uri=http://interactive.guim.co.uk/embed/kiln/fuelticker/redirect&caption=See%20how%20much%20fossil%20fuel%20has%20been%20produced%20in%20your%20lifetime%20with%20this%20Guardian%20interactive",
     TW_HEAD = "https://twitter.com/intent/tweet?text=",
-    TW_TAIL = "http%3A%2F%2Fbit.ly%2Fin-the-ground%20%23keepitintheground"
+    TW_TAIL = "http%3A%2Fwww.theguardian.com%2Fkeep-it-in-the-ground%20%23keepitintheground"
 
 // Shortcuts
 var $ = d3.select,
@@ -334,7 +335,7 @@ function updateValues(all) {
 	    gas_since_load = gas_per_year_m3 * secs_on_page/secs_in_a_year * adjustment_scaler,
 	    coal_since_load = coal_per_year_tonnes * secs_on_page/secs_in_a_year * adjustment_scaler;
 
-	if (mode == "extraction" && time == "page") {
+	if (all || (mode == "extraction" && time == "page")) {
 		$(".extraction .oil .ticker .value").text(commify(oil_since_load));
 		$(".extraction .oil .comparison .value").text(commify_decimal(oil_since_load / oil_barrels_in_swimming_pool) + " Olympic swimming pools");
 		$(".extraction .coal .ticker .value").text(commify(coal_since_load));
@@ -350,7 +351,7 @@ function updateValues(all) {
 		}
 	}
 
-	if (mode == "extraction" && time == "year") {
+	if (all || (mode == "extraction" && time == "year")) {
 		var years_since_Jan_2015 = secs_since_Jan_1970/secs_in_a_year - 45,
 		    oil_since_2015 = oil_per_year_barrels * years_since_Jan_2015 * adjustment_scaler,
 		    gas_since_2015 = gas_per_year_m3 * years_since_Jan_2015 * adjustment_scaler,
@@ -372,7 +373,7 @@ function updateValues(all) {
 		}
 	}
 
-	if (mode == "extraction" && time == "lifetime") {
+	if (all || (mode == "extraction" && time == "lifetime")) {
 		var oil_since_last_year_of_data = oil_per_year_barrels * years_since_end_of_last_data_year * adjustment_scaler,
 		    coal_since_last_year_of_data = coal_per_year_tonnes * years_since_end_of_last_data_year * adjustment_scaler,
 		    gas_since_last_year_of_data = gas_per_year_m3 * years_since_end_of_last_data_year * adjustment_scaler;
@@ -397,7 +398,7 @@ function updateValues(all) {
 		}
 	}
 
-	if (mode == "countdown") {
+	if (all || mode == "countdown") {
 		var secs_since_Jan_2014 = secs_since_Jan_1970 - (44 * secs_in_a_year),
 		    secs_left = seconds_left_from_jan_2014 - secs_since_Jan_2014,
 		    years = Math.floor(secs_left/secs_in_a_year),
@@ -722,10 +723,11 @@ function init() {
 	d3.csv("FuelChangeOverTime.csv", function(raw_data) {
 		DATA = raw_data;
 		setFuelValues();
-		startTicker();
 		initControls();
 		if (time == "lifetime") initEnterAge();
+		updateValues(true); // Run once so layout changes takes account of length data text in the page
 		updateTemplate();
+		startTicker();
 		window.onresize = updateTemplate;
 	});
 }
