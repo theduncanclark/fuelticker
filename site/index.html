@@ -6,9 +6,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta property="og:image" content="http://interactive.guim.co.uk/embed/kiln/fuelticker/media/42-65669664.jpg" />
 
-
 <script src="d3.min.js"></script>
-<!-- <script src="//interactive.guim.co.uk/libs/iframe-messenger/iframeMessenger.js"></script> -->
+<script src="//interactive.guim.co.uk/libs/iframe-messenger/iframeMessenger.js"></script>
 
 <link rel="stylesheet" href="font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" href="guardian-fonts.css" rel="stylesheet">
@@ -420,7 +419,8 @@ function updateValues(all) {
 			countdown_share_text_needs_updating = false;
 		}
 	}
-
+	
+	// Extra modes to add in due course
 	// $("#month-co2").text(commify(CO2_gt_fuel_cement_2013 * (1 - cement_share_of_fuel_cement_2013) * 1e9/365 * days_on_page * adjustment_scaler));
 	// $("#value-capex").text("$" + commify(capex_2013_billion_usd * 1e9/365 * days_on_page));
 }
@@ -616,6 +616,7 @@ function goToTwitter() {
 }
 
 function initControls() {
+	// Commented out as not being used, but might be reintroduced in later version
 	// detectSwipe(wrapper, function(swipedir){
 	// 	if (swipedir == "down") goToPreviousPanel();
 	// 	if (swipedir == "up") goToNextPanel();
@@ -641,8 +642,7 @@ function initControls() {
 	$$(".tw-link").on("click", goToTwitter).on("touchstart", goToTwitter);
 }
 
-
-// http://www.javascriptkit.com/javatutors/touchevents2.shtml
+// Adapted from http://www.javascriptkit.com/javatutors/touchevents2.shtml
 function detectSwipe(el, callback){
 
 	var touchsurface = el,
@@ -699,6 +699,7 @@ function getLifetime(fuel_data, since_last_year_of_data) {
 		if (isNaN(+fuel_data[year]) || +fuel_data[year] == 0) year_value *= 1/annual_fossil_fuel_growth // No data available
 		else year_value = +fuel_data[year] * fuel_data.multiplier;
 		fuel_running_total += year_value;
+		// Useful log message for sense-checking interpolated values
 		// if (fuel_data.name == "gas") console.log("In " + year + " we burned " + fuel_running_total + " units of " + fuel_data.name + " which is " + Math.round((100*year_value)/(fuel_data["2013"]*fuel_data.multiplier))+ "% of the 2013 value" );
 	}
 	return fuel_running_total;
@@ -729,13 +730,6 @@ function init() {
 }
 
 init();
-
-// Comparisons working out
-// Oil in my lifetime, m3: 86754 * 1000 * 365 * 37 * 0.15 = 2 million m3
-// Oil in a day: 86754 * 1000 * 0.15 = 13,013,100 cubic meters = 5.5 * the Great Pyramid of Giza = 150 times Albert Hall
-// Source: http://www.bluebulbprojects.com/MeasureOfThings/results.php?comp=volume&unit=cm&amt=13013100
-// Oil in a min: 86754 * 1000 * 0.15 / (24 * 60) = 9000 = 1 tenth of Albert Hall
-// Oil in a second: 86754 * 1000 * 0.15 / (24 * 60 * 60) = 150
 
 </script>
 </body>
