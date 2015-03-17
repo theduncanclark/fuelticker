@@ -143,17 +143,17 @@
 			<div class="stat oil">
 				<div class="ticker"><span class="value actual"></span> <span class="label">barrels of oil<span></div>
 				<div class="comparison">– enough to fill <span class="value"></span></div>
-				<div class="shares"><a class="fb-link"><i class="fa fa-facebook"></i></a> <a class="tw-link"><i class="fa fa-twitter"></i></a></div>
+				<div class="shares"><a class="fb-link" target="_top"><i class="fa fa-facebook"></i></a> <a class="tw-link" target="_top"><i class="fa fa-twitter"></i></a></div>
 			</div>
 			<div class="stat coal">
 				<div class="ticker"><span class="value actual"></span> <span class="label">tonnes of coal<span></div>
 				<div class="comparison">– the weight of <span class="value"></span></div>
-				<div class="shares"><a class="fb-link"><i class="fa fa-facebook"></i></a> <a class="tw-link"><i class="fa fa-twitter"></i></a></div>
+				<div class="shares"><a class="fb-link" target="_top"><i class="fa fa-facebook"></i></a> <a class="tw-link" target="_top"><i class="fa fa-twitter"></i></a></div>
 			</div>
 			<div class="stat gas">
 				<div class="ticker"><span class="value actual"></span> <span class="label"><span class="hide-narrow">cubic meters</span><span class="hide-wide">m³</span> of gas<span></div>
 				<div class="comparison">– enough to fill <span class="value"></span></div>
-				<div class="shares"><a class="fb-link"><i class="fa fa-facebook"></i></a> <a class="tw-link"><i class="fa fa-twitter"></i></a></div>
+				<div class="shares"><a class="fb-link" target="_top"><i class="fa fa-facebook"></i></a> <a class="tw-link" target="_top"><i class="fa fa-twitter"></i></a></div>
 			</div>
 		</div>
 
@@ -169,7 +169,7 @@
 				</div>
 			</div>
 			<p class="lifetime">– about the time when you turn <span id="age-at-deadline"></span></p>
-			<div class="shares"><a class="fb-link"><i class="fa fa-facebook"></i></a> <a class="tw-link"><i class="fa fa-twitter"></i></a></div>
+			<div class="shares"><a class="fb-link" target="_top"><i class="fa fa-facebook"></i></a> <a class="tw-link" target="_top"><i class="fa fa-twitter"></i></a></div>
 		</div>
 
 	</div>
@@ -204,7 +204,7 @@ var DATA,
     FB_HEAD = "https://www.facebook.com/dialog/feed?app_id=781881648554717&display=popup&description=",
     FB_TAIL = "&link=http://www.theguardian.com/keep-it-in-the-ground&redirect_uri=http://interactive.guim.co.uk/embed/kiln/fuelticker/&caption=See%20how%20much%20fossil%20fuel%20has%20been%20produced%20in%20your%20lifetime%20with%20this%20Guardian%20interactive",
     TW_HEAD = "https://twitter.com/intent/tweet?text=",
-    TW_TAIL = "http%3A%2Fwww.theguardian.com%2Fkeep-it-in-the-ground%20%23keepitintheground"
+    TW_TAIL = "http%3A%2F%2Fwww.theguardian.com%2Fkeep-it-in-the-ground%20%23keepitintheground"
 
 // Shortcuts
 var $ = d3.select,
@@ -610,12 +610,12 @@ function goToNextPanel() {
 
 function goToFacebook() {
 	var text = this.getAttribute("data-social-text");
-	window.location.href = FB_HEAD + encodeURI(text || "Guardian Fossil Fuel Interactive") + " " + FB_TAIL;
+	this.setAttribute("href", FB_HEAD + encodeURI(text || "Guardian Fossil Fuel Interactive") + " " + FB_TAIL);
 }
 
 function goToTwitter() {
 	var text = this.getAttribute("data-social-text");
-	window.location.href = TW_HEAD + encodeURI(text || "Guardian Fossil Fuel Interactive") + " " + TW_TAIL;
+	this.setAttribute("href", TW_HEAD + encodeURI(text || "Guardian Fossil Fuel Interactive") + " " + TW_TAIL);
 }
 
 function initControls() {
