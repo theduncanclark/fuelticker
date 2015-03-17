@@ -416,7 +416,7 @@ function updateValues(all) {
 		$("#age-at-deadline").text(Math.round(age + years));
 
 		if (countdown_share_text_needs_updating) {
-			$$(".section-countdown a")
+			$$(".countdown a")
 				.attr("data-social-text", "If fossil fuel use keeps growing, we'll blow the 2C budget for solving global warming when I'm " + Math.round(age + years));
 			countdown_share_text_needs_updating = false;
 		}
