@@ -611,14 +611,16 @@ function goToNextPanel() {
 	changePanel();
 }
 
-function goToFacebook() {
+function goToFacebook(e) {
 	var text = this.getAttribute("data-social-text");
-	this.setAttribute("href", FB_HEAD + encodeURI(text || "Guardian Fossil Fuel Interactive") + " " + FB_TAIL);
+	var url = FB_HEAD + encodeURI(text || "Guardian Fossil Fuel Interactive") + " " + FB_TAIL;
+	window.open(url, "share", "width=640,height=320");
 }
 
-function goToTwitter() {
+function goToTwitter(e) {
 	var text = this.getAttribute("data-social-text");
-	this.setAttribute("href", TW_HEAD + encodeURI(text || "Guardian Fossil Fuel Interactive") + " " + TW_TAIL);
+	var url = TW_HEAD + encodeURI(text || "Guardian Fossil Fuel Interactive") + " " + TW_TAIL;
+	window.open(url, "share", "width=640,height=320");
 }
 
 function initControls() {
