@@ -9,7 +9,6 @@
 <meta property="og:image" content="http://interactive.guim.co.uk/embed/kiln/fuelticker/media/42-65669664.jpg" />
 
 <script src="d3.min.js"></script>
-<!-- <script src="//interactive.guim.co.uk/libs/iframe-messenger/iframeMessenger.js"></script> -->
 
 <link rel="stylesheet" href="font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" href="guardian-fonts.css" rel="stylesheet">
@@ -140,7 +139,6 @@
 		<div class="overlay"></div>
 
 		<div class="section-inner extraction">
-			<!-- <div class="nav extraction"><span class="nav-item oil"></span> • <span class="nav-item gas"></span> • <span class="nav-item coal"></span></div> -->
 			<p>Since <span class="timeframe"></span> the world has extracted and burned:</p>
 			<div class="stat oil">
 				<div class="ticker"><span class="value actual"></span> <span class="label">barrels of oil<span></div>
@@ -193,8 +191,6 @@
 
 	<a href="http://www.theguardian.com/keep-it-in-the-ground"><div id="ground-link"></div></a>
 
-	<!-- <i class="arrow up fa fa-chevron-up disabled"></i>
-	<i class="arrow down fa fa-chevron-down"></i>-->
 	<div class="sources-toggler"><i class="fa fa-info-circle"></i></div>
 
 </div>
@@ -217,11 +213,9 @@ var $ = d3.select,
     wrapper = document.getElementById("wrapper");
 
 // States
-var current_section = 0,
-    age = 55,
+var age = 55,
     sources_showing = false,
-    virgin_slider = true,
-    initial_social_bubttons_set = false,
+    page_social_buttons_set = false,
     year_social_buttons_set = false,
     lifetime_share_text_needs_updating = false,
     countdown_share_text_needs_updating = false;
@@ -252,7 +246,7 @@ var oil_barrel_in_m3 = 0.158987295, // Google convert
     albert_hall_m3 = 90000, // Approx: http://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement#Royal_Albert_Hall
     superdome_m3 = 3500000, // http://structurae.net/structures/louisiana-superdome
     sydney_opera_house_m3 = 26400, // http://www.gids.nl/sydney/opera.html
-    olympic_swimming_pool_m3 = 2500,
+    olympic_swimming_pool_m3 = 2500, // http://en.wikipedia.org/wiki/Olympic-size_swimming_pool
     oil_barrels_in_swimming_pool = olympic_swimming_pool_m3 / oil_barrel_in_m3,
     blue_whale_weight_tonnes = 190; // http://en.wikipedia.org/wiki/Blue_whale
     dead_sea_m3 = 114 * 1e9, // http://en.wikipedia.org/wiki/Dead_Sea
@@ -296,8 +290,6 @@ function getRandomFuel() {
 function getRandomTimeframe() {
 	var r = Math.random();
 	if (r < 0.5) return "page";
-	// Switch off year option for now
-	// else if (r < 0.666) return "year";
 	else return "lifetime";
 }
 
@@ -347,11 +339,11 @@ function updateValues(all) {
 		$(".extraction .gas .ticker .value").text(commify(gas_since_load));
 		$(".extraction .gas .comparison .value").text("Sydney Opera House " + commify(gas_since_load / sydney_opera_house_m3) + " times");
 
-		if (!initial_social_bubttons_set) {
+		if (!page_social_buttons_set) {
 			$$(".extraction .oil a").attr("data-social-text", "Fossil fuel companies extract enough oil to fill an Olympic swimming pool every " + commify(oil_barrels_in_swimming_pool/oil_barrels_per_second) + " seconds");
 			$$(".extraction .coal a").attr("data-social-text", "Fossil fuel companies extract the weight of a blue whale in coal every " + commify_decimal(blue_whale_weight_tonnes/coal_tonnes_per_second) + " seconds");
 			$$(".extraction .gas a").attr("data-social-text", "Fossil fuel companies extract enough gas to fill the Sydney Opera House " + commify_decimal(gas_m3_per_second/sydney_opera_house_m3) + " times a second");
-			initial_social_bubttons_set = true;
+			page_social_buttons_set = true;
 		}
 	}
 
@@ -453,7 +445,6 @@ function initEnterAge() {
 			$("#age-label").text(age + " years old");
 			$("#slider-submit").style("display", "inline-block");
 			$$(".arrow").classed("disabled", false);
-			virgin_slider = false;
 			countdown_share_text_needs_updating = true;
 			lifetime_share_text_needs_updating = true;
 		},
@@ -498,19 +489,6 @@ function updateTemplate() {
 			return -this.getBoundingClientRect().height/2 + "px";
 		});
 	if (sources_showing) hideSources();
-}
-
-function changePanel() {
-	$$(".section")
-		.classed("dismissed", function() {
-			var num = this.id.split("section-")[1];
-			return num < current_section;
-		})
-	$$(".up").classed("disabled", function() {
-		return (virgin_slider && current_section == 3) || current_section == 0; });
-	$$(".down").classed("disabled", function() {
-		return (virgin_slider && current_section == 3) || current_section >= num_sections - 1;
-	});
 }
 
 var slider_position = 0;
@@ -599,18 +577,6 @@ function toggleSources() {
 	else showSources();
 }
 
-function goToPreviousPanel() {
-	if ($(".up").classed("disabled")) return;
-	current_section--;
-	changePanel();
-}
-
-function goToNextPanel() {
-	if ($(".down").classed("disabled")) return;
-	current_section++;
-	changePanel();
-}
-
 function goToFacebook(e) {
 	var text = this.getAttribute("data-social-text");
 	var url = FB_HEAD + encodeURI(text || "Guardian Fossil Fuel Interactive") + " " + FB_TAIL;
@@ -624,18 +590,6 @@ function goToTwitter(e) {
 }
 
 function initControls() {
-	// Commented out as not being used, but might be reintroduced in later version
-	// detectSwipe(wrapper, function(swipedir){
-	// 	if (swipedir == "down") goToPreviousPanel();
-	// 	if (swipedir == "up") goToNextPanel();
-	// });
-	// $(".down")
-	// 	.on("click", goToNextPanel)
-	// 	.on("touchstart",  goToNextPanel);
-	// $(".up")
-	// 	.on("click", goToPreviousPanel)
-	// 	.on("touchstart", goToPreviousPanel);
-	// $(".arrow").on("mousedown", function() { d3.event.preventDefault(); });
 	$("#slider-submit").on("click", function() {
 		$(".section.slider").classed("dismissed", true);
 	});
@@ -648,54 +602,6 @@ function initControls() {
 	$$(".shares, .arrow").on("mousedown", function() { d3.event.preventDefault(); });
 	$$(".fb-link").on("click", goToFacebook).on("touchstart", goToFacebook);
 	$$(".tw-link").on("click", goToTwitter).on("touchstart", goToTwitter);
-}
-
-// Adapted from http://www.javascriptkit.com/javatutors/touchevents2.shtml
-function detectSwipe(el, callback){
-
-	var touchsurface = el,
-	    swipedir,
-	    startX,
-	    startY,
-	    distX,
-	    distY,
-	    threshold = 150, //required min distance traveled to be considered swipe
-	    restraint = 100, // maximum distance allowed at the same time in perpendicular direction
-	    allowedTime = 300, // maximum time allowed to travel that distance
-	    elapsedTime,
-	    startTime,
-	    handleswipe = callback || function(swipedir) {};
-
-	touchsurface.addEventListener('touchstart', function(e) {
-		var touchobj = e.changedTouches[0];
-		swipedir = 'none';
-		dist = 0;
-		startX = touchobj.pageX;
-		startY = touchobj.pageY;
-		startTime = new Date().getTime(); // record time when finger first makes contact with surface
-		e.preventDefault();
-	}, false);
-
-	touchsurface.addEventListener('touchmove', function(e) {
-		e.preventDefault(); // prevent scrolling when inside DIV
-	}, false);
-
-	touchsurface.addEventListener('touchend', function(e) {
-		var touchobj = e.changedTouches[0];
-		distX = touchobj.pageX - startX // get horizontal dist traveled by finger while in contact with surface
-		distY = touchobj.pageY - startY // get vertical dist traveled by finger while in contact with surface
-		elapsedTime = new Date().getTime() - startTime // get time elapsed
-		if (elapsedTime <= allowedTime){ // first condition for awipe met
-			if (Math.abs(distX) >= threshold && Math.abs(distY) <= restraint){ // 2nd condition for horizontal swipe met
-				swipedir = (distX < 0)? 'left' : 'right' // if dist traveled is negative, it indicates left swipe
-			}
-			else if (Math.abs(distY) >= threshold && Math.abs(distX) <= restraint){ // 2nd condition for vertical swipe met
-				swipedir = (distY < 0)? 'up' : 'down' // if dist traveled is negative, it indicates up swipe
-			}
-		}
-		handleswipe(swipedir);
-		e.preventDefault();
-	}, false)
 }
 
 function getLifetime(fuel_data, since_last_year_of_data) {
