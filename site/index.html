@@ -308,7 +308,7 @@ function getRandomTimeframe() {
 		window.params[decodeURIComponent(match[1])] = decodeURIComponent(match[2]);
 	}
 })(window.location.search.substring(1).replace(/\+/g, "%20"), /([^&=]+)=?([^&]*)/g);
-if (params.redirect) window.location.href = "http://www.theguardian.com/keep-it-in-the-ground";
+if (params.redirect) window.close();
 if (params.mode) mode = params.mode;
 else if (params.fuel || params.time) mode = "extraction"; // Override any randomly selected mode if fuel or timeframe are specified
 if (params.fuel) fuel = params.fuel;
