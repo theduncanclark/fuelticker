@@ -35,7 +35,7 @@
 	.section.slider { display: none; background-image: url("media/BT001071.jpg"); }
 
 	.overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url(media/grad.png); background-size: 100% 100%; background-repeat: repeat-y; }
-	.section-inner { display: none; position: absolute; top: 150px; padding: 0 0 0 8%; width: 100%; text-align: left; }
+	.section-inner { display: none; position: absolute; top: 150px; padding: 0 8%; width: 100%; text-align: left; }
 	.section-inner p:first-child { margin-top: 0; }
 
 	.ticker { font-family: Sans; color: #aaa; margin: 0.75em 0 0; font-size: 1.25em; }
@@ -50,13 +50,13 @@
 	.lifetime { display: none; }
 
 	#sources { position: fixed; top: 0; left: 0; font-size: 0.75em; line-height: 1.4em; padding: 15px; text-align: left; width: 100%; max-width: none; }
-	#sources-inner { width: 100%; max-width: 1000px; margin: auto; }
+	#sources-inner { padding-right: 25px; width: 100%; max-width: 1000px; margin: auto; }
 	#sources-inner h2,
 	#sources-inner p { max-width: none; font-family: 'Sans'; font-weight: 200; }
-	#sources .close-sources { position: fixed; right: 20px; top: 20px; cursor: pointer; font-size: 1.5em; }
+	#sources .close-sources { position: fixed; right: 15px; top: 15px; cursor: pointer; font-size: 1.5em; }
 	#sources .close-sources:hover { opacity: 0.5; }
 
-	#slider { display: inline-block; width: 100%; height: 100px; max-width: 275px; padding-top: 30px; text-align: center; }
+	#slider { display: inline-block; width: 100%; height: 100px; max-width: 300px; padding-top: 30px; text-align: center; }
 	#slider h3 { font-family: Sans; margin-top: 0; font-weight: bold; font-size: 1em;}
 	#slider svg { width: 100%; height: 100%; }
 	#slider text { font-size: 13px; fill: white; }
@@ -65,7 +65,7 @@
 	#slider .slider-handle { fill: #eee; stroke: #999; cursor: col-resize; }
 	#slider .slider-axis .domain { stroke: none; }
 	#slider .tick line { stroke: white; }
-	#slider-submit { display: inline-block; background: rgba(255,255,255,0.65); color: black; font-size: 1.25em; padding: 0 0 0 0.15em; width: 1.25em; height: 1.25em; border-radius: 50%; position: relative; margin-left: 0.75em; cursor: pointer; display: none; font-family: Icons; bottom: 8px; }
+	#slider-submit { display: inline-block; background: rgba(255,255,255,0.65); color: black; font-size: 1.25em; padding: 0 0 0 0.15em; width: 1.25em; height: 1.25em; border-radius: 50%; position: relative; margin-left: 0.25em; cursor: pointer; display: none; font-family: Icons; bottom: 12px; }
 	#slider-submit:hover { opacity: 0.75; }
 
 	.arrow { position: absolute; left: 50%; margin-left: -0.48em; font-size: 3em; cursor: pointer; }
@@ -85,7 +85,10 @@
 	@media only screen and (max-width: 600px) {
 		.hide-narrow { display: none; }
 		.hide-wide { display: inline-block; }
-		#slider { width: 200px; }
+	}
+
+	@media only screen and (max-width: 420px) {
+		#slider { width: 210px; }
 	}
 
 	@media only screen and (max-height: 210px) {
@@ -164,8 +167,7 @@
 					<span class="value" id="value-countdown-years"></span>yrs
 					<span class="value" id="value-countdown-days"></span>days
 					<span class="value" id="value-countdown-hours"></span>hrs
-					<span class="value" id="value-countdown-mins"></span>mins
-					<span class="value" id="value-countdown-secs"></span>s
+					<span class="value" id="value-countdown-mins"></span>mins&nbsp;<span class="value" id="value-countdown-secs"></span>s
 				</div>
 			</div>
 			<p class="lifetime">– about the time when you turn <span id="age-at-deadline"></span></p>
@@ -262,7 +264,7 @@ var emissions_2012_gt = (9.67 + 0.89) * 44/12, // http://www.globalcarbonproject
     budget_total_gt = 2900, // IPCC 2014
     budget_used_by_2011_gt = 1900, // IPCC 2014
     budget_from_jan_2014_gt = budget_total_gt - budget_used_by_2011_gt - emissions_2012_gt - emissions_2013_gt,
-    annual_emissions_growth = 1.018, // TBQ
+    annual_emissions_growth = 1.018, // http://www.burningquestion.info
     seconds_left_from_jan_2014 = getSecsLeftFrom2014();
 
 // Capex
@@ -340,6 +342,7 @@ function updateValues(all) {
 		$(".extraction .gas .comparison .value").text("Sydney Opera House " + commify(gas_since_load / sydney_opera_house_m3) + " times");
 
 		if (!page_social_buttons_set) {
+			// If this is the first tick of the ticker, set the page-specific social-media text
 			$$(".extraction .oil a").attr("data-social-text", "Fossil fuel companies extract enough oil to fill an Olympic swimming pool every " + commify(oil_barrels_in_swimming_pool/oil_barrels_per_second) + " seconds");
 			$$(".extraction .coal a").attr("data-social-text", "Fossil fuel companies extract the weight of a blue whale in coal every " + commify_decimal(blue_whale_weight_tonnes/coal_tonnes_per_second) + " seconds");
 			$$(".extraction .gas a").attr("data-social-text", "Fossil fuel companies extract enough gas to fill the Sydney Opera House " + commify_decimal(gas_m3_per_second/sydney_opera_house_m3) + " times a second");
@@ -495,7 +498,7 @@ var slider_position = 0;
 function initSlider(options) {
 	var slider_w = 250,
 	    slider_h = 50,
-	    slider_padding = 0;
+	    slider_padding = 15;
 
 	var scale = d3.scale.linear()
 		.domain(options.domain)
