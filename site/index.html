@@ -576,6 +576,7 @@ function hideSources() {
 }
 
 function toggleSources() {
+	d3.event.preventDefault();
 	if (sources_showing) hideSources();
 	else showSources();
 }
@@ -598,7 +599,7 @@ function initControls() {
 	});
 	$(".sources-toggler")
 		.on("click", toggleSources)
-		.on("touchstart", toggleSources);;
+		.on("touchstart", toggleSources);
 	$(".close-sources")
 		.on("click", function() { if (sources_showing) hideSources(); })
 		.on("touchstart", function() { if (sources_showing) hideSources(); });
