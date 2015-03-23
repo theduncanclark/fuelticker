@@ -359,7 +359,7 @@ function updateValues() {
 		    coal_since_2015 = coal_per_year_tonnes * years_since_Jan_2015 * adjustment_scaler;
 
 		$(".extraction .oil .ticker .value").text(commify(oil_since_2015));
-		$(".extraction .oil .comparison .value").text("the Empire State Building " + commify_decimal(oil_since_2015 / empire_state_m3) + " times");
+		$(".extraction .oil .comparison .value").text("the Empire State Building " + commify_decimal(oil_since_2015 * oil_barrel_in_m3 / empire_state_m3) + " times");
 		$(".extraction .coal .ticker .value").text(commify(coal_since_2015));
 		$(".extraction .coal .comparison .value").text(commify_decimal(coal_since_2015 / golden_gate_tonnes) + " Golden Gate Bridges");
 		$(".extraction .gas .ticker .value").text(commify(gas_since_2015));
