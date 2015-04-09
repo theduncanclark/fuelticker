@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<base target="_parent">
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,7 +9,6 @@
 
 
 <script src="d3.min.js"></script>
-<!-- <script src="//interactive.guim.co.uk/libs/iframe-messenger/iframeMessenger.js"></script> -->
 
 <link rel="stylesheet" href="font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" href="guardian-fonts.css" rel="stylesheet">
@@ -36,8 +36,8 @@
 	#wrapper { width: 100%; height: 100%; position: absolute; font-size: 24px; left: 0; top: 0; overflow: scroll; }
 	.section { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #333; background-size: cover; background-position: 50% 50%; transition: top 0.7s; overflow: hidden; }
 	.section.dismissed { top: -100%; }
-	.section .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url(media/grad.png); background-size: 100% 100%; background-repeat: repeat-y; }
-	.section-inner { position: absolute; top: 50%; padding: 0 0 0 8%; width: 100%; text-align: left; }
+	.section .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url(media/grad.png); background-size: 100% 100%; background-repeat: no-repeat; }
+	.section-inner { position: absolute; top: 50%; padding: 0 8%; width: 100%; text-align: left; }
 	.section-inner p:first-child { margin-top: 0; }
 	.ticker { font-family: Sans; color: #aaa; margin: 0.75em 0 0; font-size: 1.25em; }
 	.ticker .value { font-weight: bold; color: white; margin: 0 5px; }
@@ -85,6 +85,11 @@
 	#age-slider .slider-handle { fill: #eee; stroke: #999; cursor: col-resize; }
 	#age-slider .slider-axis .domain { stroke: none; }
 	#age-slider .tick line { stroke: white; }
+	#slider-submit { display: inline-block; background: rgba(255,255,255,0.65); color: black; font-size: 1.25em; padding: 0 0 0 0.15em; width: 1.25em; height: 1.25em; border-radius: 50%; position: relative; margin-left: 0.25em; cursor: pointer; display: none; font-family: Icons; bottom: 12px; }
+	#slider-submit:hover { opacity: 0.75; }
+
+	#ground-link { position: absolute; bottom: 20px; right: 20px; width: 56px; height: 80px; background: url(media/logo.png) no-repeat; background-size: 100%; border: 0; opacity: 0.85; }
+	#ground-link:hover { opacity: 1; }
 
 	@media only screen and (max-width: 800px) {
 		h1, h2, h3, h4, p { max-width: 450px; }
@@ -100,16 +105,21 @@
 		#section-4 { background-image: url("media/mobile/AAMK001169.jpg"); }
 		#section-5 { background-image: url("media/mobile/42-29297064.jpg"); }
 		#section-6 { background-image: url("media/mobile/42-18376685.jpg"); }
+		.section .overlay { background-size: 130% 100%; }
 	}
+	@media only screen and (max-width: 420px) {
+		#slider { width: 210px; }
+	}
+
 	@media only screen and (max-width: 500px) {
 		.hide-narrow { display: none; }
 		.hide-wide { display: inline-block; }
 		#wrapper { font-size: 16px; text-align: left; }
 		.ticker { font-size: 1.25em; }
-		.sources-toggler { left: auto; top: 50%; right: 10px; margin-top: -0.5em; }
+/*		.sources-toggler { left: auto; top: 50%; right: 10px; margin-top: -0.5em; }
 		.section-inner { padding: 0 40px 0 20px; }
 		.arrow { left: auto; right: 10px; margin-left: 0; font-size: 2em; }
-	}
+*/	}
 
 </style>
 
@@ -139,7 +149,7 @@
 	<div id="sources-inner">
 		<i class="close-sources fa fa-times-circle"></i>
 		<h2>Assumptions &amp; sources</h2>
-		<p>Current extraction figures extrapolated from <a target="_blank" href="http://www.bp.com/en/global/corporate/about-bp/energy-economics/statistical-review-of-world-energy.html">BP Statistical Review 2014</a>; data are from 2013 and have been adjusted by 2% per year since the start of 2014 to account for estimated subsequent increases, based on <a target="_blank" href="http://www.pbl.nl/en/publications/trends-in-global-co2-emissions-2014-report">PBL NEAA 2014</a>. The all-time carbon budget is set at 2900Gt (enough to give a two-thirds chance of staying below 2 degree C according to the <a target="_blank" href="http://www.ipcc.ch/pdf/assessment-report/ar5/syr/SYR_AR5_SPMcorr2.pdf">IPCC AR5 Synthesis Report SPM</a>), of which 1000Gt remains from 2011. Fossil fuel and land use emissions for 2012 and 2013 taken from the <a href="http://www.globalcarbonproject.org/">Global Carbon Project</a>. Subsequent years assume 1.8% annual growth in total emissions, in line with the <a href="http://www.nature.com/nclimate/journal/v2/n9/full/nclimate1586.html">trend since the mid-nineteenth century</a>. Historical fossil fuel extraction figures are from BP where available, interpolated for earlier years.</p>
+		<p>Interactive and research by <a href="http://www.theguardian.com/profile/duncanclark">Duncan Clark</a>. Extraction figures extrapolated from <a target="_parent" href="http://www.bp.com/en/global/corporate/about-bp/energy-economics/statistical-review-of-world-energy.html">BP Statistical Review 2014</a>; data are from 2013 and have been adjusted by 2% per year since the start of 2014 to account for estimated subsequent increases, based on <a target="_parent" href="http://www.pbl.nl/en/publications/trends-in-global-co2-emissions-2014-report">PBL NEAA 2014</a>. The all-time carbon budget is set at 2900Gt (enough to give a two-thirds chance of staying below 2 degree C according to the <a target="_parent" href="http://www.ipcc.ch/pdf/assessment-report/ar5/syr/SYR_AR5_SPMcorr2.pdf">IPCC AR5 Synthesis Report SPM</a>), of which 1000Gt remains from 2011. Fossil fuel and land use emissions for 2012 and 2013 taken from the <a href="http://www.globalcarbonproject.org/">Global Carbon Project</a>. Subsequent years assume 1.8% annual growth in total emissions, in line with the <a href="http://www.nature.com/nclimate/journal/v2/n9/full/nclimate1586.html">trend since the mid-nineteenth century</a>. Historical fossil fuel extraction figures are from BP where available, interpolated for earlier years. Images: Corbis.</p>
 	</div>
 </div>
 <div id="wrapper">
@@ -155,7 +165,7 @@
 	<div id="section-5" class="section green section-countdown">
 		<div class="overlay"></div>
 		<div class="section-inner">
-			<p>On current trends, we'll blow the global carbon budget and lock in more than 2&deg;C of global&nbsp;warming&nbsp;in:</p>
+			<p>On current trends, we'll blow the global carbon budget and lock in more than 2C of global&nbsp;warming&nbsp;in:</p>
 			<div class="stats">
 				<div class="stat">
 					<div class="ticker">
@@ -199,10 +209,10 @@
 		<div class="section-inner">
 			<p>What about since you were born?</p>
 			<div id="slider">
-				<h3>Enter your age</h3>
+				<h3 id="age-label">Enter your age</h3>
 				<div id="age-slider-holder"></div>
-				<h3 id="age-label">&nbsp;</h3>
 			</div>
+			<div id="slider-submit">&#xE061</div>
 		</div>
 	</div>
 
@@ -263,6 +273,7 @@
 
 	<i class="arrow up fa fa-chevron-up disabled"></i>
 	<i class="arrow down fa fa-chevron-down"></i>
+	<a href="http://www.theguardian.com/keep-it-in-the-ground"><div id="ground-link"></div></a>
 	<div class="sources-toggler"><i class="fa fa-info-circle"></i></div>
 
 <!--
@@ -277,10 +288,10 @@
 // Constants
 var DATA,
     TIMER_INTERVAL = 75,
-    FB_HEAD = "https://www.facebook.com/dialog/feed?app_id=781881648554717&display=popup&caption=",
-    FB_TAIL = "&link=http://interactive.guim.co.uk/embed/kiln/fuelticker/&description=See%20how%20much%20fossil%20fuel%20has%20been%20produced%20in%20your%20lifetime%20with%20this%20Guardian%20interactive&redirect_uri=http://interactive.guim.co.uk/embed/kiln/fuelticker/",
+    FB_HEAD = "https://www.facebook.com/dialog/feed?app_id=781881648554717&display=popup&description=",
+    FB_TAIL = "&link=http://www.theguardian.com/keep-it-in-the-ground&redirect_uri=http://interactive.guim.co.uk/embed/kiln/fuelticker%2F%3Fredirect%3Dtrue&caption=See%20how%20much%20fossil%20fuel%20has%20been%20produced%20in%20your%20lifetime",
     TW_HEAD = "https://twitter.com/intent/tweet?text=",
-    TW_TAIL = "http%3A%2F%2Fbit.ly%2FLINK%20via%20%40TheGuardian"
+    TW_TAIL = "http%3A%2F%2Fwww.theguardian.com%2Fkeep-it-in-the-ground%20%23keepitintheground";
 
 // Shortcuts
 var $ = d3.select,
@@ -324,6 +335,7 @@ var last_year_of_fuel_data = 2013,
 // Conversion factors
 var oil_barrel_in_m3 = 0.158987295, // Google convert
     albert_hall_m3 = 90000, // Approx: http://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement#Royal_Albert_Hall
+    superdome_m3 = 3500000, // http://structurae.net/structures/louisiana-superdome
     sydney_opera_house_m3 = 26400, // http://www.gids.nl/sydney/opera.html
     olympic_swimming_pool_m3 = 2500,
     oil_barrels_in_swimming_pool = olympic_swimming_pool_m3 / oil_barrel_in_m3,
@@ -331,6 +343,7 @@ var oil_barrel_in_m3 = 0.158987295, // Google convert
     dead_sea_m3 = 114 * 1e9, // http://en.wikipedia.org/wiki/Dead_Sea
     eiffel_tower_tonnes = 10100, // http://www.toureiffel.paris/images/PDF/supports-pedagogiques/EN/en_10_la_tour_en_chiffres.pdf
     golden_gate_tonnes = 380800, // http://goldengatebridge.org/research/factsGGBDesign.php, excluding anchorages and approaches
+    great_pyramid_tonnes = 5900000, // http://en.wikipedia.org/wiki/Great_Pyramid_of_Giza
     empire_state_m3 = 1.04772e6 // http://www.esbnyc.com/sites/default/files/esb_fact_sheet_4_9_14_4.pdf
     grand_canyon_m3 = 4.17 * 1e12; // http://www.nps.gov/grca/parkmgmt/statistics.htm
 
@@ -395,15 +408,15 @@ function updateValues(all) {
 		$(".section-month .oil .ticker .value").text(commify(oil_since_2015));
 		$(".section-month .oil .comparison .value").text("the Empire State Building " + commify_decimal(oil_since_2015 / empire_state_m3) + " times");
 		$(".section-month .coal .ticker .value").text(commify(coal_since_2015));
-		$(".section-month .coal .comparison .value").text(commify_decimal(coal_since_2015 / eiffel_tower_tonnes) + " Eiffel Towers");
+		$(".section-month .coal .comparison .value").text(commify_decimal(coal_since_2015 / golden_gate_tonnes) + " Golden Gate Bridges");
 		$(".section-month .gas .ticker .value").text(commify(gas_since_2015));
-		$(".section-month .gas .comparison .value").text(commify_decimal(gas_since_2015 / albert_hall_m3 / 1e6) + " million Royal Albert Halls");
+		$(".section-month .gas .comparison .value").text(commify_decimal(gas_since_2015 / superdome_m3) + " Superdomes");
 
 		if (!year_social_buttons_set) {
 			// If this is the first tick of the ticker, set the year-specific social-media text
-			$$(".section-month .oil a").attr("data-social-text", "So far this year, companies have extracted enough oil to fill the Empire State Building " + commify_decimal(oil_since_2015 / empire_state_m3) + " times");
-			$$(".section-month .coal a").attr("data-social-text", "So far this year, companies have extracted coal weighing as much as " + commify_decimal(coal_since_2015 / eiffel_tower_tonnes) + " Eiffel Towers");
-			$$(".section-month .gas a").attr("data-social-text", "So far this year, companies have extracted enough natural gas to fill " + commify_decimal(gas_since_2015 / albert_hall_m3 / 1e6) + " million Royal Albert Halls");
+			$$(".section-month .oil a").attr("data-social-text", "So far this year, companies have extracted enough oil to fill the Empire State Building " + commify_decimal(oil_since_2015 * oil_barrel_in_m3 / empire_state_m3) + " times");
+			$$(".section-month .coal a").attr("data-social-text", "So far this year, companies have extracted coal weighing as much as " + commify_decimal(coal_since_2015 / golden_gate_tonnes) + " Golden Gate Bridges");
+			$$(".section-month .gas a").attr("data-social-text", "So far this year, companies have extracted enough natural gas to fill " + commify_decimal(gas_since_2015 / superdome_m3) + " Superdomes");
 			year_social_buttons_set = true;
 		}
 	}
@@ -420,14 +433,14 @@ function updateValues(all) {
 		$(".section-lifetime .oil .ticker .value").text(commify(oil_lifetime));
 		$(".section-lifetime .oil .comparison .value").text("the Dead Sea " + commify_decimal(oil_lifetime/dead_sea_m3) + " times");
 		$(".section-lifetime .coal .ticker .value").text(commify(coal_lifetime));
-		$(".section-lifetime .coal .comparison .value").text(commify_decimal(coal_lifetime/golden_gate_tonnes) + " Golden Gate Bridges");
+		$(".section-lifetime .coal .comparison .value").text(commify_decimal(coal_lifetime/great_pyramid_tonnes) + " Great Pyramids of Giza");
 		$(".section-lifetime .gas .ticker .value").text(commify(gas_lifetime));
 		$(".section-lifetime .gas .comparison .value").text("the Grand Canyon " + commify_decimal(gas_lifetime / grand_canyon_m3) + " times");
 
 		if (lifetime_share_text_needs_updating) {
 			// If this is the first tick of the ticker since the slider was updated, update the age-specific social media text
 			$$(".section-lifetime .oil a").attr("data-social-text", "In my lifetime, companies have extracted enough oil to fill the Dead Sea " + commify_decimal(oil_lifetime/dead_sea_m3) + " times");
-			$$(".section-lifetime .coal a").attr("data-social-text", "In my lifetime, companies have extracted coal weighing as much as " + commify_decimal(coal_lifetime/golden_gate_tonnes) + " Golden Gate Bridges");
+			$$(".section-lifetime .coal a").attr("data-social-text", "In my lifetime, companies have extracted coal weighing as much as " + commify_decimal(coal_lifetime/great_pyramid_tonnes) + " Great Pyramids of Giza");
 			$$(".section-lifetime .gas a").attr("data-social-text", "In my lifetime, companies have extracted enough natural gas to fill the Grand Canyon " + commify_decimal(gas_lifetime / grand_canyon_m3) + " times");
 			lifetime_share_text_needs_updating = false;
 		}
@@ -456,6 +469,7 @@ function updateValues(all) {
 		}
 	}
 
+	// Additional metrics for possible future use
 	// $("#month-co2").text(commify(CO2_gt_fuel_cement_2013 * (1 - cement_share_of_fuel_cement_2013) * 1e9/365 * days_on_page * adjustment_scaler));
 	// $("#value-capex").text("$" + commify(capex_2013_billion_usd * 1e9/365 * days_on_page));
 }
@@ -572,6 +586,7 @@ function hideSources() {
 }
 
 function toggleSources() {
+	d3.event.preventDefault();
 	if (sources_showing) hideSources();
 	else showSources();
 }
@@ -588,86 +603,32 @@ function goToNextPanel() {
 	changePanel();
 }
 
-function goToFacebook() {
+function goToFacebook(e) {
 	var text = this.getAttribute("data-social-text");
-	window.location.href = FB_HEAD + encodeURI(text || "Guardian Fossil Fuel Interactive") + " " + FB_TAIL;
+	var url = FB_HEAD + encodeURI(text || "The Guardian's Keep It In The Ground campaign") + " " + FB_TAIL;
+	window.open(url, "share", "width=640,height=320");
 }
 
-function goToTwitter() {
+function goToTwitter(e) {
 	var text = this.getAttribute("data-social-text");
-	window.location.href = TW_HEAD + encodeURI(text || "Guardian Fossil Fuel Interactive") + " " + TW_TAIL;
+	var url = TW_HEAD + encodeURI(text || "The Guardian's Keep It In The Ground campaign") + " " + TW_TAIL;
+	window.open(url, "share", "width=640,height=320");
 }
 
 function initControls() {
-	detectSwipe(wrapper, function(swipedir){
-		if (swipedir == "down") goToPreviousPanel();
-		if (swipedir == "up") goToNextPanel();
-	});
-	$(".down")
-		.on("click", goToNextPanel)
-		.on("touchstart",  goToNextPanel);
+	$$(".down, #slider-submit")
+		.on("click", goToNextPanel);
 	$(".up")
-		.on("click", goToPreviousPanel)
-		.on("touchstart", goToPreviousPanel);
-	$(".arrow").on("mousedown", function() { d3.event.preventDefault(); });
+		.on("click", goToPreviousPanel);
 	$(".sources-toggler")
 		.on("click", toggleSources)
-		.on("touchstart", toggleSources);;
+		.on("touchstart", toggleSources);
 	$(".close-sources")
 		.on("click", function() { if (sources_showing) hideSources(); })
 		.on("touchstart", function() { if (sources_showing) hideSources(); });
 	$$(".shares, .arrow").on("mousedown", function() { d3.event.preventDefault(); });
 	$$(".fb-link").on("click", goToFacebook).on("touchstart", goToFacebook);
 	$$(".tw-link").on("click", goToTwitter).on("touchstart", goToTwitter);
-}
-
-
-// http://www.javascriptkit.com/javatutors/touchevents2.shtml
-function detectSwipe(el, callback){
-
-	var touchsurface = el,
-	    swipedir,
-	    startX,
-	    startY,
-	    distX,
-	    distY,
-	    threshold = 150, //required min distance traveled to be considered swipe
-	    restraint = 100, // maximum distance allowed at the same time in perpendicular direction
-	    allowedTime = 300, // maximum time allowed to travel that distance
-	    elapsedTime,
-	    startTime,
-	    handleswipe = callback || function(swipedir) {};
-
-	touchsurface.addEventListener('touchstart', function(e) {
-		var touchobj = e.changedTouches[0];
-		swipedir = 'none';
-		dist = 0;
-		startX = touchobj.pageX;
-		startY = touchobj.pageY;
-		startTime = new Date().getTime(); // record time when finger first makes contact with surface
-		e.preventDefault();
-	}, false);
-
-	touchsurface.addEventListener('touchmove', function(e) {
-		e.preventDefault(); // prevent scrolling when inside DIV
-	}, false);
-
-	touchsurface.addEventListener('touchend', function(e) {
-		var touchobj = e.changedTouches[0];
-		distX = touchobj.pageX - startX // get horizontal dist traveled by finger while in contact with surface
-		distY = touchobj.pageY - startY // get vertical dist traveled by finger while in contact with surface
-		elapsedTime = new Date().getTime() - startTime // get time elapsed
-		if (elapsedTime <= allowedTime){ // first condition for awipe met
-			if (Math.abs(distX) >= threshold && Math.abs(distY) <= restraint){ // 2nd condition for horizontal swipe met
-				swipedir = (distX < 0)? 'left' : 'right' // if dist traveled is negative, it indicates left swipe
-			}
-			else if (Math.abs(distY) >= threshold && Math.abs(distX) <= restraint){ // 2nd condition for vertical swipe met
-				swipedir = (distY < 0)? 'up' : 'down' // if dist traveled is negative, it indicates up swipe
-			}
-		}
-		handleswipe(swipedir);
-		e.preventDefault();
-	}, false)
 }
 
 function getLifetime(fuel_data, since_last_year_of_data) {
@@ -679,6 +640,7 @@ function getLifetime(fuel_data, since_last_year_of_data) {
 		if (isNaN(+fuel_data[year]) || +fuel_data[year] == 0) year_value *= 1/annual_fossil_fuel_growth // No data available
 		else year_value = +fuel_data[year] * fuel_data.multiplier;
 		fuel_running_total += year_value;
+		// Useful log message for sense-checking interpolated values
 		// if (fuel_data.name == "gas") console.log("In " + year + " we burned " + fuel_running_total + " units of " + fuel_data.name + " which is " + Math.round((100*year_value)/(fuel_data["2013"]*fuel_data.multiplier))+ "% of the 2013 value" );
 	}
 	return fuel_running_total;
@@ -692,6 +654,7 @@ function createSlider() {
 			age = slider_position;
 			$$(".age").text(age);
 			$("#age-label").text(age + " years old")
+			$("#slider-submit").style("display", "inline-block");
 			$$(".arrow").classed("disabled", false);
 			virgin_slider = false;
 			countdown_share_text_needs_updating = true;
@@ -732,13 +695,6 @@ function init() {
 }
 
 init();
-
-// Comparisons working out
-// Oil in my lifetime, m3: 86754 * 1000 * 365 * 37 * 0.15 = 2 million m3
-// Oil in a day: 86754 * 1000 * 0.15 = 13,013,100 cubic meters = 5.5 * the Great Pyramid of Giza = 150 times Albert Hall
-// Source: http://www.bluebulbprojects.com/MeasureOfThings/results.php?comp=volume&unit=cm&amt=13013100
-// Oil in a min: 86754 * 1000 * 0.15 / (24 * 60) = 9000 = 1 tenth of Albert Hall
-// Oil in a second: 86754 * 1000 * 0.15 / (24 * 60 * 60) = 150
 
 </script>
 </body>
