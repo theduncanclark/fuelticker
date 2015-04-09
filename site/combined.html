@@ -264,25 +264,11 @@
 		</div>
 	</div>
 
-	<div id="section-0" class="section">
-		<div class="overlay"></div>
-		<div class="section-inner">
-			<p>We hear a lot about the causes of climate change, but it really boils down to this: we take way too much <span class="bold">oil, coal and gas</span> <span class="no-break">out of the ground.</span></p>
-			<p>But how much exactly, and how much longer <span class="no-break">can this go on?</span></p>
-		</div>
-	</div>
-
 	<i class="arrow up fa fa-chevron-up disabled"></i>
 	<i class="arrow down fa fa-chevron-down"></i>
 	<a href="http://www.theguardian.com/keep-it-in-the-ground"><div id="ground-link"></div></a>
 	<div class="sources-toggler"><i class="fa fa-info-circle"></i></div>
 
-<!--
-	<p>When burned, this fuel will warm the planet by releasing:</p>
-	<div class="stat"><span class="value" id="value-co2"></span> tonnes of CO2</div>
-	<p>Although most of the existing reserves cannot be safely burned, companies spent:</p>
-	<div class="stat"><span class="value" id="value-capex"></span> developing new reserves</div>
--->
 </div>
 <script>
 
@@ -303,7 +289,7 @@ var $ = d3.select,
     wrapper = document.getElementById("wrapper");
 
 // States
-var current_section = 0,
+var current_section = 1,
     age = 55,
     sources_showing = false,
     virgin_slider = true,
@@ -497,11 +483,11 @@ function changePanel() {
 		.classed("dismissed", function() {
 			var num = this.id.split("section-")[1];
 			return num < current_section;
-		})
+		});
 	$$(".up").classed("disabled", function() {
-		return (virgin_slider && current_section == 3) || current_section == 0; });
+		return (virgin_slider && current_section == 3) || current_section == 1; });
 	$$(".down").classed("disabled", function() {
-		return (virgin_slider && current_section == 3) || current_section >= num_sections - 1;
+		return (virgin_slider && current_section == 3) || current_section >= num_sections;
 	});
 }
 
