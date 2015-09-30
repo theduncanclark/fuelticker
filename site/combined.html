@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <base target="_parent">
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta property="og:image" content="http://interactive.guim.co.uk/embed/kiln/fuelticker/media/42-65669664.jpg" />
 
-
+<script src="//assets.adobedtm.com/4d9ab377f23d816bd320d12dce88aed259ed54d9/satelliteLib-7cab3b9f92a5081c1b847ca65bc63100a6263778.js"></script>
 <script src="d3.min.js"></script>
 
 <link rel="stylesheet" href="font-awesome.min.css" rel="stylesheet">
@@ -208,7 +209,7 @@
 				<h3 id="age-label">Enter your age</h3>
 				<div id="age-slider-holder"></div>
 			</div>
-			<div id="slider-submit">&#xE061</div>
+			<div id="slider-submit" data-link-name="fuelticker_age_button">&#xE061</div>
 		</div>
 	</div>
 
@@ -532,7 +533,7 @@ function initSlider(options) {
 			options.callback(slider_position);
 		});
 
-	var slider_handle = slider.append("circle").attr("class", "slider-handle")
+	var slider_handle = slider.append("circle").attr("class", "slider-handle").attr("data-link-name", "fuelticker_age_slider")
 		.attr("cx", scale(options.start || options.domain[0]))
 		.attr("cy", 2.5)
 		.attr("r", 15)
@@ -678,5 +679,6 @@ function init() {
 init();
 
 </script>
+<script type="text/javascript">_satellite.pageBottom();</script>
 </body>
 </html>
