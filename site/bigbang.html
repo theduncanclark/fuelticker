@@ -675,11 +675,10 @@ function disableLinks() {
 	});
 }
 
-var click_timer,
-    URL = window.location.href;
+var click_timer;
 function startClickTimer() {
 	click_timer = setTimeout(function() {
-		if (current_section != 1) window.location = URL;
+		if (current_section != 1) location.reload();
 	}, 40000);
 }
 
