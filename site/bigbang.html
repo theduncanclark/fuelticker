@@ -46,9 +46,11 @@
 	.ticker .value { font-weight: bold; color: white; margin: 0 5px; }
 	.ticker .label { display: inline-block; }
 	.comparison { font-size: 0.9em; font-family: Egyptian; }
-	.shares { font-size: 0.5em; text-transform: uppercase; font-family: Sans; font-weight: bold; }
+	.shares { font-size: 0.5em; text-transform: uppercase; font-family: Sans; font-weight: bold; height: 20px; visibility: hidden; }
 	.shares i { text-align: center; margin: 10px 2px 0; color: white; cursor: pointer; font-size: 1.8em; background: #aaa; border-radius: 50%; width: 1.5em; height: 1.5em; padding-top: 0.3em; }
 	.shares i:hover { background: black; }
+	.take-photo.shares { font-size: 0.6em; margin-top: 1.5em; visibility: visible!important; }
+	.take-photo.shares i { font-size: 1.2em; padding: 0.5em 0.3em; height: 2em; width: 2em; margin-right: 0.45em; }
 
 	#section-0 { background-image: url("media/42-65669664.jpg"); }
 	#section-1 { background-image: url("media/42-60628060.jpg"); }
@@ -155,6 +157,7 @@
 		<div class="overlay"></div>
 		<div class="section-inner">
 			<p>&ldquo;At current rates of fossil fuel use, we'll blow the budget for stopping global warming at 2&deg;C when I&nbsp;am&nbsp;<span class="age-at-deadline"></span>&rdquo;</p>
+			<div class="take-photo shares"><i class="fa fa-camera"></i>Take a photo and share</div>
 			<div class="shares"><a class="fb-link"><i class="fa fa-facebook"></i></a> <a class="tw-link"><i class="fa fa-twitter"></i></a></div>
 		</div>
 	</div>
@@ -216,7 +219,7 @@
 	<div id="section-2" class="section blue section-month">
 		<div class="overlay"></div>
 		<div class="section-inner">
-			<p>Since the start of 2015, that&nbsp;makes:</p>
+			<p>Since this exhibition opened, that&nbsp;makes:</p>
 			<div class="stat oil">
 				<div class="ticker"><span class="value actual"></span> <span class="label">barrels of oil<span></div>
 				<div class="comparison">– enough to fill <span class="value"></span></div>
@@ -299,7 +302,7 @@ var date = new Date(),
     current_year = date.getFullYear(),
     secs_on_page = 0,
     secs_in_a_day = 24 * 60 * 60,
-    secs_in_a_year = 365 * secs_in_a_day;
+    secs_in_a_year = 365.24 * secs_in_a_day;
 
 // Fuel data globals
 var last_year_of_fuel_data = 2013,
@@ -382,10 +385,10 @@ function updateValues(all) {
 	}
 
 	if (current_section == 2 || all) {
-		var years_since_Jan_2015 = secs_since_Jan_1970/secs_in_a_year - 45,
-		    oil_since_2015 = oil_per_year_barrels * years_since_Jan_2015 * adjustment_scaler,
-		    gas_since_2015 = gas_per_year_m3 * years_since_Jan_2015 * adjustment_scaler,
-		    coal_since_2015 = coal_per_year_tonnes * years_since_Jan_2015 * adjustment_scaler;
+		var years_since_exhibit_opened = secs_since_Jan_1970/secs_in_a_year - (46 - 30.75/365.24), // 31.75 as exhibition opens 18:00 on Dec 1
+		    oil_since_2015 = oil_per_year_barrels * years_since_exhibit_opened * adjustment_scaler,
+		    gas_since_2015 = gas_per_year_m3 * years_since_exhibit_opened * adjustment_scaler,
+		    coal_since_2015 = coal_per_year_tonnes * years_since_exhibit_opened * adjustment_scaler;
 
 		$(".section-month .oil .ticker .value").text(commify(oil_since_2015));
 		$(".section-month .oil .comparison .value").text("the Empire State Building " + commify_decimal(oil_since_2015 / empire_state_m3) + " times");
@@ -663,6 +666,12 @@ function setFuelValues() {
 	gas_m3_per_second = gas_per_year_m3 / secs_in_a_year;
 }
 
+function disableLinks() {
+	$$("a").on("click", function() {
+		d3.event.preventDefault();
+	});
+}
+
 function init() {
 	d3.csv("FuelChangeOverTime.csv", function(raw_data) {
 		DATA = raw_data;
@@ -673,6 +682,7 @@ function init() {
 		updateValues(true); // Update all values on init to ensure numbers are correct length before updateLayout runs
 		updateLayout();
 		startTicker();
+		disableLinks();
 	});
 }
 
