@@ -580,12 +580,14 @@ function goToPreviousPanel() {
 	if ($(".up").classed("disabled")) return;
 	current_section--;
 	changePanel();
+	resetClickTimer();
 }
 
 function goToNextPanel() {
 	if ($(".down").classed("disabled")) return;
 	current_section++;
 	changePanel();
+	resetClickTimer();
 }
 
 function goToFacebook(e) {
@@ -644,6 +646,7 @@ function createSlider() {
 			virgin_slider = false;
 			countdown_share_text_needs_updating = true;
 			lifetime_share_text_needs_updating = true;
+			resetClickTimer();
 		},
 		snap: true,
 		start: 50,
@@ -672,6 +675,19 @@ function disableLinks() {
 	});
 }
 
+var click_timer,
+    URL = window.location.href;
+function startClickTimer() {
+	click_timer = setTimeout(function() {
+		if (current_section != 1) window.location = URL;
+	}, 40000);
+}
+
+function resetClickTimer() {
+	clearTimeout(click_timer);
+	startClickTimer();
+}
+
 function init() {
 	d3.csv("FuelChangeOverTime.csv", function(raw_data) {
 		DATA = raw_data;
@@ -683,6 +699,7 @@ function init() {
 		updateLayout();
 		startTicker();
 		disableLinks();
+		startClickTimer();
 	});
 }
 
